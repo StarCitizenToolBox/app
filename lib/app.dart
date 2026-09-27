@@ -34,6 +34,8 @@ import 'ui/home/game_doctor/game_doctor_ui.dart';
 import 'ui/home/localization/advanced_localization_ui.dart';
 import 'ui/index_ui.dart';
 import 'ui/settings/upgrade_dialog.dart';
+import 'ui/tools/keybinding/keybinding_ui.dart';
+import 'ui/tools/keybinding/widgets/devices_page.dart';
 import 'ui/tools/unp4kc/dcb_viewer_ui.dart';
 import 'ui/tools/unp4kc/unp4kc_ui.dart';
 
@@ -92,6 +94,17 @@ GoRouter router(Ref ref) {
             path: 'dcb_viewer',
             pageBuilder: (context, state) =>
                 myPageBuilder(context, state, DcbViewerUI(initialFilePath: (state.extra as Map?)?['path'])),
+          ),
+          GoRoute(
+            path: 'keybinding',
+            pageBuilder: (context, state) =>
+                myPageBuilder(context, state, KeybindingUI(gamePath: (state.extra as Map?)?['path'])),
+            routes: [
+              GoRoute(
+                path: 'devices',
+                pageBuilder: (context, state) => myPageBuilder(context, state, const KeybindingDevicesPage()),
+              ),
+            ],
           ),
         ],
       ),

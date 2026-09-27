@@ -41,7 +41,7 @@ final class ToolsUIModelProvider
   }
 }
 
-String _$toolsUIModelHash() => r'01af8ec7a993ec91884af1655c2d8c7ae854c14d';
+String _$toolsUIModelHash() => r'4659ad1c4f1106ba35456a4f9eb11d6c8ef0b42a';
 
 abstract class _$ToolsUIModel extends $Notifier<ToolsUIState> {
   ToolsUIState build();

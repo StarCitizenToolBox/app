@@ -8,6 +8,7 @@ import 'api/asar_api.dart';
 import 'api/audio_api.dart';
 import 'api/downloader_api.dart';
 import 'api/http_api.dart';
+import 'api/input_capture_api.dart';
 import 'api/ort_api.dart';
 import 'api/p4k_upgrader_api.dart';
 import 'api/rs_process.dart';
@@ -76,7 +77,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.13.0';
 
   @override
-  int get rustContentHash => -2033133224;
+  int get rustContentHash => -1680963501;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -288,6 +289,12 @@ abstract class RustLibApi extends BaseApi {
   Future<SystemInfo> crateApiWin32ApiGetSystemInfo();
 
   Future<BigInt> crateApiWin32ApiGetSystemMemorySizeGb();
+
+  Stream<InputCaptureEvent> crateApiInputCaptureApiInputCaptureStart();
+
+  Future<void> crateApiInputCaptureApiInputCaptureStop();
+
+  Future<List<InputDeviceInfo>> crateApiInputCaptureApiInputListDevices();
 
   Future<int> crateApiWin32ApiKillProcessByName({required String processName});
 
@@ -2395,6 +2402,82 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiWin32ApiGetSystemMemorySizeGbConstMeta =>
       const TaskConstMeta(debugName: "get_system_memory_size_gb", argNames: []);
+
+  @override
+  Stream<InputCaptureEvent> crateApiInputCaptureApiInputCaptureStart() {
+    final sink = RustStreamSink<InputCaptureEvent>();
+    unawaited(
+      handler.executeNormal(
+        NormalTask(
+          callFfi: (port_) {
+            var arg0 = cst_encode_StreamSink_input_capture_event_Dco(sink);
+            return wire
+                .wire__crate__api__input_capture_api__input_capture_start(
+                  port_,
+                  arg0,
+                );
+          },
+          codec: DcoCodec(
+            decodeSuccessData: dco_decode_unit,
+            decodeErrorData: dco_decode_AnyhowException,
+          ),
+          constMeta: kCrateApiInputCaptureApiInputCaptureStartConstMeta,
+          argValues: [sink],
+          apiImpl: this,
+        ),
+      ),
+    );
+    return sink.stream;
+  }
+
+  TaskConstMeta get kCrateApiInputCaptureApiInputCaptureStartConstMeta =>
+      const TaskConstMeta(debugName: "input_capture_start", argNames: ["sink"]);
+
+  @override
+  Future<void> crateApiInputCaptureApiInputCaptureStop() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__input_capture_api__input_capture_stop(
+            port_,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiInputCaptureApiInputCaptureStopConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiInputCaptureApiInputCaptureStopConstMeta =>
+      const TaskConstMeta(debugName: "input_capture_stop", argNames: []);
+
+  @override
+  Future<List<InputDeviceInfo>> crateApiInputCaptureApiInputListDevices() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__input_capture_api__input_list_devices(
+            port_,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_list_input_device_info,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiInputCaptureApiInputListDevicesConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiInputCaptureApiInputListDevicesConstMeta =>
+      const TaskConstMeta(debugName: "input_list_devices", argNames: []);
 
   @override
   Future<int> crateApiWin32ApiKillProcessByName({required String processName}) {
@@ -5087,6 +5170,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  RustStreamSink<InputCaptureEvent>
+  dco_decode_StreamSink_input_capture_event_Dco(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    throw UnimplementedError();
+  }
+
+  @protected
   RustStreamSink<P4kUpgraderProgressEvent>
   dco_decode_StreamSink_p_4_k_upgrader_progress_event_Dco(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -5379,6 +5469,47 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  InputCaptureEvent dco_decode_input_capture_event(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 7)
+      throw Exception('unexpected arr length: expect 7 but see ${arr.length}');
+    return InputCaptureEvent(
+      deviceId: dco_decode_String(arr[0]),
+      deviceName: dco_decode_String(arr[1]),
+      vendorId: dco_decode_u_16(arr[2]),
+      productId: dco_decode_u_16(arr[3]),
+      kind: dco_decode_input_device_kind(arr[4]),
+      input: dco_decode_String(arr[5]),
+      value: dco_decode_f_64(arr[6]),
+    );
+  }
+
+  @protected
+  InputDeviceInfo dco_decode_input_device_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 8)
+      throw Exception('unexpected arr length: expect 8 but see ${arr.length}');
+    return InputDeviceInfo(
+      id: dco_decode_String(arr[0]),
+      name: dco_decode_String(arr[1]),
+      vendorId: dco_decode_u_16(arr[2]),
+      productId: dco_decode_u_16(arr[3]),
+      kind: dco_decode_input_device_kind(arr[4]),
+      buttonCount: dco_decode_u_32(arr[5]),
+      axes: dco_decode_list_String(arr[6]),
+      hatCount: dco_decode_u_32(arr[7]),
+    );
+  }
+
+  @protected
+  InputDeviceKind dco_decode_input_device_kind(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return InputDeviceKind.values[raw as int];
+  }
+
+  @protected
   List<String> dco_decode_list_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_String).toList();
@@ -5412,6 +5543,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   List<DownloadTaskInfo> dco_decode_list_download_task_info(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return (raw as List<dynamic>).map(dco_decode_download_task_info).toList();
+  }
+
+  @protected
+  List<InputDeviceInfo> dco_decode_list_input_device_info(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_input_device_info).toList();
   }
 
   @protected
@@ -6107,6 +6244,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  RustStreamSink<InputCaptureEvent>
+  sse_decode_StreamSink_input_capture_event_Dco(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    throw UnimplementedError('Unreachable ()');
+  }
+
+  @protected
   RustStreamSink<P4kUpgraderProgressEvent>
   sse_decode_StreamSink_p_4_k_upgrader_progress_event_Dco(
     SseDeserializer deserializer,
@@ -6425,6 +6569,59 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  InputCaptureEvent sse_decode_input_capture_event(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_deviceId = sse_decode_String(deserializer);
+    var var_deviceName = sse_decode_String(deserializer);
+    var var_vendorId = sse_decode_u_16(deserializer);
+    var var_productId = sse_decode_u_16(deserializer);
+    var var_kind = sse_decode_input_device_kind(deserializer);
+    var var_input = sse_decode_String(deserializer);
+    var var_value = sse_decode_f_64(deserializer);
+    return InputCaptureEvent(
+      deviceId: var_deviceId,
+      deviceName: var_deviceName,
+      vendorId: var_vendorId,
+      productId: var_productId,
+      kind: var_kind,
+      input: var_input,
+      value: var_value,
+    );
+  }
+
+  @protected
+  InputDeviceInfo sse_decode_input_device_info(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_id = sse_decode_String(deserializer);
+    var var_name = sse_decode_String(deserializer);
+    var var_vendorId = sse_decode_u_16(deserializer);
+    var var_productId = sse_decode_u_16(deserializer);
+    var var_kind = sse_decode_input_device_kind(deserializer);
+    var var_buttonCount = sse_decode_u_32(deserializer);
+    var var_axes = sse_decode_list_String(deserializer);
+    var var_hatCount = sse_decode_u_32(deserializer);
+    return InputDeviceInfo(
+      id: var_id,
+      name: var_name,
+      vendorId: var_vendorId,
+      productId: var_productId,
+      kind: var_kind,
+      buttonCount: var_buttonCount,
+      axes: var_axes,
+      hatCount: var_hatCount,
+    );
+  }
+
+  @protected
+  InputDeviceKind sse_decode_input_device_kind(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return InputDeviceKind.values[inner];
+  }
+
+  @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -6502,6 +6699,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var ans_ = <DownloadTaskInfo>[];
     for (var idx_ = 0; idx_ < len_; ++idx_) {
       ans_.add(sse_decode_download_task_info(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
+  List<InputDeviceInfo> sse_decode_list_input_device_info(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <InputDeviceInfo>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_input_device_info(deserializer));
     }
     return ans_;
   }
@@ -7432,6 +7643,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int cst_encode_input_device_kind(InputDeviceKind raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_i_32(raw.index);
+  }
+
+  @protected
   int cst_encode_my_http_version(MyHttpVersion raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_i_32(raw.index);
@@ -7516,6 +7733,23 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as ArcDataForgeImpl).frbInternalSseEncode(move: null),
+      serializer,
+    );
+  }
+
+  @protected
+  void sse_encode_StreamSink_input_capture_event_Dco(
+    RustStreamSink<InputCaptureEvent> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(
+      self.setupAndSerialize(
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_input_capture_event,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+      ),
       serializer,
     );
   }
@@ -7824,6 +8058,46 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_input_capture_event(
+    InputCaptureEvent self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.deviceId, serializer);
+    sse_encode_String(self.deviceName, serializer);
+    sse_encode_u_16(self.vendorId, serializer);
+    sse_encode_u_16(self.productId, serializer);
+    sse_encode_input_device_kind(self.kind, serializer);
+    sse_encode_String(self.input, serializer);
+    sse_encode_f_64(self.value, serializer);
+  }
+
+  @protected
+  void sse_encode_input_device_info(
+    InputDeviceInfo self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.id, serializer);
+    sse_encode_String(self.name, serializer);
+    sse_encode_u_16(self.vendorId, serializer);
+    sse_encode_u_16(self.productId, serializer);
+    sse_encode_input_device_kind(self.kind, serializer);
+    sse_encode_u_32(self.buttonCount, serializer);
+    sse_encode_list_String(self.axes, serializer);
+    sse_encode_u_32(self.hatCount, serializer);
+  }
+
+  @protected
+  void sse_encode_input_device_kind(
+    InputDeviceKind self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
+  }
+
+  @protected
   void sse_encode_list_String(List<String> self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self.length, serializer);
@@ -7889,6 +8163,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_i_32(self.length, serializer);
     for (final item in self) {
       sse_encode_download_task_info(item, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_list_input_device_info(
+    List<InputDeviceInfo> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_input_device_info(item, serializer);
     }
   }
 

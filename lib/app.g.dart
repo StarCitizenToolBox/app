@@ -48,7 +48,7 @@ final class RouterProvider
   }
 }
 
-String _$routerHash() => r'3b354627fd03989dc9d86e29f90f1226540eef31';
+String _$routerHash() => r'b9fd3d02c3ee2cceee46247faa3685165b7ead68';
 
 @ProviderFor(AppGlobalModel)
 final appGlobalModelProvider = AppGlobalModelProvider._();

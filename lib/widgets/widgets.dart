@@ -45,6 +45,7 @@ Widget makeDefaultPage(
   bool automaticallyImplyLeading = true,
   String title = "",
   bool useBodyContainer = false,
+  VoidCallback? onBack,
 }) {
   return NavigationView(
     titleBar: SizedBox(
@@ -55,7 +56,7 @@ Widget makeDefaultPage(
           if (automaticallyImplyLeading && context.canPop())
             IconButton(
               icon: const Icon(FluentIcons.back),
-              onPressed: () => context.pop(),
+              onPressed: onBack ?? () => context.pop(),
             ),
           Expanded(
             child: DragToMoveArea(

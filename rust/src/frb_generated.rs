@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -2033133224;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1680963501;
 
 // Section: executor
 
@@ -1554,6 +1554,77 @@ fn wire__crate__api__win32_api__get_system_memory_size_gb_impl(
                 transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
                         let output_ok = crate::api::win32_api::get_system_memory_size_gb()?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__input_capture_api__input_capture_start_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    sink: impl CstDecode<
+        StreamSink<
+            crate::api::input_capture_api::InputCaptureEvent,
+            flutter_rust_bridge::for_generated::DcoCodec,
+        >,
+    >,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "input_capture_start",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_sink = sink.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::input_capture_api::input_capture_start(api_sink)?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__input_capture_api__input_capture_stop_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "input_capture_stop",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Ok::<_, ()>({
+                        crate::api::input_capture_api::input_capture_stop();
+                    })?;
+                    std::result::Result::Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__input_capture_api__input_list_devices_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "input_list_devices",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::input_capture_api::input_list_devices()?;
                         std::result::Result::Ok(output_ok)
                     })(),
                 )
@@ -3811,6 +3882,17 @@ impl CstDecode<i64> for i64 {
         self
     }
 }
+impl CstDecode<crate::api::input_capture_api::InputDeviceKind> for i32 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::input_capture_api::InputDeviceKind {
+        match self {
+            0 => crate::api::input_capture_api::InputDeviceKind::Joystick,
+            1 => crate::api::input_capture_api::InputDeviceKind::Gamepad,
+            2 => crate::api::input_capture_api::InputDeviceKind::XInput,
+            _ => unreachable!("Invalid variant for InputDeviceKind: {}", self),
+        }
+    }
+}
 impl CstDecode<crate::http_package::MyHttpVersion> for i32 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::http_package::MyHttpVersion {
@@ -3916,6 +3998,19 @@ impl SseDecode
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <usize>::sse_decode(deserializer);
         return unsafe { decode_rust_opaque_nom(inner) };
+    }
+}
+
+impl SseDecode
+    for StreamSink<
+        crate::api::input_capture_api::InputCaptureEvent,
+        flutter_rust_bridge::for_generated::DcoCodec,
+    >
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <String>::sse_decode(deserializer);
+        return StreamSink::deserialize(inner);
     }
 }
 
@@ -4197,6 +4292,67 @@ impl SseDecode for i64 {
     }
 }
 
+impl SseDecode for crate::api::input_capture_api::InputCaptureEvent {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_deviceId = <String>::sse_decode(deserializer);
+        let mut var_deviceName = <String>::sse_decode(deserializer);
+        let mut var_vendorId = <u16>::sse_decode(deserializer);
+        let mut var_productId = <u16>::sse_decode(deserializer);
+        let mut var_kind =
+            <crate::api::input_capture_api::InputDeviceKind>::sse_decode(deserializer);
+        let mut var_input = <String>::sse_decode(deserializer);
+        let mut var_value = <f64>::sse_decode(deserializer);
+        return crate::api::input_capture_api::InputCaptureEvent {
+            device_id: var_deviceId,
+            device_name: var_deviceName,
+            vendor_id: var_vendorId,
+            product_id: var_productId,
+            kind: var_kind,
+            input: var_input,
+            value: var_value,
+        };
+    }
+}
+
+impl SseDecode for crate::api::input_capture_api::InputDeviceInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_id = <String>::sse_decode(deserializer);
+        let mut var_name = <String>::sse_decode(deserializer);
+        let mut var_vendorId = <u16>::sse_decode(deserializer);
+        let mut var_productId = <u16>::sse_decode(deserializer);
+        let mut var_kind =
+            <crate::api::input_capture_api::InputDeviceKind>::sse_decode(deserializer);
+        let mut var_buttonCount = <u32>::sse_decode(deserializer);
+        let mut var_axes = <Vec<String>>::sse_decode(deserializer);
+        let mut var_hatCount = <u32>::sse_decode(deserializer);
+        return crate::api::input_capture_api::InputDeviceInfo {
+            id: var_id,
+            name: var_name,
+            vendor_id: var_vendorId,
+            product_id: var_productId,
+            kind: var_kind,
+            button_count: var_buttonCount,
+            axes: var_axes,
+            hat_count: var_hatCount,
+        };
+    }
+}
+
+impl SseDecode for crate::api::input_capture_api::InputDeviceKind {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::input_capture_api::InputDeviceKind::Joystick,
+            1 => crate::api::input_capture_api::InputDeviceKind::Gamepad,
+            2 => crate::api::input_capture_api::InputDeviceKind::XInput,
+            _ => unreachable!("Invalid variant for InputDeviceKind: {}", inner),
+        };
+    }
+}
+
 impl SseDecode for Vec<String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -4274,6 +4430,18 @@ impl SseDecode for Vec<crate::api::downloader_api::DownloadTaskInfo> {
             ans_.push(<crate::api::downloader_api::DownloadTaskInfo>::sse_decode(
                 deserializer,
             ));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::input_capture_api::InputDeviceInfo> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::input_capture_api::InputDeviceInfo>::sse_decode(deserializer));
         }
         return ans_;
     }
@@ -5495,6 +5663,81 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::downloader_api::DownloadTaskS
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::input_capture_api::InputCaptureEvent {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.device_id.into_into_dart().into_dart(),
+            self.device_name.into_into_dart().into_dart(),
+            self.vendor_id.into_into_dart().into_dart(),
+            self.product_id.into_into_dart().into_dart(),
+            self.kind.into_into_dart().into_dart(),
+            self.input.into_into_dart().into_dart(),
+            self.value.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::input_capture_api::InputCaptureEvent
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::input_capture_api::InputCaptureEvent>
+    for crate::api::input_capture_api::InputCaptureEvent
+{
+    fn into_into_dart(self) -> crate::api::input_capture_api::InputCaptureEvent {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::input_capture_api::InputDeviceInfo {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.id.into_into_dart().into_dart(),
+            self.name.into_into_dart().into_dart(),
+            self.vendor_id.into_into_dart().into_dart(),
+            self.product_id.into_into_dart().into_dart(),
+            self.kind.into_into_dart().into_dart(),
+            self.button_count.into_into_dart().into_dart(),
+            self.axes.into_into_dart().into_dart(),
+            self.hat_count.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::input_capture_api::InputDeviceInfo
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::input_capture_api::InputDeviceInfo>
+    for crate::api::input_capture_api::InputDeviceInfo
+{
+    fn into_into_dart(self) -> crate::api::input_capture_api::InputDeviceInfo {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::input_capture_api::InputDeviceKind {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::Joystick => 0.into_dart(),
+            Self::Gamepad => 1.into_dart(),
+            Self::XInput => 2.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::input_capture_api::InputDeviceKind
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::input_capture_api::InputDeviceKind>
+    for crate::api::input_capture_api::InputDeviceKind
+{
+    fn into_into_dart(self) -> crate::api::input_capture_api::InputDeviceKind {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::unp4k_model_api::ModelConvertBytesResult {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -6242,6 +6485,18 @@ impl SseEncode
 
 impl SseEncode
     for StreamSink<
+        crate::api::input_capture_api::InputCaptureEvent,
+        flutter_rust_bridge::for_generated::DcoCodec,
+    >
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        unimplemented!("")
+    }
+}
+
+impl SseEncode
+    for StreamSink<
         crate::api::p4k_upgrader_api::P4kUpgraderProgressEvent,
         flutter_rust_bridge::for_generated::DcoCodec,
     >
@@ -6450,6 +6705,50 @@ impl SseEncode for i64 {
     }
 }
 
+impl SseEncode for crate::api::input_capture_api::InputCaptureEvent {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.device_id, serializer);
+        <String>::sse_encode(self.device_name, serializer);
+        <u16>::sse_encode(self.vendor_id, serializer);
+        <u16>::sse_encode(self.product_id, serializer);
+        <crate::api::input_capture_api::InputDeviceKind>::sse_encode(self.kind, serializer);
+        <String>::sse_encode(self.input, serializer);
+        <f64>::sse_encode(self.value, serializer);
+    }
+}
+
+impl SseEncode for crate::api::input_capture_api::InputDeviceInfo {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.id, serializer);
+        <String>::sse_encode(self.name, serializer);
+        <u16>::sse_encode(self.vendor_id, serializer);
+        <u16>::sse_encode(self.product_id, serializer);
+        <crate::api::input_capture_api::InputDeviceKind>::sse_encode(self.kind, serializer);
+        <u32>::sse_encode(self.button_count, serializer);
+        <Vec<String>>::sse_encode(self.axes, serializer);
+        <u32>::sse_encode(self.hat_count, serializer);
+    }
+}
+
+impl SseEncode for crate::api::input_capture_api::InputDeviceKind {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::input_capture_api::InputDeviceKind::Joystick => 0,
+                crate::api::input_capture_api::InputDeviceKind::Gamepad => 1,
+                crate::api::input_capture_api::InputDeviceKind::XInput => 2,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
+    }
+}
+
 impl SseEncode for Vec<String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -6506,6 +6805,16 @@ impl SseEncode for Vec<crate::api::downloader_api::DownloadTaskInfo> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <crate::api::downloader_api::DownloadTaskInfo>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::input_capture_api::InputDeviceInfo> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::input_capture_api::InputDeviceInfo>::sse_encode(item, serializer);
         }
     }
 }
@@ -7291,6 +7600,25 @@ mod io {
     impl
         CstDecode<
             StreamSink<
+                crate::api::input_capture_api::InputCaptureEvent,
+                flutter_rust_bridge::for_generated::DcoCodec,
+            >,
+        > for *mut wire_cst_list_prim_u_8_strict
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(
+            self,
+        ) -> StreamSink<
+            crate::api::input_capture_api::InputCaptureEvent,
+            flutter_rust_bridge::for_generated::DcoCodec,
+        > {
+            let raw: String = self.cst_decode();
+            StreamSink::deserialize(raw)
+        }
+    }
+    impl
+        CstDecode<
+            StreamSink<
                 crate::api::rs_process::RsProcessStreamData,
                 flutter_rust_bridge::for_generated::DcoCodec,
             >,
@@ -7500,6 +7828,35 @@ mod io {
             }
         }
     }
+    impl CstDecode<crate::api::input_capture_api::InputCaptureEvent> for wire_cst_input_capture_event {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::input_capture_api::InputCaptureEvent {
+            crate::api::input_capture_api::InputCaptureEvent {
+                device_id: self.device_id.cst_decode(),
+                device_name: self.device_name.cst_decode(),
+                vendor_id: self.vendor_id.cst_decode(),
+                product_id: self.product_id.cst_decode(),
+                kind: self.kind.cst_decode(),
+                input: self.input.cst_decode(),
+                value: self.value.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::input_capture_api::InputDeviceInfo> for wire_cst_input_device_info {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::input_capture_api::InputDeviceInfo {
+            crate::api::input_capture_api::InputDeviceInfo {
+                id: self.id.cst_decode(),
+                name: self.name.cst_decode(),
+                vendor_id: self.vendor_id.cst_decode(),
+                product_id: self.product_id.cst_decode(),
+                kind: self.kind.cst_decode(),
+                button_count: self.button_count.cst_decode(),
+                axes: self.axes.cst_decode(),
+                hat_count: self.hat_count.cst_decode(),
+            }
+        }
+    }
     impl CstDecode<Vec<String>> for *mut wire_cst_list_String {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<String> {
@@ -7557,6 +7914,18 @@ mod io {
     {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> Vec<crate::api::downloader_api::DownloadTaskInfo> {
+            let vec = unsafe {
+                let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
+                flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(CstDecode::cst_decode).collect()
+        }
+    }
+    impl CstDecode<Vec<crate::api::input_capture_api::InputDeviceInfo>>
+        for *mut wire_cst_list_input_device_info
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> Vec<crate::api::input_capture_api::InputDeviceInfo> {
             let vec = unsafe {
                 let wrap = flutter_rust_bridge::for_generated::box_from_leak_ptr(self);
                 flutter_rust_bridge::for_generated::vec_from_leak_ptr(wrap.ptr, wrap.len)
@@ -8069,6 +8438,43 @@ mod io {
         }
     }
     impl Default for wire_cst_download_task_info {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_input_capture_event {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                device_id: core::ptr::null_mut(),
+                device_name: core::ptr::null_mut(),
+                vendor_id: Default::default(),
+                product_id: Default::default(),
+                kind: Default::default(),
+                input: core::ptr::null_mut(),
+                value: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_input_capture_event {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_input_device_info {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                id: core::ptr::null_mut(),
+                name: core::ptr::null_mut(),
+                vendor_id: Default::default(),
+                product_id: Default::default(),
+                kind: Default::default(),
+                button_count: Default::default(),
+                axes: core::ptr::null_mut(),
+                hat_count: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_input_device_info {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -8896,6 +9302,28 @@ mod io {
         port_: i64,
     ) {
         wire__crate__api__win32_api__get_system_memory_size_gb_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__input_capture_api__input_capture_start(
+        port_: i64,
+        sink: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__input_capture_api__input_capture_start_impl(port_, sink)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__input_capture_api__input_capture_stop(
+        port_: i64,
+    ) {
+        wire__crate__api__input_capture_api__input_capture_stop_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__input_capture_api__input_list_devices(
+        port_: i64,
+    ) {
+        wire__crate__api__input_capture_api__input_list_devices_impl(port_)
     }
 
     #[unsafe(no_mangle)]
@@ -9827,6 +10255,20 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_input_device_info(
+        len: i32,
+    ) -> *mut wire_cst_list_input_device_info {
+        let wrap = wire_cst_list_input_device_info {
+            ptr: flutter_rust_bridge::for_generated::new_leak_vec_ptr(
+                <wire_cst_input_device_info>::new_with_null_ptr(),
+                len,
+            ),
+            len,
+        };
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(wrap)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_cst_new_list_prim_f_32_strict(
         len: i32,
     ) -> *mut wire_cst_list_prim_f_32_strict {
@@ -10044,6 +10486,29 @@ mod io {
     }
     #[repr(C)]
     #[derive(Clone, Copy)]
+    pub struct wire_cst_input_capture_event {
+        device_id: *mut wire_cst_list_prim_u_8_strict,
+        device_name: *mut wire_cst_list_prim_u_8_strict,
+        vendor_id: u16,
+        product_id: u16,
+        kind: i32,
+        input: *mut wire_cst_list_prim_u_8_strict,
+        value: f64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_input_device_info {
+        id: *mut wire_cst_list_prim_u_8_strict,
+        name: *mut wire_cst_list_prim_u_8_strict,
+        vendor_id: u16,
+        product_id: u16,
+        kind: i32,
+        button_count: u32,
+        axes: *mut wire_cst_list_String,
+        hat_count: u32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
     pub struct wire_cst_list_String {
         ptr: *mut *mut wire_cst_list_prim_u_8_strict,
         len: i32,
@@ -10076,6 +10541,12 @@ mod io {
     #[derive(Clone, Copy)]
     pub struct wire_cst_list_download_task_info {
         ptr: *mut wire_cst_download_task_info,
+        len: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_list_input_device_info {
+        ptr: *mut wire_cst_input_device_info,
         len: i32,
     }
     #[repr(C)]

@@ -12330,6 +12330,2096 @@ class S {
       args: [v0],
     );
   }
+
+  /// `Keybindings`
+  String get tools_action_keybinding {
+    return Intl.message(
+      'Keybindings',
+      name: 'tools_action_keybinding',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View, edit and back up Star Citizen keyboard, mouse, HOTAS/joystick and gamepad bindings, with conflict checks and dual-stick support.`
+  String get tools_action_keybinding_info {
+    return Intl.message(
+      'View, edit and back up Star Citizen keyboard, mouse, HOTAS/joystick and gamepad bindings, with conflict checks and dual-stick support.',
+      name: 'tools_action_keybinding_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keybindings`
+  String get keybinding_title {
+    return Intl.message(
+      'Keybindings',
+      name: 'keybinding_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loading keybinding data…`
+  String get keybinding_loading_game_data {
+    return Intl.message(
+      'Loading keybinding data…',
+      name: 'keybinding_loading_game_data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reading defaultProfile.xml from Data.p4k (first run of this game version takes a moment)…`
+  String get keybinding_loading_p4k {
+    return Intl.message(
+      'Reading defaultProfile.xml from Data.p4k (first run of this game version takes a moment)…',
+      name: 'keybinding_loading_p4k',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load keybinding data`
+  String get keybinding_load_failed {
+    return Intl.message(
+      'Failed to load keybinding data',
+      name: 'keybinding_load_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get keybinding_retry {
+    return Intl.message('Retry', name: 'keybinding_retry', desc: '', args: []);
+  }
+
+  /// `Source: Data.p4k · {v0} · {v1} actions · language {v2}`
+  String keybinding_status_source(Object v0, Object v1, Object v2) {
+    return Intl.message(
+      'Source: Data.p4k · $v0 · $v1 actions · language $v2',
+      name: 'keybinding_status_source',
+      desc: '',
+      args: [v0, v1, v2],
+    );
+  }
+
+  /// `{v0} customised · unsaved changes`
+  String keybinding_status_unsaved(Object v0) {
+    return Intl.message(
+      '$v0 customised · unsaved changes',
+      name: 'keybinding_status_unsaved',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Saved · {v0} customised`
+  String keybinding_status_saved(Object v0) {
+    return Intl.message(
+      'Saved · $v0 customised',
+      name: 'keybinding_status_saved',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Profile`
+  String get keybinding_profile_menu {
+    return Intl.message(
+      'Profile',
+      name: 'keybinding_profile_menu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Import profile file…`
+  String get keybinding_import_layout {
+    return Intl.message(
+      'Import profile file…',
+      name: 'keybinding_import_layout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile imported. Review it, then save to apply.`
+  String get keybinding_import_done {
+    return Intl.message(
+      'Profile imported. Review it, then save to apply.',
+      name: 'keybinding_import_done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Import failed: {v0}`
+  String keybinding_import_failed(Object v0) {
+    return Intl.message(
+      'Import failed: $v0',
+      name: 'keybinding_import_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Restore from backup…`
+  String get keybinding_restore_backup {
+    return Intl.message(
+      'Restore from backup…',
+      name: 'keybinding_restore_backup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No backups yet. One is made each time this tool writes actionmaps.xml.`
+  String get keybinding_no_backups {
+    return Intl.message(
+      'No backups yet. One is made each time this tool writes actionmaps.xml.',
+      name: 'keybinding_no_backups',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discard unsaved changes`
+  String get keybinding_discard_changes {
+    return Intl.message(
+      'Discard unsaved changes',
+      name: 'keybinding_discard_changes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discard all unsaved keybinding changes?`
+  String get keybinding_discard_changes_confirm {
+    return Intl.message(
+      'Discard all unsaved keybinding changes?',
+      name: 'keybinding_discard_changes_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset everything to game defaults`
+  String get keybinding_reset_all {
+    return Intl.message(
+      'Reset everything to game defaults',
+      name: 'keybinding_reset_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All custom bindings will be removed from the working copy. Nothing is written until you save.`
+  String get keybinding_reset_all_confirm {
+    return Intl.message(
+      'All custom bindings will be removed from the working copy. Nothing is written until you save.',
+      name: 'keybinding_reset_all_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search actions, keys or input codes, e.g. js1_button3, lalt+f`
+  String get keybinding_search_hint {
+    return Intl.message(
+      'Search actions, keys or input codes, e.g. js1_button3, lalt+f',
+      name: 'keybinding_search_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get keybinding_filter_all {
+    return Intl.message(
+      'All',
+      name: 'keybinding_filter_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Kb/Mouse`
+  String get keybinding_filter_keyboard {
+    return Intl.message(
+      'Kb/Mouse',
+      name: 'keybinding_filter_keyboard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Joystick`
+  String get keybinding_filter_joystick {
+    return Intl.message(
+      'Joystick',
+      name: 'keybinding_filter_joystick',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gamepad`
+  String get keybinding_filter_gamepad {
+    return Intl.message(
+      'Gamepad',
+      name: 'keybinding_filter_gamepad',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Modified`
+  String get keybinding_only_modified {
+    return Intl.message(
+      'Modified',
+      name: 'keybinding_only_modified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conflicts`
+  String get keybinding_conflicts {
+    return Intl.message(
+      'Conflicts',
+      name: 'keybinding_conflicts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Devices`
+  String get keybinding_devices {
+    return Intl.message(
+      'Devices',
+      name: 'keybinding_devices',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get keybinding_save {
+    return Intl.message('Save', name: 'keybinding_save', desc: '', args: []);
+  }
+
+  /// `All`
+  String get keybinding_scope_all {
+    return Intl.message(
+      'All',
+      name: 'keybinding_scope_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `"{v0}" ({v1})`
+  String keybinding_conflict_item(Object v0, Object v1) {
+    return Intl.message(
+      '"$v0" ($v1)',
+      name: 'keybinding_conflict_item',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `, `
+  String get keybinding_list_separator {
+    return Intl.message(
+      ', ',
+      name: 'keybinding_list_separator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overwrite layout?`
+  String get keybinding_layout_exists_title {
+    return Intl.message(
+      'Overwrite layout?',
+      name: 'keybinding_layout_exists_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `These files already exist and will be replaced:\n{v0}`
+  String keybinding_layout_exists(Object v0) {
+    return Intl.message(
+      'These files already exist and will be replaced:\n$v0',
+      name: 'keybinding_layout_exists',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Profile changed since loading`
+  String get keybinding_disk_changed_title {
+    return Intl.message(
+      'Profile changed since loading',
+      name: 'keybinding_disk_changed_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `actionmaps.xml changed after this tool loaded it (for example, bindings changed in-game). Saving replaces those changes; the current file is backed up to:\n{v0}`
+  String keybinding_disk_changed(Object v0) {
+    return Intl.message(
+      'actionmaps.xml changed after this tool loaded it (for example, bindings changed in-game). Saving replaces those changes; the current file is backed up to:\n$v0',
+      name: 'keybinding_disk_changed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Restores the whole backup, including joystick numbering and axis settings. Written to the game when you save.`
+  String get keybinding_restore_hint {
+    return Intl.message(
+      'Restores the whole backup, including joystick numbering and axis settings. Written to the game when you save.',
+      name: 'keybinding_restore_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search results`
+  String get keybinding_search_results {
+    return Intl.message(
+      'Search results',
+      name: 'keybinding_search_results',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} actions`
+  String keybinding_action_count(Object v0) {
+    return Intl.message(
+      '$v0 actions',
+      name: 'keybinding_action_count',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Action`
+  String get keybinding_column_action {
+    return Intl.message(
+      'Action',
+      name: 'keybinding_column_action',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Activation`
+  String get keybinding_column_mode {
+    return Intl.message(
+      'Activation',
+      name: 'keybinding_column_mode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keyboard / Mouse`
+  String get keybinding_device_keyboard_mouse {
+    return Intl.message(
+      'Keyboard / Mouse',
+      name: 'keybinding_device_keyboard_mouse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keyboard`
+  String get keybinding_device_keyboard {
+    return Intl.message(
+      'Keyboard',
+      name: 'keybinding_device_keyboard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mouse`
+  String get keybinding_device_mouse {
+    return Intl.message(
+      'Mouse',
+      name: 'keybinding_device_mouse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Joystick`
+  String get keybinding_device_joystick {
+    return Intl.message(
+      'Joystick',
+      name: 'keybinding_device_joystick',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gamepad`
+  String get keybinding_device_gamepad {
+    return Intl.message(
+      'Gamepad',
+      name: 'keybinding_device_gamepad',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No action matches "{v0}"`
+  String keybinding_no_search_result(Object v0) {
+    return Intl.message(
+      'No action matches "$v0"',
+      name: 'keybinding_no_search_result',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `No actions match the current filters`
+  String get keybinding_no_actions {
+    return Intl.message(
+      'No actions match the current filters',
+      name: 'keybinding_no_actions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select an action to see its bindings`
+  String get keybinding_select_action_hint {
+    return Intl.message(
+      'Select an action to see its bindings',
+      name: 'keybinding_select_action_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The game has no description for this action.`
+  String get keybinding_no_description {
+    return Intl.message(
+      'The game has no description for this action.',
+      name: 'keybinding_no_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bindings`
+  String get keybinding_bindings {
+    return Intl.message(
+      'Bindings',
+      name: 'keybinding_bindings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset this action`
+  String get keybinding_reset_action {
+    return Intl.message(
+      'Reset this action',
+      name: 'keybinding_reset_action',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conflict`
+  String get keybinding_state_conflict {
+    return Intl.message(
+      'Conflict',
+      name: 'keybinding_state_conflict',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unbound`
+  String get keybinding_state_unbound {
+    return Intl.message(
+      'Unbound',
+      name: 'keybinding_state_unbound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Modified`
+  String get keybinding_state_modified {
+    return Intl.message(
+      'Modified',
+      name: 'keybinding_state_modified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Default`
+  String get keybinding_state_default {
+    return Intl.message(
+      'Default',
+      name: 'keybinding_state_default',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Default cleared`
+  String get keybinding_state_cleared {
+    return Intl.message(
+      'Default cleared',
+      name: 'keybinding_state_cleared',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No default`
+  String get keybinding_default_none {
+    return Intl.message(
+      'No default',
+      name: 'keybinding_default_none',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Default: {v0}`
+  String keybinding_default_is(Object v0) {
+    return Intl.message(
+      'Default: $v0',
+      name: 'keybinding_default_is',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Cleared — the game ignores this input for the action`
+  String get keybinding_cleared_hint {
+    return Intl.message(
+      'Cleared — the game ignores this input for the action',
+      name: 'keybinding_cleared_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Record`
+  String get keybinding_record {
+    return Intl.message(
+      'Record',
+      name: 'keybinding_record',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear`
+  String get keybinding_clear {
+    return Intl.message('Clear', name: 'keybinding_clear', desc: '', args: []);
+  }
+
+  /// `Reset`
+  String get keybinding_reset {
+    return Intl.message('Reset', name: 'keybinding_reset', desc: '', args: []);
+  }
+
+  /// `Activation mode`
+  String get keybinding_activation_mode {
+    return Intl.message(
+      'Activation mode',
+      name: 'keybinding_activation_mode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game default ({v0})`
+  String keybinding_mode_game_default(Object v0) {
+    return Intl.message(
+      'Game default ($v0)',
+      name: 'keybinding_mode_game_default',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `View`
+  String get keybinding_view {
+    return Intl.message('View', name: 'keybinding_view', desc: '', args: []);
+  }
+
+  /// `Also used by "{v0}" ({v1}): a tap / hold combo, not a conflict`
+  String keybinding_relation_pair(Object v0, Object v1) {
+    return Intl.message(
+      'Also used by "$v0" ($v1): a tap / hold combo, not a conflict',
+      name: 'keybinding_relation_pair',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Also bound to "{v0}" ({v1}); both fire in the same situation`
+  String keybinding_relation_conflict(Object v0, Object v1) {
+    return Intl.message(
+      'Also bound to "$v0" ($v1); both fire in the same situation',
+      name: 'keybinding_relation_conflict',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Game default also uses it for "{v0}" ({v1})`
+  String keybinding_relation_default_overlap(Object v0, Object v1) {
+    return Intl.message(
+      'Game default also uses it for "$v0" ($v1)',
+      name: 'keybinding_relation_default_overlap',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Record {v0} input`
+  String keybinding_record_title(Object v0) {
+    return Intl.message(
+      'Record $v0 input',
+      name: 'keybinding_record_title',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Action: {v0}`
+  String keybinding_record_action(Object v0) {
+    return Intl.message(
+      'Action: $v0',
+      name: 'keybinding_record_action',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Press a key or key combination, or click/scroll in the box below`
+  String get keybinding_record_hint_keyboard {
+    return Intl.message(
+      'Press a key or key combination, or click/scroll in the box below',
+      name: 'keybinding_record_hint_keyboard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Press a button, move an axis or push a hat on any stick`
+  String get keybinding_record_hint_joystick {
+    return Intl.message(
+      'Press a button, move an axis or push a hat on any stick',
+      name: 'keybinding_record_hint_joystick',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Press a button or push a stick on the gamepad`
+  String get keybinding_record_hint_gamepad {
+    return Intl.message(
+      'Press a button or push a stick on the gamepad',
+      name: 'keybinding_record_hint_gamepad',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} held — press another key for a combo, or release to bind {v0} itself`
+  String keybinding_record_modifier_held(Object v0) {
+    return Intl.message(
+      '$v0 held — press another key for a combo, or release to bind $v0 itself',
+      name: 'keybinding_record_modifier_held',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Listening to every stick — the one you use decides js1 / js2:`
+  String get keybinding_record_listening_sticks {
+    return Intl.message(
+      'Listening to every stick — the one you use decides js1 / js2:',
+      name: 'keybinding_record_listening_sticks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No joystick detected`
+  String get keybinding_no_joystick_connected {
+    return Intl.message(
+      'No joystick detected',
+      name: 'keybinding_no_joystick_connected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Axes register past half travel. Hold Alt / Ctrl / Shift to record a modifier combo.`
+  String get keybinding_record_axis_hint {
+    return Intl.message(
+      'Axes register past half travel. Hold Alt / Ctrl / Shift to record a modifier combo.',
+      name: 'keybinding_record_axis_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Click a mouse button or scroll here`
+  String get keybinding_record_mouse_pad {
+    return Intl.message(
+      'Click a mouse button or scroll here',
+      name: 'keybinding_record_mouse_pad',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Input capture failed`
+  String get keybinding_record_failed {
+    return Intl.message(
+      'Input capture failed',
+      name: 'keybinding_record_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This input is saved in the {v0} slot`
+  String keybinding_record_goes_to(Object v0) {
+    return Intl.message(
+      'This input is saved in the $v0 slot',
+      name: 'keybinding_record_goes_to',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Input already in use`
+  String get keybinding_record_conflict_title {
+    return Intl.message(
+      'Input already in use',
+      name: 'keybinding_record_conflict_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} already uses this input; they would fire together in the same situation.`
+  String keybinding_record_conflict_body(Object v0) {
+    return Intl.message(
+      '$v0 already uses this input; they would fire together in the same situation.',
+      name: 'keybinding_record_conflict_body',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Replace: remove it from the other action(s)`
+  String get keybinding_record_replace {
+    return Intl.message(
+      'Replace: remove it from the other action(s)',
+      name: 'keybinding_record_replace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep both (they fire together)`
+  String get keybinding_record_keep_both {
+    return Intl.message(
+      'Keep both (they fire together)',
+      name: 'keybinding_record_keep_both',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Record again`
+  String get keybinding_record_again {
+    return Intl.message(
+      'Record again',
+      name: 'keybinding_record_again',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bind`
+  String get keybinding_record_confirm {
+    return Intl.message(
+      'Bind',
+      name: 'keybinding_record_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save keybindings`
+  String get keybinding_save_title {
+    return Intl.message(
+      'Save keybindings',
+      name: 'keybinding_save_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} customised bindings`
+  String keybinding_save_summary(Object v0) {
+    return Intl.message(
+      '$v0 customised bindings',
+      name: 'keybinding_save_summary',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `{v0} actions still conflict; they will fire together in game.`
+  String keybinding_save_conflicts(Object v0) {
+    return Intl.message(
+      '$v0 actions still conflict; they will fire together in game.',
+      name: 'keybinding_save_conflicts',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Export as a profile file (recommended)`
+  String get keybinding_save_layout {
+    return Intl.message(
+      'Export as a profile file (recommended)',
+      name: 'keybinding_save_layout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile name`
+  String get keybinding_save_layout_name {
+    return Intl.message(
+      'Profile name',
+      name: 'keybinding_save_layout_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Load it from the game's keybinding options, or while playing enter in the console:`
+  String get keybinding_save_layout_hint {
+    return Intl.message(
+      'Load it from the game\'s keybinding options, or while playing enter in the console:',
+      name: 'keybinding_save_layout_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy`
+  String get keybinding_copy {
+    return Intl.message('Copy', name: 'keybinding_copy', desc: '', args: []);
+  }
+
+  /// `Write the live profile (actionmaps.xml)`
+  String get keybinding_save_actionmaps {
+    return Intl.message(
+      'Write the live profile (actionmaps.xml)',
+      name: 'keybinding_save_actionmaps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checking whether the game is running…`
+  String get keybinding_game_checking {
+    return Intl.message(
+      'Checking whether the game is running…',
+      name: 'keybinding_game_checking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The game is running — close it first, it overwrites this file on exit`
+  String get keybinding_game_running {
+    return Intl.message(
+      'The game is running — close it first, it overwrites this file on exit',
+      name: 'keybinding_game_running',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The game is not running`
+  String get keybinding_game_not_running {
+    return Intl.message(
+      'The game is not running',
+      name: 'keybinding_game_not_running',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The current actionmaps.xml is backed up to {v0} first.`
+  String keybinding_save_actionmaps_hint(Object v0) {
+    return Intl.message(
+      'The current actionmaps.xml is backed up to $v0 first.',
+      name: 'keybinding_save_actionmaps_hint',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Save failed`
+  String get keybinding_save_failed {
+    return Intl.message(
+      'Save failed',
+      name: 'keybinding_save_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exported to {v0}\n\nLoad it from the game's keybinding options, or enter in the console:\n{v1}`
+  String keybinding_export_done(Object v0, Object v1) {
+    return Intl.message(
+      'Exported to $v0\n\nLoad it from the game\'s keybinding options, or enter in the console:\n$v1',
+      name: 'keybinding_export_done',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `actionmaps.xml written; it takes effect next time the game starts.\nBackup: {v0}`
+  String keybinding_write_done(Object v0) {
+    return Intl.message(
+      'actionmaps.xml written; it takes effect next time the game starts.\nBackup: $v0',
+      name: 'keybinding_write_done',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Keybindings · Devices`
+  String get keybinding_devices_title {
+    return Intl.message(
+      'Keybindings · Devices',
+      name: 'keybinding_devices_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Joysticks`
+  String get keybinding_joysticks {
+    return Intl.message(
+      'Joysticks',
+      name: 'keybinding_joysticks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Identify device`
+  String get keybinding_identify {
+    return Intl.message(
+      'Identify device',
+      name: 'keybinding_identify',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stop`
+  String get keybinding_identify_stop {
+    return Intl.message(
+      'Stop',
+      name: 'keybinding_identify_stop',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Press a key, click, or use a gamepad / stick — the first device used is selected`
+  String get keybinding_identify_hint {
+    return Intl.message(
+      'Press a key, click, or use a gamepad / stick — the first device used is selected',
+      name: 'keybinding_identify_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown stick`
+  String get keybinding_unknown_stick {
+    return Intl.message(
+      'Unknown stick',
+      name: 'keybinding_unknown_stick',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connected`
+  String get keybinding_connected {
+    return Intl.message(
+      'Connected',
+      name: 'keybinding_connected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not connected`
+  String get keybinding_disconnected {
+    return Intl.message(
+      'Not connected',
+      name: 'keybinding_disconnected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} bound`
+  String keybinding_bound_count(Object v0) {
+    return Intl.message(
+      '$v0 bound',
+      name: 'keybinding_bound_count',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `number not yet saved`
+  String get keybinding_guessed_number {
+    return Intl.message(
+      'number not yet saved',
+      name: 'keybinding_guessed_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Numbers follow the game (the <options> in actionmaps.xml). If plugging order changed them, use Swap — nothing is renumbered automatically.`
+  String get keybinding_numbering_hint {
+    return Intl.message(
+      'Numbers follow the game (the <options> in actionmaps.xml). If plugging order changed them, use Swap — nothing is renumbered automatically.',
+      name: 'keybinding_numbering_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Alias`
+  String get keybinding_stick_alias {
+    return Intl.message(
+      'Alias',
+      name: 'keybinding_stick_alias',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `e.g. Left / Right / Throttle`
+  String get keybinding_stick_alias_hint {
+    return Intl.message(
+      'e.g. Left / Right / Throttle',
+      name: 'keybinding_stick_alias_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply`
+  String get keybinding_apply {
+    return Intl.message('Apply', name: 'keybinding_apply', desc: '', args: []);
+  }
+
+  /// `Swap number with…`
+  String get keybinding_swap_with {
+    return Intl.message(
+      'Swap number with…',
+      name: 'keybinding_swap_with',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} inputs in use`
+  String keybinding_input_count(Object v0) {
+    return Intl.message(
+      '$v0 inputs in use',
+      name: 'keybinding_input_count',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Nothing is bound to this stick`
+  String get keybinding_stick_no_bindings {
+    return Intl.message(
+      'Nothing is bound to this stick',
+      name: 'keybinding_stick_no_bindings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Left mouse`
+  String get keybinding_mouse_left {
+    return Intl.message(
+      'Left mouse',
+      name: 'keybinding_mouse_left',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Right mouse`
+  String get keybinding_mouse_right {
+    return Intl.message(
+      'Right mouse',
+      name: 'keybinding_mouse_right',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Middle mouse`
+  String get keybinding_mouse_middle {
+    return Intl.message(
+      'Middle mouse',
+      name: 'keybinding_mouse_middle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wheel up`
+  String get keybinding_mouse_wheel_up {
+    return Intl.message(
+      'Wheel up',
+      name: 'keybinding_mouse_wheel_up',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wheel down`
+  String get keybinding_mouse_wheel_down {
+    return Intl.message(
+      'Wheel down',
+      name: 'keybinding_mouse_wheel_down',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mouse {v0} axis`
+  String keybinding_mouse_axis(Object v0) {
+    return Intl.message(
+      'Mouse $v0 axis',
+      name: 'keybinding_mouse_axis',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Mouse button {v0}`
+  String keybinding_mouse_button(Object v0) {
+    return Intl.message(
+      'Mouse button $v0',
+      name: 'keybinding_mouse_button',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Button {v0}`
+  String keybinding_js_button(Object v0) {
+    return Intl.message(
+      'Button $v0',
+      name: 'keybinding_js_button',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Hat{v0} {v1}`
+  String keybinding_js_hat(Object v0, Object v1) {
+    return Intl.message(
+      'Hat$v0 $v1',
+      name: 'keybinding_js_hat',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `Slider {v0}`
+  String keybinding_js_slider(Object v0) {
+    return Intl.message(
+      'Slider $v0',
+      name: 'keybinding_js_slider',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `{v0} rotation`
+  String keybinding_js_rotation(Object v0) {
+    return Intl.message(
+      '$v0 rotation',
+      name: 'keybinding_js_rotation',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `{v0} axis`
+  String keybinding_js_axis(Object v0) {
+    return Intl.message(
+      '$v0 axis',
+      name: 'keybinding_js_axis',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `D-pad`
+  String get keybinding_gp_dpad {
+    return Intl.message(
+      'D-pad',
+      name: 'keybinding_gp_dpad',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Left stick`
+  String get keybinding_gp_left_stick {
+    return Intl.message(
+      'Left stick',
+      name: 'keybinding_gp_left_stick',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Right stick`
+  String get keybinding_gp_right_stick {
+    return Intl.message(
+      'Right stick',
+      name: 'keybinding_gp_right_stick',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Axis`
+  String get keybinding_mode_axis {
+    return Intl.message(
+      'Axis',
+      name: 'keybinding_mode_axis',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Press/release`
+  String get keybinding_mode_default_press {
+    return Intl.message(
+      'Press/release',
+      name: 'keybinding_mode_default_press',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Press`
+  String get keybinding_mode_press {
+    return Intl.message(
+      'Press',
+      name: 'keybinding_mode_press',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Press (quick)`
+  String get keybinding_mode_press_quicker {
+    return Intl.message(
+      'Press (quick)',
+      name: 'keybinding_mode_press_quicker',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Long press`
+  String get keybinding_mode_delayed_press {
+    return Intl.message(
+      'Long press',
+      name: 'keybinding_mode_delayed_press',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Long press (short)`
+  String get keybinding_mode_delayed_press_quicker {
+    return Intl.message(
+      'Long press (short)',
+      name: 'keybinding_mode_delayed_press_quicker',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Long press (medium)`
+  String get keybinding_mode_delayed_press_medium {
+    return Intl.message(
+      'Long press (medium)',
+      name: 'keybinding_mode_delayed_press_medium',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Long press (long)`
+  String get keybinding_mode_delayed_press_long {
+    return Intl.message(
+      'Long press (long)',
+      name: 'keybinding_mode_delayed_press_long',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tap`
+  String get keybinding_mode_tap {
+    return Intl.message('Tap', name: 'keybinding_mode_tap', desc: '', args: []);
+  }
+
+  /// `Tap (quick)`
+  String get keybinding_mode_tap_quicker {
+    return Intl.message(
+      'Tap (quick)',
+      name: 'keybinding_mode_tap_quicker',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Double tap`
+  String get keybinding_mode_double_tap {
+    return Intl.message(
+      'Double tap',
+      name: 'keybinding_mode_double_tap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Double tap (non-blocking)`
+  String get keybinding_mode_double_tap_nonblocking {
+    return Intl.message(
+      'Double tap (non-blocking)',
+      name: 'keybinding_mode_double_tap_nonblocking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hold`
+  String get keybinding_mode_hold {
+    return Intl.message(
+      'Hold',
+      name: 'keybinding_mode_hold',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hold (once)`
+  String get keybinding_mode_hold_no_retrigger {
+    return Intl.message(
+      'Hold (once)',
+      name: 'keybinding_mode_hold_no_retrigger',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delayed hold`
+  String get keybinding_mode_delayed_hold {
+    return Intl.message(
+      'Delayed hold',
+      name: 'keybinding_mode_delayed_hold',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delayed hold (long)`
+  String get keybinding_mode_delayed_hold_long {
+    return Intl.message(
+      'Delayed hold (long)',
+      name: 'keybinding_mode_delayed_hold_long',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delayed hold (once)`
+  String get keybinding_mode_delayed_hold_no_retrigger {
+    return Intl.message(
+      'Delayed hold (once)',
+      name: 'keybinding_mode_delayed_hold_no_retrigger',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hold toggle`
+  String get keybinding_mode_hold_toggle {
+    return Intl.message(
+      'Hold toggle',
+      name: 'keybinding_mode_hold_toggle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Smart toggle`
+  String get keybinding_mode_smart_toggle {
+    return Intl.message(
+      'Smart toggle',
+      name: 'keybinding_mode_smart_toggle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Press, hold & release`
+  String get keybinding_mode_all {
+    return Intl.message(
+      'Press, hold & release',
+      name: 'keybinding_mode_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Uses the game's behaviour for this action.`
+  String get keybinding_mode_desc_default {
+    return Intl.message(
+      'Uses the game\'s behaviour for this action.',
+      name: 'keybinding_mode_desc_default',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fires as soon as it is pressed`
+  String get keybinding_mode_desc_press {
+    return Intl.message(
+      'Fires as soon as it is pressed',
+      name: 'keybinding_mode_desc_press',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Starts on press, ends on release`
+  String get keybinding_mode_desc_press_release {
+    return Intl.message(
+      'Starts on press, ends on release',
+      name: 'keybinding_mode_desc_press_release',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fires on press, while held and on release`
+  String get keybinding_mode_desc_all {
+    return Intl.message(
+      'Fires on press, while held and on release',
+      name: 'keybinding_mode_desc_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fires after holding for {v0} s`
+  String keybinding_mode_desc_hold_for(Object v0) {
+    return Intl.message(
+      'Fires after holding for $v0 s',
+      name: 'keybinding_mode_desc_hold_for',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `ends on release`
+  String get keybinding_mode_desc_until_release {
+    return Intl.message(
+      'ends on release',
+      name: 'keybinding_mode_desc_until_release',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fires when released within {v0} s; holding longer does nothing`
+  String keybinding_mode_desc_tap_within(Object v0) {
+    return Intl.message(
+      'Fires when released within $v0 s; holding longer does nothing',
+      name: 'keybinding_mode_desc_tap_within',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Fires on {v0} quick presses`
+  String keybinding_mode_desc_multi_tap(Object v0) {
+    return Intl.message(
+      'Fires on $v0 quick presses',
+      name: 'keybinding_mode_desc_multi_tap',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `single presses still work`
+  String get keybinding_mode_desc_non_blocking {
+    return Intl.message(
+      'single presses still work',
+      name: 'keybinding_mode_desc_non_blocking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A tap toggles on/off; holding longer than {v0} s keeps it on only while held`
+  String keybinding_mode_desc_smart_toggle(Object v0) {
+    return Intl.message(
+      'A tap toggles on/off; holding longer than $v0 s keeps it on only while held',
+      name: 'keybinding_mode_desc_smart_toggle',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `repeats while held`
+  String get keybinding_mode_desc_retrigger {
+    return Intl.message(
+      'repeats while held',
+      name: 'keybinding_mode_desc_retrigger',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `; `
+  String get keybinding_mode_desc_separator {
+    return Intl.message(
+      '; ',
+      name: 'keybinding_mode_desc_separator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All sticks`
+  String get keybinding_all_sticks {
+    return Intl.message(
+      'All sticks',
+      name: 'keybinding_all_sticks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Plug in the stick and press Refresh. Sticks already recorded in actionmaps.xml are listed even when unplugged.`
+  String get keybinding_no_joystick_hint {
+    return Intl.message(
+      'Plug in the stick and press Refresh. Sticks already recorded in actionmaps.xml are listed even when unplugged.',
+      name: 'keybinding_no_joystick_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Base layer`
+  String get keybinding_layer_base {
+    return Intl.message(
+      'Base layer',
+      name: 'keybinding_layer_base',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Combos`
+  String get keybinding_layer_modifier {
+    return Intl.message(
+      'Combos',
+      name: 'keybinding_layer_modifier',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Flight`
+  String get keybinding_scene_flight {
+    return Intl.message(
+      'Flight',
+      name: 'keybinding_scene_flight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `On foot`
+  String get keybinding_scene_on_foot {
+    return Intl.message(
+      'On foot',
+      name: 'keybinding_scene_on_foot',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Diagram`
+  String get keybinding_view_diagram {
+    return Intl.message(
+      'Diagram',
+      name: 'keybinding_view_diagram',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `List`
+  String get keybinding_view_list {
+    return Intl.message(
+      'List',
+      name: 'keybinding_view_list',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other inputs (no spot on this diagram)`
+  String get keybinding_diagram_other_inputs {
+    return Intl.message(
+      'Other inputs (no spot on this diagram)',
+      name: 'keybinding_diagram_other_inputs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Click any input to change what it does`
+  String get keybinding_diagram_click_hint {
+    return Intl.message(
+      'Click any input to change what it does',
+      name: 'keybinding_diagram_click_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tint = how many actions a key carries (keys pressed alone)`
+  String get keybinding_kb_legend_base {
+    return Intl.message(
+      'Tint = how many actions a key carries (keys pressed alone)',
+      name: 'keybinding_kb_legend_base',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stripes show which modifiers a key is combined with`
+  String get keybinding_kb_legend_modifier {
+    return Intl.message(
+      'Stripes show which modifiers a key is combined with',
+      name: 'keybinding_kb_legend_modifier',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Input`
+  String get keybinding_input_dialog_title {
+    return Intl.message(
+      'Input',
+      name: 'keybinding_input_dialog_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Modifiers`
+  String get keybinding_input_dialog_modifiers {
+    return Intl.message(
+      'Modifiers',
+      name: 'keybinding_input_dialog_modifiers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bound to {v0} actions`
+  String keybinding_input_dialog_current(Object v0) {
+    return Intl.message(
+      'Bound to $v0 actions',
+      name: 'keybinding_input_dialog_current',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Nothing uses this input yet.`
+  String get keybinding_input_dialog_none {
+    return Intl.message(
+      'Nothing uses this input yet.',
+      name: 'keybinding_input_dialog_none',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove`
+  String get keybinding_input_dialog_unbind {
+    return Intl.message(
+      'Remove',
+      name: 'keybinding_input_dialog_unbind',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bind another action`
+  String get keybinding_input_dialog_add {
+    return Intl.message(
+      'Bind another action',
+      name: 'keybinding_input_dialog_add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search actions by name…`
+  String get keybinding_input_dialog_search {
+    return Intl.message(
+      'Search actions by name…',
+      name: 'keybinding_input_dialog_search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Each action has one {v0} slot; binding here replaces its current {v0} input.`
+  String keybinding_input_dialog_add_hint(Object v0) {
+    return Intl.message(
+      'Each action has one $v0 slot; binding here replaces its current $v0 input.',
+      name: 'keybinding_input_dialog_add_hint',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Done`
+  String get keybinding_done {
+    return Intl.message('Done', name: 'keybinding_done', desc: '', args: []);
+  }
+
+  /// `View`
+  String get keybinding_pad_view {
+    return Intl.message(
+      'View',
+      name: 'keybinding_pad_view',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Menu`
+  String get keybinding_pad_menu {
+    return Intl.message(
+      'Menu',
+      name: 'keybinding_pad_menu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Left stick click`
+  String get keybinding_pad_left_click {
+    return Intl.message(
+      'Left stick click',
+      name: 'keybinding_pad_left_click',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Right stick click`
+  String get keybinding_pad_right_click {
+    return Intl.message(
+      'Right stick click',
+      name: 'keybinding_pad_right_click',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Face buttons`
+  String get keybinding_pad_face_buttons {
+    return Intl.message(
+      'Face buttons',
+      name: 'keybinding_pad_face_buttons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Zoom in`
+  String get keybinding_zoom_in {
+    return Intl.message(
+      'Zoom in',
+      name: 'keybinding_zoom_in',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Zoom out`
+  String get keybinding_zoom_out {
+    return Intl.message(
+      'Zoom out',
+      name: 'keybinding_zoom_out',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fit`
+  String get keybinding_zoom_fit {
+    return Intl.message('Fit', name: 'keybinding_zoom_fit', desc: '', args: []);
+  }
+
+  /// `Scroll to zoom, drag to pan`
+  String get keybinding_zoom_hint {
+    return Intl.message(
+      'Scroll to zoom, drag to pan',
+      name: 'keybinding_zoom_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Install to`
+  String get keybinding_sync_to {
+    return Intl.message(
+      'Install to',
+      name: 'keybinding_sync_to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Also writes to the selected game channels installed next to this one.`
+  String get keybinding_sync_hint {
+    return Intl.message(
+      'Also writes to the selected game channels installed next to this one.',
+      name: 'keybinding_sync_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exported to {v0} channel(s): {v1}\n\nLoad it from the game's keybinding options, or enter in the console:\n{v2}`
+  String keybinding_export_done_multi(Object v0, Object v1, Object v2) {
+    return Intl.message(
+      'Exported to $v0 channel(s): $v1\n\nLoad it from the game\'s keybinding options, or enter in the console:\n$v2',
+      name: 'keybinding_export_done_multi',
+      desc: '',
+      args: [v0, v1, v2],
+    );
+  }
+
+  /// `actionmaps.xml written to {v0} channel(s): {v1}. Takes effect next time the game starts; the previous files were backed up.`
+  String keybinding_write_done_multi(Object v0, Object v1) {
+    return Intl.message(
+      'actionmaps.xml written to $v0 channel(s): $v1. Takes effect next time the game starts; the previous files were backed up.',
+      name: 'keybinding_write_done_multi',
+      desc: '',
+      args: [v0, v1],
+    );
+  }
+
+  /// `All`
+  String get keybinding_layer_all {
+    return Intl.message(
+      'All',
+      name: 'keybinding_layer_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Import game preset…`
+  String get keybinding_import_preset {
+    return Intl.message(
+      'Import game preset…',
+      name: 'keybinding_import_preset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game presets`
+  String get keybinding_preset_title {
+    return Intl.message(
+      'Game presets',
+      name: 'keybinding_preset_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reading presets from Data.p4k (first time for this game version)…`
+  String get keybinding_preset_reading {
+    return Intl.message(
+      'Reading presets from Data.p4k (first time for this game version)…',
+      name: 'keybinding_preset_reading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Import: {v0}`
+  String keybinding_import_preview_title(Object v0) {
+    return Intl.message(
+      'Import: $v0',
+      name: 'keybinding_import_preview_title',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Replace`
+  String get keybinding_import_replace {
+    return Intl.message(
+      'Replace',
+      name: 'keybinding_import_replace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Merge`
+  String get keybinding_import_merge {
+    return Intl.message(
+      'Merge',
+      name: 'keybinding_import_merge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your current changes are dropped; everything not in the import goes back to the game default.`
+  String get keybinding_import_replace_hint {
+    return Intl.message(
+      'Your current changes are dropped; everything not in the import goes back to the game default.',
+      name: 'keybinding_import_replace_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keeps your current changes; the import wins where both set the same slot.`
+  String get keybinding_import_merge_hint {
+    return Intl.message(
+      'Keeps your current changes; the import wins where both set the same slot.',
+      name: 'keybinding_import_merge_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{v0} changes`
+  String keybinding_import_change_count(Object v0) {
+    return Intl.message(
+      '$v0 changes',
+      name: 'keybinding_import_change_count',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Nothing would change.`
+  String get keybinding_import_no_change {
+    return Intl.message(
+      'Nothing would change.',
+      name: 'keybinding_import_no_change',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply {v0} changes`
+  String keybinding_import_apply(Object v0) {
+    return Intl.message(
+      'Apply $v0 changes',
+      name: 'keybinding_import_apply',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `This preset was made for other sticks — check the numbering on the Devices page after importing.`
+  String get keybinding_import_stick_mismatch {
+    return Intl.message(
+      'This preset was made for other sticks — check the numbering on the Devices page after importing.',
+      name: 'keybinding_import_stick_mismatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Found`
+  String get keybinding_identify_found {
+    return Intl.message(
+      'Found',
+      name: 'keybinding_identify_found',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

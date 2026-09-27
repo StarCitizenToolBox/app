@@ -8,6 +8,7 @@ import 'api/asar_api.dart';
 import 'api/audio_api.dart';
 import 'api/downloader_api.dart';
 import 'api/http_api.dart';
+import 'api/input_capture_api.dart';
 import 'api/ort_api.dart';
 import 'api/p4k_upgrader_api.dart';
 import 'api/rs_process.dart';
@@ -51,6 +52,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
     dynamic raw,
   );
+
+  @protected
+  RustStreamSink<InputCaptureEvent>
+  dco_decode_StreamSink_input_capture_event_Dco(dynamic raw);
 
   @protected
   RustStreamSink<P4kUpgraderProgressEvent>
@@ -161,6 +166,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   PlatformInt64 dco_decode_i_64(dynamic raw);
 
   @protected
+  InputCaptureEvent dco_decode_input_capture_event(dynamic raw);
+
+  @protected
+  InputDeviceInfo dco_decode_input_device_info(dynamic raw);
+
+  @protected
+  InputDeviceKind dco_decode_input_device_kind(dynamic raw);
+
+  @protected
   List<String> dco_decode_list_String(dynamic raw);
 
   @protected
@@ -177,6 +191,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<DownloadTaskInfo> dco_decode_list_download_task_info(dynamic raw);
+
+  @protected
+  List<InputDeviceInfo> dco_decode_list_input_device_info(dynamic raw);
 
   @protected
   List<P4kUpgraderEstimateEntry> dco_decode_list_p_4_k_upgrader_estimate_entry(
@@ -407,6 +424,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  RustStreamSink<InputCaptureEvent>
+  sse_decode_StreamSink_input_capture_event_Dco(SseDeserializer deserializer);
+
+  @protected
   RustStreamSink<P4kUpgraderProgressEvent>
   sse_decode_StreamSink_p_4_k_upgrader_progress_event_Dco(
     SseDeserializer deserializer,
@@ -531,6 +552,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   PlatformInt64 sse_decode_i_64(SseDeserializer deserializer);
 
   @protected
+  InputCaptureEvent sse_decode_input_capture_event(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  InputDeviceInfo sse_decode_input_device_info(SseDeserializer deserializer);
+
+  @protected
+  InputDeviceKind sse_decode_input_device_kind(SseDeserializer deserializer);
+
+  @protected
   List<String> sse_decode_list_String(SseDeserializer deserializer);
 
   @protected
@@ -553,6 +585,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<DownloadTaskInfo> sse_decode_list_download_task_info(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  List<InputDeviceInfo> sse_decode_list_input_device_info(
     SseDeserializer deserializer,
   );
 
@@ -829,6 +866,22 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   ffi.Pointer<wire_cst_list_prim_u_8_strict>
+  cst_encode_StreamSink_input_capture_event_Dco(
+    RustStreamSink<InputCaptureEvent> raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_String(
+      raw.setupAndSerialize(
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_input_capture_event,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+      ),
+    );
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_u_8_strict>
   cst_encode_StreamSink_rs_process_stream_data_Dco(
     RustStreamSink<RsProcessStreamData> raw,
   ) {
@@ -986,6 +1039,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     final ans = wire.cst_new_list_download_task_info(raw.length);
     for (var i = 0; i < raw.length; ++i) {
       cst_api_fill_to_wire_download_task_info(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_input_device_info>
+  cst_encode_list_input_device_info(List<InputDeviceInfo> raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ans = wire.cst_new_list_input_device_info(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      cst_api_fill_to_wire_input_device_info(raw[i], ans.ref.ptr[i]);
     }
     return ans;
   }
@@ -1344,6 +1408,35 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_input_capture_event(
+    InputCaptureEvent apiObj,
+    wire_cst_input_capture_event wireObj,
+  ) {
+    wireObj.device_id = cst_encode_String(apiObj.deviceId);
+    wireObj.device_name = cst_encode_String(apiObj.deviceName);
+    wireObj.vendor_id = cst_encode_u_16(apiObj.vendorId);
+    wireObj.product_id = cst_encode_u_16(apiObj.productId);
+    wireObj.kind = cst_encode_input_device_kind(apiObj.kind);
+    wireObj.input = cst_encode_String(apiObj.input);
+    wireObj.value = cst_encode_f_64(apiObj.value);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_input_device_info(
+    InputDeviceInfo apiObj,
+    wire_cst_input_device_info wireObj,
+  ) {
+    wireObj.id = cst_encode_String(apiObj.id);
+    wireObj.name = cst_encode_String(apiObj.name);
+    wireObj.vendor_id = cst_encode_u_16(apiObj.vendorId);
+    wireObj.product_id = cst_encode_u_16(apiObj.productId);
+    wireObj.kind = cst_encode_input_device_kind(apiObj.kind);
+    wireObj.button_count = cst_encode_u_32(apiObj.buttonCount);
+    wireObj.axes = cst_encode_list_String(apiObj.axes);
+    wireObj.hat_count = cst_encode_u_32(apiObj.hatCount);
+  }
+
+  @protected
   void cst_api_fill_to_wire_model_convert_bytes_result(
     ModelConvertBytesResult apiObj,
     wire_cst_model_convert_bytes_result wireObj,
@@ -1631,6 +1724,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int cst_encode_i_32(int raw);
 
   @protected
+  int cst_encode_input_device_kind(InputDeviceKind raw);
+
+  @protected
   int cst_encode_my_http_version(MyHttpVersion raw);
 
   @protected
@@ -1674,6 +1770,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void
   sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcDataForge(
     ArcDataForge self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_StreamSink_input_capture_event_Dco(
+    RustStreamSink<InputCaptureEvent> self,
     SseSerializer serializer,
   );
 
@@ -1822,6 +1924,24 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_i_64(PlatformInt64 self, SseSerializer serializer);
 
   @protected
+  void sse_encode_input_capture_event(
+    InputCaptureEvent self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_input_device_info(
+    InputDeviceInfo self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_input_device_kind(
+    InputDeviceKind self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_list_String(List<String> self, SseSerializer serializer);
 
   @protected
@@ -1851,6 +1971,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_list_download_task_info(
     List<DownloadTaskInfo> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_input_device_info(
+    List<InputDeviceInfo> self,
     SseSerializer serializer,
   );
 
@@ -3482,6 +3608,57 @@ class RustLibWire implements BaseWire {
       );
   late final _wire__crate__api__win32_api__get_system_memory_size_gb =
       _wire__crate__api__win32_api__get_system_memory_size_gbPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__input_capture_api__input_capture_start(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> sink,
+  ) {
+    return _wire__crate__api__input_capture_api__input_capture_start(
+      port_,
+      sink,
+    );
+  }
+
+  late final _wire__crate__api__input_capture_api__input_capture_startPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__input_capture_api__input_capture_start',
+      );
+  late final _wire__crate__api__input_capture_api__input_capture_start =
+      _wire__crate__api__input_capture_api__input_capture_startPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__input_capture_api__input_capture_stop(int port_) {
+    return _wire__crate__api__input_capture_api__input_capture_stop(port_);
+  }
+
+  late final _wire__crate__api__input_capture_api__input_capture_stopPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__input_capture_api__input_capture_stop',
+      );
+  late final _wire__crate__api__input_capture_api__input_capture_stop =
+      _wire__crate__api__input_capture_api__input_capture_stopPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__input_capture_api__input_list_devices(int port_) {
+    return _wire__crate__api__input_capture_api__input_list_devices(port_);
+  }
+
+  late final _wire__crate__api__input_capture_api__input_list_devicesPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__input_capture_api__input_list_devices',
+      );
+  late final _wire__crate__api__input_capture_api__input_list_devices =
+      _wire__crate__api__input_capture_api__input_list_devicesPtr
           .asFunction<void Function(int)>();
 
   void wire__crate__api__win32_api__kill_process_by_name(
@@ -6041,6 +6218,24 @@ class RustLibWire implements BaseWire {
             ffi.Pointer<wire_cst_list_download_task_info> Function(int)
           >();
 
+  ffi.Pointer<wire_cst_list_input_device_info> cst_new_list_input_device_info(
+    int len,
+  ) {
+    return _cst_new_list_input_device_info(len);
+  }
+
+  late final _cst_new_list_input_device_infoPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<wire_cst_list_input_device_info> Function(ffi.Int32)
+        >
+      >('frbgen_starcitizen_doctor_cst_new_list_input_device_info');
+  late final _cst_new_list_input_device_info =
+      _cst_new_list_input_device_infoPtr
+          .asFunction<
+            ffi.Pointer<wire_cst_list_input_device_info> Function(int)
+          >();
+
   ffi.Pointer<wire_cst_list_prim_f_32_strict> cst_new_list_prim_f_32_strict(
     int len,
   ) {
@@ -6411,6 +6606,36 @@ final class wire_cst_list_download_task_info extends ffi.Struct {
   external int len;
 }
 
+final class wire_cst_input_device_info extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> id;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> name;
+
+  @ffi.Uint16()
+  external int vendor_id;
+
+  @ffi.Uint16()
+  external int product_id;
+
+  @ffi.Int32()
+  external int kind;
+
+  @ffi.Uint32()
+  external int button_count;
+
+  external ffi.Pointer<wire_cst_list_String> axes;
+
+  @ffi.Uint32()
+  external int hat_count;
+}
+
+final class wire_cst_list_input_device_info extends ffi.Struct {
+  external ffi.Pointer<wire_cst_input_device_info> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
 final class wire_cst_list_prim_f_64_strict extends ffi.Struct {
   external ffi.Pointer<ffi.Double> ptr;
 
@@ -6576,6 +6801,26 @@ final class wire_cst_download_global_stat extends ffi.Struct {
 
   @ffi.UintPtr()
   external int num_waiting;
+}
+
+final class wire_cst_input_capture_event extends ffi.Struct {
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> device_id;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> device_name;
+
+  @ffi.Uint16()
+  external int vendor_id;
+
+  @ffi.Uint16()
+  external int product_id;
+
+  @ffi.Int32()
+  external int kind;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> input;
+
+  @ffi.Double()
+  external double value;
 }
 
 final class wire_cst_model_convert_bytes_result extends ffi.Struct {
@@ -6750,3 +6995,39 @@ final class wire_cst_wem_decode_progress extends ffi.Struct {
   @ffi.Int32()
   external int chunk_index;
 }
+
+const int USAGE_PAGE_GENERIC_DESKTOP = 1;
+
+const int USAGE_PAGE_BUTTON = 9;
+
+const int USAGE_JOYSTICK = 4;
+
+const int USAGE_GAMEPAD = 5;
+
+const int USAGE_MULTI_AXIS = 8;
+
+const int USAGE_X = 48;
+
+const int USAGE_Y = 49;
+
+const int USAGE_Z = 50;
+
+const int USAGE_RX = 51;
+
+const int USAGE_RY = 52;
+
+const int USAGE_RZ = 53;
+
+const int USAGE_SLIDER = 54;
+
+const int USAGE_DIAL = 55;
+
+const int USAGE_WHEEL = 56;
+
+const int USAGE_HAT = 57;
+
+const double AXIS_TRIGGER_FRACTION = 0.5;
+
+const double AXIS_REARM_FRACTION = 0.3;
+
+const int XINPUT_TRIGGER_THRESHOLD = 127;

@@ -78,6 +78,14 @@ class ToolsUIModel extends _$ToolsUIModel {
       items = [
         if (Platform.isWindows)
           ToolsItemData(
+            "keybinding",
+            S.current.tools_action_keybinding,
+            S.current.tools_action_keybinding_info,
+            const Icon(FluentIcons.keyboard_classic, size: 24),
+            onTap: () => _keybinding(context),
+          ),
+        if (Platform.isWindows)
+          ToolsItemData(
             "systemnfo",
             S.current.tools_action_view_system_info,
             S.current.tools_action_info_view_critical_system_info,
@@ -899,6 +907,14 @@ class ToolsUIModel extends _$ToolsUIModel {
 
   Future<void> _dcbViewer(BuildContext context) async {
     context.push("/tools/dcb_viewer");
+  }
+
+  Future<void> _keybinding(BuildContext context) async {
+    if (state.scInstalledPath.isEmpty) {
+      showToast(context, S.current.tools_action_info_valid_game_directory_needed);
+      return;
+    }
+    context.push("/tools/keybinding", extra: {'path': state.scInstalledPath});
   }
 
   static Future<void> rsiEnhance(
