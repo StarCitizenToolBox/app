@@ -31,7 +31,8 @@ function LocalizationWatchUpdate() {
         SCLocalizationEnableSplitMode = true;
     }
 
-    if (window.location.hostname.includes("www.erkul.games")) {
+    const hostname = window.location.hostname;
+    if (hostname === "erkul.games" || hostname.endsWith(".erkul.games")) {
         document.body.addEventListener("click", function (event) {
             setTimeout(function () {
                 allTranslate().then(_ => {

@@ -232,9 +232,10 @@ class WebViewModel {
         await Future.delayed(const Duration(milliseconds: 200));
         webview.executeRsiLogin(loginChannel);
       }
-    } else if (url.startsWith(
-      await _handleMirrorsUrl("https://www.erkul.games", _appVersionData),
-    )) {
+    } else if (await _isSiteUrl(url, const [
+      "https://erkul.games",
+      "https://www.erkul.games",
+    ])) {
       dPrint("load script");
       await Future.delayed(const Duration(milliseconds: 100));
       webview.injectLocalizationScript();
@@ -251,6 +252,17 @@ class WebViewModel {
       final replaceWords = _getLocalizationResource("UEX");
       webview.updateReplaceWords(replaceWords, enableCapture);
     }
+  }
+
+  /// 按 hostname 匹配站点，同时兼容工具站镜像地址
+  Future<bool> _isSiteUrl(String url, List<String> siteUrls) async {
+    final host = Uri.tryParse(url)?.host.toLowerCase();
+    for (final siteUrl in siteUrls) {
+      if (host != null && host == Uri.parse(siteUrl).host) return true;
+      final mirrorUrl = await _handleMirrorsUrl(siteUrl, _appVersionData);
+      if (mirrorUrl != siteUrl && url.startsWith(mirrorUrl)) return true;
+    }
+    return false;
   }
 
   Future<String> _handleMirrorsUrl(
