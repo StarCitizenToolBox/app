@@ -76,10 +76,13 @@ class HomeGameDoctorUIModel extends _$HomeGameDoctorUIModel {
         break;
       case "eac_not_install":
         try {
-          final outcome = await EacRegistrar().register(
-            gameDirectory: Directory(item.value).parent.path,
-            log: dPrint,
-          );
+          final outcome = await EacRegistrar()
+              .register(
+                gameDirectory: Directory(item.value).parent.path,
+                log: dPrint,
+              )
+              // An unanswered administrator prompt must not hang the fix.
+              .timeout(const Duration(minutes: 3));
           if (!context.mounted) break;
           if (outcome == EacRegistrationOutcome.distributionNotFound) {
             showToast(

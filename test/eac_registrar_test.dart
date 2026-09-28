@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -13,6 +14,33 @@ void main() {
 
   tearDown(() async {
     if (await sandbox.exists()) await sandbox.delete(recursive: true);
+  });
+
+  group('tryRegisterEac', () {
+    test('reports nothing when EAC was registered', () async {
+      expect(
+        await tryRegisterEac(() async => EacRegistrationOutcome.registered),
+        isNull,
+      );
+    });
+
+    test('reports a missing distribution, an error and a timeout', () async {
+      expect(
+        await tryRegisterEac(
+          () async => EacRegistrationOutcome.distributionNotFound,
+        ),
+        isNotNull,
+      );
+      final error = await tryRegisterEac(
+        () async => throw const EACError('installer exited with code 5'),
+      );
+      expect(error, isA<EACError>());
+      final timedOut = await tryRegisterEac(
+        () => Completer<EacRegistrationOutcome>().future,
+        timeout: const Duration(milliseconds: 10),
+      );
+      expect(timedOut.toString(), contains('timed out'));
+    });
   });
 
   test('skips a build without an EAC distribution', () async {

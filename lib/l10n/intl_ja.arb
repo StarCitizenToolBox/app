@@ -2055,6 +2055,12 @@
   "@p4k_update_easyanticheat_installer_not_found_registration_skipped": {},
   "p4k_update_registering_easyanticheat": "EasyAntiCheat の登録",
   "@p4k_update_registering_easyanticheat": {},
+  "p4k_update_eac_registration_skipped": "EasyAntiCheat の登録が完了しなかったためスキップしました（ゲームファイルは更新済み）：{v0}\n起動時にアンチチート（EAC）エラーが出る場合は、ワンクリック診断で EAC を修復するか、更新を再実行して管理者権限の確認を許可してください。",
+  "@p4k_update_eac_registration_skipped": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
   "p4k_update_easyanticheat_registration_completed": "EasyAntiCheat登録完了",
   "@p4k_update_easyanticheat_registration_completed": {},
   "p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal": "EasyAntiCheat 登録は {v0} を返しましたが、致命的ではない警告として続行されました {v1}",

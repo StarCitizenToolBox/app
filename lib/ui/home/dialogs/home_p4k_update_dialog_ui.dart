@@ -202,6 +202,15 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   String _lastProgressLogSignature = "";
   bool _cancelTelemetryReported = false;
 
+  /// Set when the update succeeded but a post-install step (EAC
+  /// registration) did not; shown instead of closing the dialog.
+  String? _postInstallWarning;
+
+  /// Upper bound for the whole EAC registration. The elevated installer has
+  /// its own timeout, but an unanswered UAC prompt or a stuck installer must
+  /// not keep a finished update from completing.
+  static const _eacRegistrationTimeout = Duration(minutes: 3);
+
   static const _threadOptions = [4, 8, 16, 32, 64, 96];
   static const _maxLogLines = 300;
   static const _progressLogInterval = Duration(seconds: 1);
@@ -556,7 +565,8 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       shouldCloseOnSuccess: () =>
           streamCompletedSuccessfully &&
           !_cancelling &&
-          _status != S.current.p4k_update_canceled,
+          _status != S.current.p4k_update_canceled &&
+          _postInstallWarning == null,
       task: () async {
         _paused = false;
         _cancelling = false;
@@ -599,7 +609,9 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
           }
           if (streamCompletedSuccessfully && !_cancelling) {
             await _runPostInstallTasks(
-              onEacRegistered: () async {
+              // The game files, including the new EasyAntiCheat directory,
+              // are installed; keep them whether or not registration worked.
+              onEacHandled: () async {
                 await eacPatchGuard?.commit();
                 eacPatchGuard = null;
               },
@@ -1002,6 +1014,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       _working = true;
       _cancelling = false;
       _cancelTelemetryReported = false;
+      _postInstallWarning = null;
       _lastRunFailed = false;
       _status = status;
       _overallProgressPercent = null;
@@ -1029,7 +1042,10 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
         return;
       }
       setState(() {
-        if (_status != S.current.p4k_update_canceled) _status = success;
+        if (_status != S.current.p4k_update_canceled) {
+          final warning = _postInstallWarning;
+          _status = warning == null ? success : '$success\n$warning';
+        }
       });
     } catch (e) {
       if (reportDownloadFailure && !_cancelling) {
@@ -1376,7 +1392,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
   }
 
   Future<void> _runPostInstallTasks({
-    Future<void> Function()? onEacRegistered,
+    Future<void> Function()? onEacHandled,
   }) async {
     _stopDownloadSpeedTimer();
     if (mounted) {
@@ -1390,7 +1406,7 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
       S.current.p4k_update_registering_eac_and_syncing_launcher_state,
     );
     await _installEasyAntiCheat(stageText);
-    await onEacRegistered?.call();
+    await onEacHandled?.call();
     await _syncLauncherInstallState(stageText);
     _setPostInstallStatus(
       stageText,
@@ -1398,33 +1414,28 @@ class _HomeP4kUpdateDialogUIState extends State<HomeP4kUpdateDialogUI> {
     );
   }
 
+  /// Registers EasyAntiCheat for the updated game. A failure, a timeout or a
+  /// missing distribution is a warning, not an update failure: the game files
+  /// are already installed and EAC can be registered again later.
   Future<void> _installEasyAntiCheat(String stageText) async {
-    late final EacRegistrationOutcome outcome;
-    try {
-      outcome = await EacRegistrar().register(
+    final problem = await tryRegisterEac(
+      () => EacRegistrar().register(
         gameDirectory: widget.installPath,
         log: _appendEacLog,
-      );
-    } on EACError catch (error) {
-      _appendEacLog(error.toString());
+      ),
+      timeout: _eacRegistrationTimeout,
+    );
+    if (problem == null) {
       _setPostInstallStatus(
         stageText,
-        S.current.p4k_update_failure(error),
-        error: true,
+        S.current.p4k_update_easyanticheat_registration_completed,
       );
-      rethrow;
+      return;
     }
-    if (outcome == EacRegistrationOutcome.distributionNotFound) {
-      const message =
-          'EasyAntiCheat distribution was not downloaded. Switch to the '
-          'official source and run repair before launching the game.';
-      _setPostInstallStatus(stageText, message, error: true);
-      throw const EACError(message);
-    }
-    _setPostInstallStatus(
-      stageText,
-      S.current.p4k_update_easyanticheat_registration_completed,
-    );
+    _appendEacLog('EAC registration skipped: $problem');
+    final warning = S.current.p4k_update_eac_registration_skipped(problem);
+    _postInstallWarning = warning;
+    _setPostInstallStatus(stageText, warning, warning: true);
   }
 
   void _appendEacLog(String message) {

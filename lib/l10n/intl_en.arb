@@ -2249,6 +2249,12 @@
   "@p4k_update_easyanticheat_installer_not_found_registration_skipped": {},
   "p4k_update_registering_easyanticheat": "Registering EasyAntiCheat",
   "@p4k_update_registering_easyanticheat": {},
+  "p4k_update_eac_registration_skipped": "EasyAntiCheat registration did not finish and was skipped (game files are updated): {v0}\nIf the game reports an anti-cheat (EAC) error on launch, fix EAC in One-Click Diagnosis, or run the update again and accept the administrator prompt.",
+  "@p4k_update_eac_registration_skipped": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
   "p4k_update_easyanticheat_registration_completed": "EasyAntiCheat registration completed",
   "@p4k_update_easyanticheat_registration_completed": {},
   "p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal": "EasyAntiCheat registration returned {v0}, has continued as a non-fatal warning {v1}",

@@ -1982,6 +1982,12 @@
   "@p4k_update_easyanticheat_installer_not_found_registration_skipped": {},
   "p4k_update_registering_easyanticheat": "正在註冊 EasyAntiCheat",
   "@p4k_update_registering_easyanticheat": {},
+  "p4k_update_eac_registration_skipped": "EAC 註冊未完成，已略過（遊戲檔案已更新）：{v0}\n若啟動遊戲時提示反作弊（EAC）錯誤，請在「疑難排解」中修復 EAC，或重新執行更新並在系統管理員權限提示中確認。",
+  "@p4k_update_eac_registration_skipped": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
   "p4k_update_easyanticheat_registration_completed": "EasyAntiCheat 註冊完成",
   "@p4k_update_easyanticheat_registration_completed": {},
   "p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal": "EasyAntiCheat 註冊返回 {v0}，已作為非致命警告繼續{v1}",

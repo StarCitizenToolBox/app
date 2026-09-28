@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -128,6 +129,26 @@ class EacRegistrar {
       );
     }
     return EacRegistrationOutcome.registered;
+  }
+}
+
+/// Runs [register] and reports what went wrong instead of throwing: `null`
+/// when EAC was registered, otherwise a description of the problem (an error,
+/// a missing distribution, or no answer within [timeout], such as an
+/// unanswered administrator prompt). Callers treat a problem as a warning.
+Future<Object?> tryRegisterEac(
+  Future<EacRegistrationOutcome> Function() register, {
+  Duration timeout = const Duration(minutes: 3),
+}) async {
+  try {
+    final outcome = await register().timeout(timeout);
+    return outcome == EacRegistrationOutcome.registered
+        ? null
+        : 'EasyAntiCheat distribution was not found';
+  } on TimeoutException {
+    return 'timed out after ${timeout.inMinutes} minutes';
+  } catch (error) {
+    return error;
   }
 }
 

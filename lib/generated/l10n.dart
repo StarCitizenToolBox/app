@@ -10744,6 +10744,16 @@ class S {
     );
   }
 
+  /// `EasyAntiCheat registration did not finish and was skipped (game files are updated): {v0}\nIf the game reports an anti-cheat (EAC) error on launch, fix EAC in One-Click Diagnosis, or run the update again and accept the administrator prompt.`
+  String p4k_update_eac_registration_skipped(Object v0) {
+    return Intl.message(
+      'EasyAntiCheat registration did not finish and was skipped (game files are updated): $v0\nIf the game reports an anti-cheat (EAC) error on launch, fix EAC in One-Click Diagnosis, or run the update again and accept the administrator prompt.',
+      name: 'p4k_update_eac_registration_skipped',
+      desc: '',
+      args: [v0],
+    );
+  }
+
   /// `EasyAntiCheat registration completed`
   String get p4k_update_easyanticheat_registration_completed {
     return Intl.message(

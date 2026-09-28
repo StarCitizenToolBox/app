@@ -1657,6 +1657,12 @@
   "@p4k_update_easyanticheat_installer_not_found_registration_skipped": {},
   "p4k_update_registering_easyanticheat": "正在注册 EasyAntiCheat",
   "@p4k_update_registering_easyanticheat": {},
+  "p4k_update_eac_registration_skipped": "EAC 注册未完成，已跳过（游戏文件已更新）：{v0}\n如启动游戏时提示反作弊（EAC）错误，请在“一键诊断”中修复 EAC，或重新运行更新并在弹出的管理员权限提示中确认。",
+  "@p4k_update_eac_registration_skipped": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
   "p4k_update_easyanticheat_registration_completed": "EasyAntiCheat 注册完成",
   "@p4k_update_easyanticheat_registration_completed": {},
   "p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal": "EasyAntiCheat 注册返回 {v0}，已作为非致命警告继续{v1}",

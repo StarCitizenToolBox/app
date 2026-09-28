@@ -2055,6 +2055,12 @@
   "@p4k_update_easyanticheat_installer_not_found_registration_skipped": {},
   "p4k_update_registering_easyanticheat": "Регистрация EasyAntiCheat",
   "@p4k_update_registering_easyanticheat": {},
+  "p4k_update_eac_registration_skipped": "Регистрация EasyAntiCheat не завершилась и пропущена (файлы игры обновлены): {v0}\nЕсли при запуске игра сообщает об ошибке античита (EAC), исправьте EAC в разделе «Быстрая диагностика» или повторите обновление и подтвердите запрос прав администратора.",
+  "@p4k_update_eac_registration_skipped": {
+    "placeholders": {
+      "v0": {}
+    }
+  },
   "p4k_update_easyanticheat_registration_completed": "Регистрация EasyAntiCheat завершена",
   "@p4k_update_easyanticheat_registration_completed": {},
   "p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal": "Регистрация EasyAntiCheat вернула {v0}, продолжилась как нефатальное предупреждение {v1}",
