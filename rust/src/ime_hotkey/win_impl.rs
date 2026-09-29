@@ -577,11 +577,13 @@ fn run_send(job: &SendJob) -> std::result::Result<(), ImeSendFailure> {
     }
 
     check()?;
-    let snapshot = ClipboardSnapshot::replace_with_text(load_hwnd(&MAIN_HWND), &job.text)
+    let mut target_pid = 0u32;
+    unsafe { GetWindowThreadProcessId(job.target, Some(&mut target_pid)) };
+    let snapshot = ClipboardSnapshot::replace_with_text(load_hwnd(&MAIN_HWND), target_pid, &job.text)
         .ok_or(ImeSendFailure::ClipboardFailed)?;
     // Saving the old clipboard (e.g. a large image) can take a moment.
     if let Err(e) = check() {
-        snapshot.restore();
+        snapshot.restore(load_hwnd(&MAIN_HWND));
         return Err(e);
     }
     let hkl = unsafe { GetKeyboardLayout(GetWindowThreadProcessId(job.target, None)) };
@@ -606,9 +608,15 @@ fn run_send(job: &SendJob) -> std::result::Result<(), ImeSendFailure> {
     if finish().is_err() {
         println!("[ime_hotkey] focus changed after pasting; not sending / reopening");
     }
-    // The game reads the clipboard while handling Ctrl+V; give it time before restoring.
-    pause(300);
-    snapshot.restore();
+    // Restore once the game has read the text (it is delay rendered), so a stalled game cannot
+    // paste the previous clipboard instead. If it never reads it (Ctrl+V not handled), give up
+    // waiting eventually rather than keep the user's clipboard.
+    if snapshot.wait_read(Duration::from_secs(5)) {
+        pause(100);
+    } else {
+        println!("[ime_hotkey] the game did not read the clipboard; restoring anyway");
+    }
+    snapshot.restore(load_hwnd(&MAIN_HWND));
     Ok(())
 }
 
@@ -1070,6 +1078,14 @@ unsafe extern "system" fn main_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam
             if unsafe { IsWindowVisible(hwnd) }.as_bool() && !STATUS_IS_ERROR.load(Ordering::SeqCst) {
                 show_hint();
             }
+            return LRESULT(0);
+        }
+        WM_RENDERFORMAT => {
+            super::clipboard::on_render_format(wparam.0 as u32);
+            return LRESULT(0);
+        }
+        WM_RENDERALLFORMATS => {
+            super::clipboard::on_render_all_formats(hwnd);
             return LRESULT(0);
         }
         WM_APP_CAPTURED => {
