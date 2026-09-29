@@ -272,7 +272,7 @@ impl ClipboardSnapshot {
     /// when the clipboard could not be opened or written; the previous content is then left (or
     /// put back) as it was.
     pub(crate) fn replace_with_text(owner: HWND, target_pid: u32, text: &str) -> Option<Self> {
-        let _opened = Opened::open(owner, 10)?;
+        let opened = Opened::open(owner, 10)?;
         let mut saved = Vec::new();
         let mut format = 0;
         loop {
@@ -323,6 +323,9 @@ impl ClipboardSnapshot {
                 write_global(id, &0u32.to_le_bytes());
             }
         }
+        // CloseClipboard itself bumps the sequence number (synthesized formats), so record it
+        // after closing.
+        drop(opened);
         remember_own_sequence();
         Some(Self {
             owner,
