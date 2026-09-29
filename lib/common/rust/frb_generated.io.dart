@@ -288,6 +288,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int? dco_decode_opt_box_autoadd_i_32(dynamic raw);
 
   @protected
+  ImeHotkey? dco_decode_opt_box_autoadd_ime_hotkey(dynamic raw);
+
+  @protected
   ModelConvertOptions? dco_decode_opt_box_autoadd_model_convert_options(
     dynamic raw,
   );
@@ -723,6 +726,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   int? sse_decode_opt_box_autoadd_i_32(SseDeserializer deserializer);
+
+  @protected
+  ImeHotkey? sse_decode_opt_box_autoadd_ime_hotkey(
+    SseDeserializer deserializer,
+  );
 
   @protected
   ModelConvertOptions? sse_decode_opt_box_autoadd_model_convert_options(
@@ -1281,6 +1289,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  ffi.Pointer<wire_cst_ime_hotkey> cst_encode_opt_box_autoadd_ime_hotkey(
+    ImeHotkey? raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return raw == null ? ffi.nullptr : cst_encode_box_autoadd_ime_hotkey(raw);
+  }
+
+  @protected
   ffi.Pointer<wire_cst_model_convert_options>
   cst_encode_opt_box_autoadd_model_convert_options(ModelConvertOptions? raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
@@ -1573,9 +1589,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       return;
     }
     if (apiObj is ImeHotkeyEvent_HotkeyCaptured) {
-      var pre_hotkey = cst_encode_box_autoadd_ime_hotkey(apiObj.hotkey);
+      var pre_hotkey = cst_encode_opt_box_autoadd_ime_hotkey(apiObj.hotkey);
       wireObj.tag = 4;
       wireObj.kind.HotkeyCaptured.hotkey = pre_hotkey;
+      return;
+    }
+    if (apiObj is ImeHotkeyEvent_HotkeyCaptureRejected) {
+      wireObj.tag = 5;
       return;
     }
   }
@@ -2308,6 +2328,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_opt_box_autoadd_i_32(int? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_ime_hotkey(
+    ImeHotkey? self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_opt_box_autoadd_model_convert_options(
@@ -3870,17 +3896,25 @@ class RustLibWire implements BaseWire {
             WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_ime_hotkey>)
           >();
 
-  void wire__crate__api__ime_hotkey_api__ime_hotkey_is_running(int port_) {
-    return _wire__crate__api__ime_hotkey_api__ime_hotkey_is_running(port_);
+  WireSyncRust2DartDco wire__crate__api__ime_hotkey_api__ime_hotkey_is_valid(
+    ffi.Pointer<wire_cst_ime_hotkey> hotkey,
+  ) {
+    return _wire__crate__api__ime_hotkey_api__ime_hotkey_is_valid(hotkey);
   }
 
-  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_is_runningPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
-        'frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_is_running',
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_is_validPtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_ime_hotkey>)
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_is_valid',
       );
-  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_is_running =
-      _wire__crate__api__ime_hotkey_api__ime_hotkey_is_runningPtr
-          .asFunction<void Function(int)>();
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_is_valid =
+      _wire__crate__api__ime_hotkey_api__ime_hotkey_is_validPtr
+          .asFunction<
+            WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_ime_hotkey>)
+          >();
 
   void wire__crate__api__ime_hotkey_api__ime_hotkey_send(
     int port_,
@@ -3914,12 +3948,14 @@ class RustLibWire implements BaseWire {
 
   void wire__crate__api__ime_hotkey_api__ime_hotkey_show_message(
     int port_,
+    int id,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> message,
     bool is_error,
     bool busy,
   ) {
     return _wire__crate__api__ime_hotkey_api__ime_hotkey_show_message(
       port_,
+      id,
       message,
       is_error,
       busy,
@@ -3931,6 +3967,7 @@ class RustLibWire implements BaseWire {
         ffi.NativeFunction<
           ffi.Void Function(
             ffi.Int64,
+            ffi.Uint64,
             ffi.Pointer<wire_cst_list_prim_u_8_strict>,
             ffi.Bool,
             ffi.Bool,
@@ -3943,6 +3980,7 @@ class RustLibWire implements BaseWire {
       _wire__crate__api__ime_hotkey_api__ime_hotkey_show_messagePtr
           .asFunction<
             void Function(
+              int,
               int,
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
               bool,

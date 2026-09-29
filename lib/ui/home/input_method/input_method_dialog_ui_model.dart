@@ -117,7 +117,7 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
       await mountOnnxTranslationProvider(_localTranslateModelDir, _localTranslateModelName, context: context);
     }
     // The in-game quick input keeps the model loaded (or releases it) with this switch.
-    await ref.read(inputMethodHotkeyServiceProvider.notifier).syncTranslateModel();
+    if (ref.mounted) await ref.read(inputMethodHotkeyServiceProvider.notifier).syncTranslateModel();
   }
 
   Timer? _translateTimer;
@@ -317,11 +317,16 @@ class OnnxTranslation extends _$OnnxTranslation {
         quantizationSuffix: "_q4f16",
         useXnnpack: useXnnPack,
       );
+      if (!ref.mounted) {
+        // Released while loading: the dispose hook already ran, so unload here.
+        await ort.unloadTranslationModel(modelKey: modelName);
+        return "disposed";
+      }
       state = true;
     } catch (e) {
       dPrint("[OnnxTranslation] Load model error: $e");
       errorMessage = e.toString();
-      state = false;
+      if (ref.mounted) state = false;
     }
     return errorMessage;
   }

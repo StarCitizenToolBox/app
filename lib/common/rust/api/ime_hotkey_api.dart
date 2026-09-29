@@ -11,10 +11,11 @@ part 'ime_hotkey_api.freezed.dart';
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`
 
 /// Starts the hook thread and popup. Calling it again restarts with the new config.
+/// Startup failures arrive as an error on the returned stream.
 Stream<ImeHotkeyEvent> imeHotkeyStart({required ImeHotkeyConfig config}) =>
     RustLib.instance.api.crateApiImeHotkeyApiImeHotkeyStart(config: config);
 
-/// Replaces the config of the running popup (hotkey, timings, position, texts).
+/// Replaces the config of the running popup (hotkey, chat handling, position, texts).
 Future<void> imeHotkeyUpdateConfig({required ImeHotkeyConfig config}) => RustLib
     .instance
     .api
@@ -23,9 +24,6 @@ Future<void> imeHotkeyUpdateConfig({required ImeHotkeyConfig config}) => RustLib
 /// Stops the hook, destroys the popup and closes the event stream.
 Future<void> imeHotkeyStop() =>
     RustLib.instance.api.crateApiImeHotkeyApiImeHotkeyStop();
-
-Future<bool> imeHotkeyIsRunning() =>
-    RustLib.instance.api.crateApiImeHotkeyApiImeHotkeyIsRunning();
 
 /// Pastes `encoded` into the window that was in front when the popup was opened, followed by
 /// Enter when `auto_send` is set. `id` must match the [`ImeHotkeyEvent::Submit`] being answered.
@@ -36,13 +34,16 @@ Future<void> imeHotkeySend({required BigInt id, required String encoded}) =>
     );
 
 /// Shows `message` under the edit box and keeps the popup open (e.g. unsupported characters).
+/// `id` is the submit it belongs to; messages for an older or cancelled submit are ignored.
 /// `busy` keeps the edit read-only while the submit is still being processed (translating);
 /// otherwise the user can edit and submit again.
 Future<void> imeHotkeyShowMessage({
+  required BigInt id,
   required String message,
   required bool isError,
   required bool busy,
 }) => RustLib.instance.api.crateApiImeHotkeyApiImeHotkeyShowMessage(
+  id: id,
   message: message,
   isError: isError,
   busy: busy,
@@ -50,12 +51,17 @@ Future<void> imeHotkeyShowMessage({
 
 /// The next key combination pressed anywhere is reported as
 /// [`ImeHotkeyEvent::HotkeyCaptured`] and swallowed instead of triggering the popup.
-/// Esc alone cancels without an event. Requires a running popup.
+/// Esc alone cancels. Requires a running popup.
 Future<void> imeHotkeyBeginCapture() =>
     RustLib.instance.api.crateApiImeHotkeyApiImeHotkeyBeginCapture();
 
 Future<void> imeHotkeyCancelCapture() =>
     RustLib.instance.api.crateApiImeHotkeyApiImeHotkeyCancelCapture();
+
+/// A hotkey needs Ctrl, Alt or Win, or an F1-F24 key, so it never takes a key the popup or
+/// plain typing needs (Enter, Esc, letters, ...).
+bool imeHotkeyIsValid({required ImeHotkey hotkey}) =>
+    RustLib.instance.api.crateApiImeHotkeyApiImeHotkeyIsValid(hotkey: hotkey);
 
 /// Human readable name such as `Ctrl + Alt + Space`, using the current keyboard layout.
 String imeHotkeyDisplayName({required ImeHotkey hotkey}) => RustLib.instance.api
@@ -178,7 +184,8 @@ sealed class ImeHotkeyEvent with _$ImeHotkeyEvent {
   /// The encoded text was pasted into the game.
   const factory ImeHotkeyEvent.sent({required BigInt id}) = ImeHotkeyEvent_Sent;
 
-  /// Typing was not started or was aborted; the popup is shown again with the text kept.
+  /// Pasting was not started or was aborted; the popup is shown again with the text kept.
+  /// A message for this `id` can follow with [`ime_hotkey_show_message`].
   const factory ImeHotkeyEvent.sendFailed({
     required BigInt id,
     required ImeSendFailure reason,
@@ -188,9 +195,14 @@ sealed class ImeHotkeyEvent with _$ImeHotkeyEvent {
   const factory ImeHotkeyEvent.windowMoved({required int x, required int y}) =
       ImeHotkeyEvent_WindowMoved;
 
-  /// Result of [`ime_hotkey_begin_capture`].
-  const factory ImeHotkeyEvent.hotkeyCaptured({required ImeHotkey hotkey}) =
+  /// Result of [`ime_hotkey_begin_capture`]; `None` when cancelled with Esc.
+  const factory ImeHotkeyEvent.hotkeyCaptured({ImeHotkey? hotkey}) =
       ImeHotkeyEvent_HotkeyCaptured;
+
+  /// The pressed combination cannot be a hotkey (see [`ime_hotkey_is_valid`]); capturing
+  /// continues.
+  const factory ImeHotkeyEvent.hotkeyCaptureRejected() =
+      ImeHotkeyEvent_HotkeyCaptureRejected;
 }
 
 enum ImeSendFailure {
@@ -202,9 +214,6 @@ enum ImeSendFailure {
 
   /// Another window came to the front before the text was sent; sending stopped.
   focusLost,
-
-  /// A previous message is still being sent.
-  busy,
 
   /// The text could not be put on the clipboard.
   clipboardFailed,

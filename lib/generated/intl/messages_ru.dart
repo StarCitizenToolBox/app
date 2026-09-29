@@ -1319,9 +1319,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "input_method_hotkey_description": MessageLookupByLibrary.simpleMessage(
       "Нажмите горячую клавишу в игре, чтобы открыть поле ввода, введите китайский текст системным IME и нажмите Enter — текст будет преобразован в коды метода ввода сообщества и вставлен в игровой чат. Ничего не внедряется в игру, файлы игры не изменяются; после вставки прежнее содержимое буфера обмена восстанавливается.",
     ),
-    "input_method_hotkey_error_busy": MessageLookupByLibrary.simpleMessage(
-      "Предыдущее сообщение ещё отправляется",
-    ),
     "input_method_hotkey_error_clipboard": MessageLookupByLibrary.simpleMessage(
       "Не удалось записать в буфер обмена, попробуйте ещё раз",
     ),
@@ -1364,6 +1361,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "input_method_hotkey_reset_position": MessageLookupByLibrary.simpleMessage(
       "Сбросить положение поля ввода",
+    ),
+    "input_method_hotkey_rules": MessageLookupByLibrary.simpleMessage(
+      "Должно содержать Ctrl, Alt или Win либо быть клавишей F1–F24",
     ),
     "input_method_hotkey_settings": MessageLookupByLibrary.simpleMessage(
       "Настройки быстрого ввода",

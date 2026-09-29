@@ -2563,7 +2563,6 @@
   "input_method_hotkey_error_target_gone": "遊戲視窗已關閉", "@input_method_hotkey_error_target_gone": {},
   "input_method_hotkey_error_focus_failed": "無法切換回遊戲視窗，請重試", "@input_method_hotkey_error_focus_failed": {},
   "input_method_hotkey_error_focus_lost": "輸入過程中視窗被切換，已停止輸入", "@input_method_hotkey_error_focus_lost": {},
-  "input_method_hotkey_error_busy": "上一則訊息仍在發送中", "@input_method_hotkey_error_busy": {},
   "input_method_hotkey_switch": "遊戲內快捷輸入：", "@input_method_hotkey_switch": {},
   "input_method_hotkey_settings": "快捷輸入設定", "@input_method_hotkey_settings": {},
   "input_method_hotkey_window_position": "輸入框位置", "@input_method_hotkey_window_position": {},
@@ -2573,5 +2572,6 @@
   "input_method_hotkey_translating": "翻譯中…", "@input_method_hotkey_translating": {},
   "input_method_hotkey_translate_failed": "翻譯失敗，再按一次 Enter 僅發送中文", "@input_method_hotkey_translate_failed": {},
   "input_method_hotkey_chat_mode_manual": "使用者手動開啟聊天框", "@input_method_hotkey_chat_mode_manual": {},
-  "input_method_hotkey_error_clipboard": "無法寫入剪貼簿，請重試", "@input_method_hotkey_error_clipboard": {}
+  "input_method_hotkey_error_clipboard": "無法寫入剪貼簿，請重試", "@input_method_hotkey_error_clipboard": {},
+  "input_method_hotkey_rules": "需包含 Ctrl、Alt 或 Win，或使用 F1–F24", "@input_method_hotkey_rules": {}
 }

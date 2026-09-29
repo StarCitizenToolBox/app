@@ -1305,9 +1305,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "input_method_hotkey_description": MessageLookupByLibrary.simpleMessage(
       "在游戏中按快捷键弹出输入框，用系统输入法输入中文，按 Enter 后自动转换为社区输入法编码并粘贴到游戏聊天框。不注入游戏、不修改游戏文件，粘贴后会还原剪贴板原有内容。",
     ),
-    "input_method_hotkey_error_busy": MessageLookupByLibrary.simpleMessage(
-      "上一条消息仍在发送中",
-    ),
     "input_method_hotkey_error_clipboard": MessageLookupByLibrary.simpleMessage(
       "无法写入剪贴板，请重试",
     ),
@@ -1342,6 +1339,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "input_method_hotkey_reset_position": MessageLookupByLibrary.simpleMessage(
       "重置输入框位置",
+    ),
+    "input_method_hotkey_rules": MessageLookupByLibrary.simpleMessage(
+      "需包含 Ctrl、Alt 或 Win，或使用 F1–F24",
     ),
     "input_method_hotkey_settings": MessageLookupByLibrary.simpleMessage(
       "快捷输入设置",

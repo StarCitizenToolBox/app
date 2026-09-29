@@ -1181,9 +1181,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "input_method_hotkey_description": MessageLookupByLibrary.simpleMessage(
       "ゲーム中にホットキーで入力ボックスを表示し、システムの IME で中国語を入力して Enter を押すと、コミュニティ入力メソッドのコードに変換してゲームのチャットに貼り付けます。ゲームへのインジェクションやゲームファイルの変更は行わず、貼り付け後にクリップボードの内容を元に戻します。",
     ),
-    "input_method_hotkey_error_busy": MessageLookupByLibrary.simpleMessage(
-      "前のメッセージを送信中です",
-    ),
     "input_method_hotkey_error_clipboard": MessageLookupByLibrary.simpleMessage(
       "クリップボードに書き込めませんでした。もう一度お試しください",
     ),
@@ -1222,6 +1219,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "input_method_hotkey_reset_position": MessageLookupByLibrary.simpleMessage(
       "入力ボックスの位置をリセット",
+    ),
+    "input_method_hotkey_rules": MessageLookupByLibrary.simpleMessage(
+      "Ctrl・Alt・Win のいずれかを含めるか、F1～F24 を使用してください",
     ),
     "input_method_hotkey_settings": MessageLookupByLibrary.simpleMessage(
       "クイック入力の設定",

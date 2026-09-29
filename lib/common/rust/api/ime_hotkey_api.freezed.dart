@@ -56,7 +56,7 @@ extension ImeHotkeyEventPatterns on ImeHotkeyEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ImeHotkeyEvent_Submit value)?  submit,TResult Function( ImeHotkeyEvent_Sent value)?  sent,TResult Function( ImeHotkeyEvent_SendFailed value)?  sendFailed,TResult Function( ImeHotkeyEvent_WindowMoved value)?  windowMoved,TResult Function( ImeHotkeyEvent_HotkeyCaptured value)?  hotkeyCaptured,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ImeHotkeyEvent_Submit value)?  submit,TResult Function( ImeHotkeyEvent_Sent value)?  sent,TResult Function( ImeHotkeyEvent_SendFailed value)?  sendFailed,TResult Function( ImeHotkeyEvent_WindowMoved value)?  windowMoved,TResult Function( ImeHotkeyEvent_HotkeyCaptured value)?  hotkeyCaptured,TResult Function( ImeHotkeyEvent_HotkeyCaptureRejected value)?  hotkeyCaptureRejected,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case ImeHotkeyEvent_Submit() when submit != null:
@@ -64,7 +64,8 @@ return submit(_that);case ImeHotkeyEvent_Sent() when sent != null:
 return sent(_that);case ImeHotkeyEvent_SendFailed() when sendFailed != null:
 return sendFailed(_that);case ImeHotkeyEvent_WindowMoved() when windowMoved != null:
 return windowMoved(_that);case ImeHotkeyEvent_HotkeyCaptured() when hotkeyCaptured != null:
-return hotkeyCaptured(_that);case _:
+return hotkeyCaptured(_that);case ImeHotkeyEvent_HotkeyCaptureRejected() when hotkeyCaptureRejected != null:
+return hotkeyCaptureRejected(_that);case _:
   return orElse();
 
 }
@@ -82,7 +83,7 @@ return hotkeyCaptured(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ImeHotkeyEvent_Submit value)  submit,required TResult Function( ImeHotkeyEvent_Sent value)  sent,required TResult Function( ImeHotkeyEvent_SendFailed value)  sendFailed,required TResult Function( ImeHotkeyEvent_WindowMoved value)  windowMoved,required TResult Function( ImeHotkeyEvent_HotkeyCaptured value)  hotkeyCaptured,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ImeHotkeyEvent_Submit value)  submit,required TResult Function( ImeHotkeyEvent_Sent value)  sent,required TResult Function( ImeHotkeyEvent_SendFailed value)  sendFailed,required TResult Function( ImeHotkeyEvent_WindowMoved value)  windowMoved,required TResult Function( ImeHotkeyEvent_HotkeyCaptured value)  hotkeyCaptured,required TResult Function( ImeHotkeyEvent_HotkeyCaptureRejected value)  hotkeyCaptureRejected,}){
 final _that = this;
 switch (_that) {
 case ImeHotkeyEvent_Submit():
@@ -90,7 +91,8 @@ return submit(_that);case ImeHotkeyEvent_Sent():
 return sent(_that);case ImeHotkeyEvent_SendFailed():
 return sendFailed(_that);case ImeHotkeyEvent_WindowMoved():
 return windowMoved(_that);case ImeHotkeyEvent_HotkeyCaptured():
-return hotkeyCaptured(_that);}
+return hotkeyCaptured(_that);case ImeHotkeyEvent_HotkeyCaptureRejected():
+return hotkeyCaptureRejected(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -104,7 +106,7 @@ return hotkeyCaptured(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ImeHotkeyEvent_Submit value)?  submit,TResult? Function( ImeHotkeyEvent_Sent value)?  sent,TResult? Function( ImeHotkeyEvent_SendFailed value)?  sendFailed,TResult? Function( ImeHotkeyEvent_WindowMoved value)?  windowMoved,TResult? Function( ImeHotkeyEvent_HotkeyCaptured value)?  hotkeyCaptured,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ImeHotkeyEvent_Submit value)?  submit,TResult? Function( ImeHotkeyEvent_Sent value)?  sent,TResult? Function( ImeHotkeyEvent_SendFailed value)?  sendFailed,TResult? Function( ImeHotkeyEvent_WindowMoved value)?  windowMoved,TResult? Function( ImeHotkeyEvent_HotkeyCaptured value)?  hotkeyCaptured,TResult? Function( ImeHotkeyEvent_HotkeyCaptureRejected value)?  hotkeyCaptureRejected,}){
 final _that = this;
 switch (_that) {
 case ImeHotkeyEvent_Submit() when submit != null:
@@ -112,7 +114,8 @@ return submit(_that);case ImeHotkeyEvent_Sent() when sent != null:
 return sent(_that);case ImeHotkeyEvent_SendFailed() when sendFailed != null:
 return sendFailed(_that);case ImeHotkeyEvent_WindowMoved() when windowMoved != null:
 return windowMoved(_that);case ImeHotkeyEvent_HotkeyCaptured() when hotkeyCaptured != null:
-return hotkeyCaptured(_that);case _:
+return hotkeyCaptured(_that);case ImeHotkeyEvent_HotkeyCaptureRejected() when hotkeyCaptureRejected != null:
+return hotkeyCaptureRejected(_that);case _:
   return null;
 
 }
@@ -129,14 +132,15 @@ return hotkeyCaptured(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( BigInt id,  String text)?  submit,TResult Function( BigInt id)?  sent,TResult Function( BigInt id,  ImeSendFailure reason)?  sendFailed,TResult Function( int x,  int y)?  windowMoved,TResult Function( ImeHotkey hotkey)?  hotkeyCaptured,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( BigInt id,  String text)?  submit,TResult Function( BigInt id)?  sent,TResult Function( BigInt id,  ImeSendFailure reason)?  sendFailed,TResult Function( int x,  int y)?  windowMoved,TResult Function( ImeHotkey? hotkey)?  hotkeyCaptured,TResult Function()?  hotkeyCaptureRejected,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case ImeHotkeyEvent_Submit() when submit != null:
 return submit(_that.id,_that.text);case ImeHotkeyEvent_Sent() when sent != null:
 return sent(_that.id);case ImeHotkeyEvent_SendFailed() when sendFailed != null:
 return sendFailed(_that.id,_that.reason);case ImeHotkeyEvent_WindowMoved() when windowMoved != null:
 return windowMoved(_that.x,_that.y);case ImeHotkeyEvent_HotkeyCaptured() when hotkeyCaptured != null:
-return hotkeyCaptured(_that.hotkey);case _:
+return hotkeyCaptured(_that.hotkey);case ImeHotkeyEvent_HotkeyCaptureRejected() when hotkeyCaptureRejected != null:
+return hotkeyCaptureRejected();case _:
   return orElse();
 
 }
@@ -154,14 +158,15 @@ return hotkeyCaptured(_that.hotkey);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( BigInt id,  String text)  submit,required TResult Function( BigInt id)  sent,required TResult Function( BigInt id,  ImeSendFailure reason)  sendFailed,required TResult Function( int x,  int y)  windowMoved,required TResult Function( ImeHotkey hotkey)  hotkeyCaptured,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( BigInt id,  String text)  submit,required TResult Function( BigInt id)  sent,required TResult Function( BigInt id,  ImeSendFailure reason)  sendFailed,required TResult Function( int x,  int y)  windowMoved,required TResult Function( ImeHotkey? hotkey)  hotkeyCaptured,required TResult Function()  hotkeyCaptureRejected,}) {final _that = this;
 switch (_that) {
 case ImeHotkeyEvent_Submit():
 return submit(_that.id,_that.text);case ImeHotkeyEvent_Sent():
 return sent(_that.id);case ImeHotkeyEvent_SendFailed():
 return sendFailed(_that.id,_that.reason);case ImeHotkeyEvent_WindowMoved():
 return windowMoved(_that.x,_that.y);case ImeHotkeyEvent_HotkeyCaptured():
-return hotkeyCaptured(_that.hotkey);}
+return hotkeyCaptured(_that.hotkey);case ImeHotkeyEvent_HotkeyCaptureRejected():
+return hotkeyCaptureRejected();}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -175,14 +180,15 @@ return hotkeyCaptured(_that.hotkey);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( BigInt id,  String text)?  submit,TResult? Function( BigInt id)?  sent,TResult? Function( BigInt id,  ImeSendFailure reason)?  sendFailed,TResult? Function( int x,  int y)?  windowMoved,TResult? Function( ImeHotkey hotkey)?  hotkeyCaptured,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( BigInt id,  String text)?  submit,TResult? Function( BigInt id)?  sent,TResult? Function( BigInt id,  ImeSendFailure reason)?  sendFailed,TResult? Function( int x,  int y)?  windowMoved,TResult? Function( ImeHotkey? hotkey)?  hotkeyCaptured,TResult? Function()?  hotkeyCaptureRejected,}) {final _that = this;
 switch (_that) {
 case ImeHotkeyEvent_Submit() when submit != null:
 return submit(_that.id,_that.text);case ImeHotkeyEvent_Sent() when sent != null:
 return sent(_that.id);case ImeHotkeyEvent_SendFailed() when sendFailed != null:
 return sendFailed(_that.id,_that.reason);case ImeHotkeyEvent_WindowMoved() when windowMoved != null:
 return windowMoved(_that.x,_that.y);case ImeHotkeyEvent_HotkeyCaptured() when hotkeyCaptured != null:
-return hotkeyCaptured(_that.hotkey);case _:
+return hotkeyCaptured(_that.hotkey);case ImeHotkeyEvent_HotkeyCaptureRejected() when hotkeyCaptureRejected != null:
+return hotkeyCaptureRejected();case _:
   return null;
 
 }
@@ -472,10 +478,10 @@ as int,
 
 
 class ImeHotkeyEvent_HotkeyCaptured extends ImeHotkeyEvent {
-  const ImeHotkeyEvent_HotkeyCaptured({required this.hotkey}): super._();
+  const ImeHotkeyEvent_HotkeyCaptured({this.hotkey}): super._();
   
 
- final  ImeHotkey hotkey;
+ final  ImeHotkey? hotkey;
 
 /// Create a copy of ImeHotkeyEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -509,7 +515,7 @@ abstract mixin class $ImeHotkeyEvent_HotkeyCapturedCopyWith<$Res> implements $Im
   factory $ImeHotkeyEvent_HotkeyCapturedCopyWith(ImeHotkeyEvent_HotkeyCaptured value, $Res Function(ImeHotkeyEvent_HotkeyCaptured) _then) = _$ImeHotkeyEvent_HotkeyCapturedCopyWithImpl;
 @useResult
 $Res call({
- ImeHotkey hotkey
+ ImeHotkey? hotkey
 });
 
 
@@ -526,14 +532,46 @@ class _$ImeHotkeyEvent_HotkeyCapturedCopyWithImpl<$Res>
 
 /// Create a copy of ImeHotkeyEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? hotkey = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? hotkey = freezed,}) {
   return _then(ImeHotkeyEvent_HotkeyCaptured(
-hotkey: null == hotkey ? _self.hotkey : hotkey // ignore: cast_nullable_to_non_nullable
-as ImeHotkey,
+hotkey: freezed == hotkey ? _self.hotkey : hotkey // ignore: cast_nullable_to_non_nullable
+as ImeHotkey?,
   ));
 }
 
 
 }
+
+/// @nodoc
+
+
+class ImeHotkeyEvent_HotkeyCaptureRejected extends ImeHotkeyEvent {
+  const ImeHotkeyEvent_HotkeyCaptureRejected(): super._();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ImeHotkeyEvent_HotkeyCaptureRejected);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+    return 'ImeHotkeyEvent.hotkeyCaptureRejected()';
+}
+
+
+}
+
+
+
 
 // dart format on

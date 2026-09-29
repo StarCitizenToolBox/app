@@ -26,6 +26,13 @@ pub(crate) fn is_modifier_vk(vk: u32) -> bool {
     )
 }
 
+/// A hotkey needs Ctrl, Alt or Win, or an F1-F24 key: anything else (Enter, Esc, letters,
+/// Shift+letter, ...) is needed by the popup itself or by plain typing.
+pub(crate) fn is_valid_hotkey(h: &ImeHotkey) -> bool {
+    let function_key = (0x70..=0x87).contains(&h.vk);
+    h.vk != 0 && !is_modifier_vk(h.vk) && (h.ctrl || h.alt || h.win || function_key)
+}
+
 /// Packs a hotkey into one word so the hook can read it without locking.
 pub(crate) fn pack_hotkey(h: &ImeHotkey) -> u64 {
     (h.vk as u64 & 0xFFFF)
@@ -117,6 +124,23 @@ mod tests {
         assert_eq!(ctrl_v_keys(0x2F), expected);
         // No V on the layout: US position.
         assert_eq!(ctrl_v_keys(0), expected);
+    }
+
+    #[test]
+    fn hotkey_validity() {
+        let key = |vk, ctrl, alt, shift, win| ImeHotkey {
+            vk,
+            ctrl,
+            alt,
+            shift,
+            win,
+        };
+        assert!(is_valid_hotkey(&key(0x0D, true, true, false, false))); // Ctrl+Alt+Enter
+        assert!(is_valid_hotkey(&key(0x77, false, false, false, false))); // F8
+        assert!(!is_valid_hotkey(&key(0x0D, false, false, false, false))); // Enter
+        assert!(!is_valid_hotkey(&key(0x41, false, false, true, false))); // Shift+A
+        assert!(!is_valid_hotkey(&key(0x11, true, false, false, false))); // Ctrl alone
+        assert!(!is_valid_hotkey(&key(0, true, false, false, false)));
     }
 
     #[test]

@@ -14581,16 +14581,6 @@ class S {
     );
   }
 
-  /// `The previous message is still being sent`
-  String get input_method_hotkey_error_busy {
-    return Intl.message(
-      'The previous message is still being sent',
-      name: 'input_method_hotkey_error_busy',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `In-game quick input:`
   String get input_method_hotkey_switch {
     return Intl.message(
@@ -14686,6 +14676,16 @@ class S {
     return Intl.message(
       'Could not write to the clipboard, please try again',
       name: 'input_method_hotkey_error_clipboard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Must include Ctrl, Alt or Win, or be F1–F24`
+  String get input_method_hotkey_rules {
+    return Intl.message(
+      'Must include Ctrl, Alt or Win, or be F1–F24',
+      name: 'input_method_hotkey_rules',
       desc: '',
       args: [],
     );

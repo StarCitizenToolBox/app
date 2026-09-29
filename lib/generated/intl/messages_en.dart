@@ -1533,9 +1533,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "input_method_hotkey_description": MessageLookupByLibrary.simpleMessage(
       "Press a hotkey in game to pop up an input box, type Chinese with your system IME, and press Enter to convert it to community input method codes and paste it into the game chat. Nothing is injected into the game and no game files are changed; the clipboard content is restored after pasting.",
     ),
-    "input_method_hotkey_error_busy": MessageLookupByLibrary.simpleMessage(
-      "The previous message is still being sent",
-    ),
     "input_method_hotkey_error_clipboard": MessageLookupByLibrary.simpleMessage(
       "Could not write to the clipboard, please try again",
     ),
@@ -1578,6 +1575,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "input_method_hotkey_reset_position": MessageLookupByLibrary.simpleMessage(
       "Reset input box position",
+    ),
+    "input_method_hotkey_rules": MessageLookupByLibrary.simpleMessage(
+      "Must include Ctrl, Alt or Win, or be F1–F24",
     ),
     "input_method_hotkey_settings": MessageLookupByLibrary.simpleMessage(
       "Quick input settings",

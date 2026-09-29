@@ -51,6 +51,11 @@ const WM_APP_MESSAGE: u32 = WM_APP + 4;
 const WM_APP_CONFIG: u32 = WM_APP + 5;
 const WM_APP_CAPTURED: u32 = WM_APP + 6;
 
+// `lParam` of `WM_APP_CAPTURED`.
+const CAPTURE_OK: isize = 0;
+const CAPTURE_CANCELLED: isize = 1;
+const CAPTURE_REJECTED: isize = 2;
+
 const ES_AUTOHSCROLL: u32 = 0x0080;
 const EM_SETSEL: u32 = 0x00B1;
 const EM_LIMITTEXT: u32 = 0x00C5;
@@ -71,17 +76,28 @@ const COLOR_ERROR: u32 = 0x00_6B_6B_FF;
 // Shared state
 // ---------------------------------------------------------------------------------------
 
+struct PendingMessage {
+    id: u64,
+    text: String,
+    is_error: bool,
+    busy: bool,
+}
+
 struct Shared {
     config: ImeHotkeyConfig,
     sink: StreamSink<ImeHotkeyEvent>,
-    pending_send: Option<(u64, String)>,
-    pending_message: Option<(String, bool, bool)>,
+    /// Queues (not single slots) so an answer to an older submit cannot overwrite the current
+    /// one before the popup thread reads it; stale ids are dropped when drained.
+    pending_sends: Vec<(u64, String)>,
+    pending_messages: Vec<PendingMessage>,
 }
 
 static SHARED: Lazy<Mutex<Option<Shared>>> = Lazy::new(|| Mutex::new(None));
 /// UI thread handle and its Win32 thread id (target of `WM_QUIT`).
 type UiThread = (JoinHandle<()>, u32);
 static THREAD: Lazy<Mutex<Option<UiThread>>> = Lazy::new(|| Mutex::new(None));
+/// Serializes start / stop, which flutter_rust_bridge may call from different worker threads.
+static LIFECYCLE: Mutex<()> = Mutex::new(());
 
 /// Bumped on every start/stop; a sender thread from an older generation stops.
 static GENERATION: AtomicU64 = AtomicU64::new(0);
@@ -140,43 +156,55 @@ fn apply_config_atomics(config: &ImeHotkeyConfig) {
 // Public entry points
 // ---------------------------------------------------------------------------------------
 
-pub(crate) fn start(config: ImeHotkeyConfig, sink: StreamSink<ImeHotkeyEvent>) -> Result<()> {
-    if is_modifier_vk(config.hotkey.vk) || config.hotkey.vk == 0 {
-        return Err(anyhow!("invalid hotkey"));
+/// Starts (or restarts) the popup. Failures are reported as an error on `sink`, because the
+/// return value of a stream function never reaches Dart.
+pub(crate) fn start(config: ImeHotkeyConfig, sink: StreamSink<ImeHotkeyEvent>) {
+    let _lifecycle = LIFECYCLE.lock().unwrap_or_else(|e| e.into_inner());
+    stop_locked();
+    if !is_valid_hotkey(&config.hotkey) {
+        let _ = sink.add_error(anyhow!("invalid hotkey"));
+        return;
     }
-    stop();
     apply_config_atomics(&config);
     *lock_shared() = Some(Shared {
         config,
         sink,
-        pending_send: None,
-        pending_message: None,
+        pending_sends: Vec::new(),
+        pending_messages: Vec::new(),
     });
     let generation = GENERATION.fetch_add(1, Ordering::SeqCst) + 1;
     let (tx, rx) = std::sync::mpsc::channel::<Result<u32>>();
-    let handle = std::thread::Builder::new()
+    let spawned = std::thread::Builder::new()
         .name("ime-hotkey".into())
-        .spawn(move || run_ui_thread(generation, tx))
-        .map_err(|e| anyhow!("failed to spawn ime hotkey thread: {e}"))?;
-    match rx.recv() {
-        Ok(Ok(thread_id)) => {
-            *THREAD.lock().unwrap_or_else(|e| e.into_inner()) = Some((handle, thread_id));
-            Ok(())
-        }
-        Ok(Err(e)) => {
-            let _ = handle.join();
-            *lock_shared() = None;
-            Err(e)
-        }
-        Err(_) => {
-            let _ = handle.join();
-            *lock_shared() = None;
-            Err(anyhow!("ime hotkey thread exited during startup"))
-        }
+        .spawn(move || run_ui_thread(generation, tx));
+    let error = match spawned {
+        Err(e) => anyhow!("failed to spawn ime hotkey thread: {e}"),
+        Ok(handle) => match rx.recv() {
+            Ok(Ok(thread_id)) => {
+                *THREAD.lock().unwrap_or_else(|e| e.into_inner()) = Some((handle, thread_id));
+                return;
+            }
+            Ok(Err(e)) => {
+                let _ = handle.join();
+                e
+            }
+            Err(_) => {
+                let _ = handle.join();
+                anyhow!("ime hotkey thread exited during startup")
+            }
+        },
+    };
+    if let Some(shared) = lock_shared().take() {
+        let _ = shared.sink.add_error(error);
     }
 }
 
 pub(crate) fn stop() {
+    let _lifecycle = LIFECYCLE.lock().unwrap_or_else(|e| e.into_inner());
+    stop_locked();
+}
+
+fn stop_locked() {
     GENERATION.fetch_add(1, Ordering::SeqCst);
     let thread = THREAD.lock().unwrap_or_else(|e| e.into_inner()).take();
     if let Some((handle, thread_id)) = thread {
@@ -189,7 +217,7 @@ pub(crate) fn stop() {
     *lock_shared() = None;
 }
 
-pub(crate) fn is_running() -> bool {
+fn is_running() -> bool {
     THREAD
         .lock()
         .unwrap_or_else(|e| e.into_inner())
@@ -198,7 +226,7 @@ pub(crate) fn is_running() -> bool {
 }
 
 pub(crate) fn update_config(config: ImeHotkeyConfig) {
-    if is_modifier_vk(config.hotkey.vk) || config.hotkey.vk == 0 {
+    if !is_valid_hotkey(&config.hotkey) {
         return;
     }
     apply_config_atomics(&config);
@@ -210,14 +238,19 @@ pub(crate) fn update_config(config: ImeHotkeyConfig) {
 
 pub(crate) fn send(id: u64, encoded: String) {
     if let Some(shared) = lock_shared().as_mut() {
-        shared.pending_send = Some((id, encoded));
+        shared.pending_sends.push((id, encoded));
     }
     post_main(WM_APP_SEND, 0, 0);
 }
 
-pub(crate) fn show_message(message: String, is_error: bool, busy: bool) {
+pub(crate) fn show_message(id: u64, text: String, is_error: bool, busy: bool) {
     if let Some(shared) = lock_shared().as_mut() {
-        shared.pending_message = Some((message, is_error, busy));
+        shared.pending_messages.push(PendingMessage {
+            id,
+            text,
+            is_error,
+            busy,
+        });
     }
     post_main(WM_APP_MESSAGE, 0, 0);
 }
@@ -341,20 +374,28 @@ unsafe extern "system" fn keyboard_hook(code: i32, wparam: WPARAM, lparam: LPARA
             }
             if down && !is_modifier_vk(vk) {
                 if CAPTURING.load(Ordering::SeqCst) {
-                    CAPTURING.store(false, Ordering::SeqCst);
                     SWALLOWED_VK.store(vk, Ordering::SeqCst);
                     let (ctrl, alt, shift, win) = current_modifiers();
+                    let hotkey = crate::api::ime_hotkey_api::ImeHotkey {
+                        vk,
+                        ctrl,
+                        alt,
+                        shift,
+                        win,
+                    };
                     let plain_escape = vk == VK_ESCAPE && !(ctrl || alt || shift || win);
-                    if !plain_escape {
-                        let packed = pack_hotkey(&crate::api::ime_hotkey_api::ImeHotkey {
-                            vk,
-                            ctrl,
-                            alt,
-                            shift,
-                            win,
-                        });
-                        post_main(WM_APP_CAPTURED, packed as usize, 0);
+                    let result = if plain_escape {
+                        CAPTURE_CANCELLED
+                    } else if is_valid_hotkey(&hotkey) {
+                        CAPTURE_OK
+                    } else {
+                        // Keys the popup or plain typing needs; keep waiting for a valid one.
+                        CAPTURE_REJECTED
+                    };
+                    if result != CAPTURE_REJECTED {
+                        CAPTURING.store(false, Ordering::SeqCst);
                     }
+                    post_main(WM_APP_CAPTURED, pack_hotkey(&hotkey) as usize, result);
                     return LRESULT(1);
                 }
                 let hotkey = unpack_hotkey(HOTKEY.load(Ordering::SeqCst));
@@ -405,8 +446,8 @@ fn send_scan_keys(keys: &[ScanKey]) -> bool {
     sent as usize == inputs.len()
 }
 
-/// Presses the keys of one character with the timing of typemiao/betterscime, which was
-/// verified in game: each modifier down + 8 ms, key down, 8 ms hold, then key up and the
+/// Presses one key combination (Enter, Ctrl+V) with the timing of typemiao/betterscime, which
+/// was verified in game: each modifier down + 8 ms, key down, 8 ms hold, then key up and the
 /// modifiers up together.
 fn type_scan_keys(keys: &[ScanKey]) -> bool {
     let first_up = keys.iter().position(|k| k.up).unwrap_or(keys.len());
@@ -536,6 +577,8 @@ fn run_send(job: &SendJob) -> std::result::Result<(), ImeSendFailure> {
 
     check()?;
     let clipboard = ClipboardGuard::replace(&job.text).ok_or(ImeSendFailure::ClipboardFailed)?;
+    // Saving the old clipboard (e.g. a large image) can take a moment.
+    check()?;
     let hkl = unsafe { GetKeyboardLayout(GetWindowThreadProcessId(job.target, None)) };
     let v_scan = unsafe { MapVirtualKeyExW(0x56, MAPVK_VK_TO_VSC_EX, Some(hkl)) };
     type_scan_keys(&ctrl_v_keys(v_scan));
@@ -557,14 +600,20 @@ fn run_send(job: &SendJob) -> std::result::Result<(), ImeSendFailure> {
 }
 
 /// Puts text on the clipboard and restores the previous content when dropped.
+///
+/// Only text, RTF, HTML, images and file lists are restored; other formats are lost.
 struct ClipboardGuard {
     saved: Vec<clipboard_rs::ClipboardContent>,
+    /// The clipboard held something before; when none of it could be read back, it is left
+    /// alone rather than cleared.
+    had_content: bool,
 }
 
 impl ClipboardGuard {
     fn replace(text: &str) -> Option<Self> {
         use clipboard_rs::{Clipboard, ClipboardContent, ClipboardContext, ContentFormat};
         let ctx = ClipboardContext::new().ok()?;
+        let had_content = !ctx.available_formats().unwrap_or_default().is_empty();
         let mut saved = ctx
             .get(&[
                 ContentFormat::Image,
@@ -576,8 +625,17 @@ impl ClipboardGuard {
             .unwrap_or_default();
         // Setting an image clears the clipboard, so it has to go first.
         saved.sort_by_key(|c| !matches!(c, ClipboardContent::Image(_)));
-        ctx.set_text(text.to_string()).ok()?;
-        Some(Self { saved })
+        let no = 0u32.to_le_bytes().to_vec();
+        ctx.set(vec![
+            ClipboardContent::Text(text.to_string()),
+            // Keep the pasted chat line out of clipboard history, cloud clipboard and
+            // clipboard managers.
+            ClipboardContent::Other("ExcludeClipboardContentFromMonitorProcessing".into(), no.clone()),
+            ClipboardContent::Other("CanIncludeInClipboardHistory".into(), no.clone()),
+            ClipboardContent::Other("CanUploadToCloudClipboard".into(), no),
+        ])
+        .ok()?;
+        Some(Self { saved, had_content })
     }
 }
 
@@ -588,7 +646,13 @@ impl Drop for ClipboardGuard {
             return;
         };
         let saved = std::mem::take(&mut self.saved);
-        let _ = if saved.is_empty() { ctx.clear() } else { ctx.set(saved) };
+        let _ = if !saved.is_empty() {
+            ctx.set(saved)
+        } else if !self.had_content {
+            ctx.clear()
+        } else {
+            Ok(())
+        };
     }
 }
 
@@ -642,28 +706,39 @@ fn create_font(px: i32) -> HFONT {
 
 /// Recreates the fonts for `dpi` (if changed) and lays out the child controls.
 fn apply_dpi(dpi: u32) {
-    let mut gdi = GDI.lock().unwrap_or_else(|e| e.into_inner());
-    let Some(GdiHandles(g)) = gdi.as_mut() else {
-        return;
-    };
-    if g.dpi != dpi {
-        unsafe {
-            let _ = DeleteObject(HGDIOBJ(g.edit_font.0));
-            let _ = DeleteObject(HGDIOBJ(g.status_font.0));
+    // Copy the handles out and release the lock before talking to the controls: WM_SETFONT and
+    // MoveWindow repaint synchronously, which re-enters main_proc (WM_CTLCOLOR*) -> brushes().
+    let (edit_font, status_font, old_fonts) = {
+        let mut gdi = GDI.lock().unwrap_or_else(|e| e.into_inner());
+        let Some(GdiHandles(g)) = gdi.as_mut() else {
+            return;
+        };
+        let mut old_fonts = None;
+        if g.dpi != dpi {
+            old_fonts = Some((g.edit_font, g.status_font));
+            g.edit_font = create_font(scale(20, dpi));
+            g.status_font = create_font(scale(13, dpi));
+            g.dpi = dpi;
         }
-        g.edit_font = create_font(scale(20, dpi));
-        g.status_font = create_font(scale(13, dpi));
-        g.dpi = dpi;
-    }
+        (g.edit_font, g.status_font, old_fonts)
+    };
     let edit = load_hwnd(&EDIT_HWND);
     let status = load_hwnd(&STATUS_HWND);
     let (w, _) = popup_size(dpi);
     let pad = scale(10, dpi);
     unsafe {
-        SendMessageW(edit, WM_SETFONT, Some(WPARAM(g.edit_font.0 as usize)), Some(LPARAM(1)));
-        SendMessageW(status, WM_SETFONT, Some(WPARAM(g.status_font.0 as usize)), Some(LPARAM(1)));
+        SendMessageW(edit, WM_SETFONT, Some(WPARAM(edit_font.0 as usize)), Some(LPARAM(1)));
+        SendMessageW(status, WM_SETFONT, Some(WPARAM(status_font.0 as usize)), Some(LPARAM(1)));
         let _ = MoveWindow(edit, pad, pad, w - pad * 2, scale(32, dpi), true);
         let _ = MoveWindow(status, pad, pad + scale(38, dpi), w - pad * 2, scale(20, dpi), true);
+        // Only delete the previous fonts once the controls no longer use them.
+        if let Some((old_edit, old_status)) = old_fonts {
+            for font in [old_edit, old_status] {
+                if !font.is_invalid() {
+                    let _ = DeleteObject(HGDIOBJ(font.0));
+                }
+            }
+        }
     }
 }
 
@@ -792,6 +867,7 @@ fn activate_popup(main: HWND) {
 }
 
 fn show_popup(main: HWND) {
+    set_busy(false);
     let target = load_hwnd(&TARGET_HWND);
     place_popup(main, target);
     unsafe {
@@ -825,6 +901,9 @@ fn hide_popup(main: HWND) {
     unsafe {
         if !target.is_invalid() && IsWindow(Some(target)).as_bool() {
             force_foreground(target);
+            // The game last saw the hotkey's modifiers go down; release them so it does not
+            // treat them as held (the key-ups went to the popup).
+            send_scan_keys(&release_modifier_keys());
         }
         let _ = ShowWindow(main, SW_HIDE);
     }
@@ -872,26 +951,46 @@ fn on_submit() {
     emit(ImeHotkeyEvent::Submit { id, text });
 }
 
+fn failure_code(result: std::result::Result<(), ImeSendFailure>) -> usize {
+    match result {
+        Ok(()) => 0,
+        Err(ImeSendFailure::TargetWindowGone) => 1,
+        Err(ImeSendFailure::FocusFailed) => 2,
+        Err(ImeSendFailure::FocusLost) => 3,
+        Err(ImeSendFailure::ClipboardFailed) => 4,
+    }
+}
+
+fn failure_from_code(code: usize) -> std::result::Result<(), ImeSendFailure> {
+    match code {
+        0 => Ok(()),
+        1 => Err(ImeSendFailure::TargetWindowGone),
+        2 => Err(ImeSendFailure::FocusFailed),
+        3 => Err(ImeSendFailure::FocusLost),
+        _ => Err(ImeSendFailure::ClipboardFailed),
+    }
+}
+
 fn on_send(main: HWND) {
+    let current = CURRENT_SUBMIT.load(Ordering::SeqCst);
     let pending = lock_shared().as_mut().and_then(|s| {
-        s.pending_send
-            .take()
-            .map(|p| (p, s.config.clone()))
+        let text = s
+            .pending_sends
+            .drain(..)
+            .filter(|(id, _)| *id == current)
+            .next_back()
+            .map(|(_, text)| text)?;
+        Some((text, s.config.clone()))
     });
-    let Some(((id, text), config)) = pending else {
+    // Nothing for the current submit: older answers are dropped.
+    let Some((text, config)) = pending else {
         return;
     };
-    if id != CURRENT_SUBMIT.load(Ordering::SeqCst) {
-        return;
-    }
-    set_busy(false);
-    if SENDING.load(Ordering::SeqCst) {
-        emit(ImeHotkeyEvent::SendFailed { id, reason: ImeSendFailure::Busy });
-        return;
-    }
+    // A submit is only accepted while not sending, so SENDING cannot be set here.
+    let id = current;
     let target = load_hwnd(&TARGET_HWND);
     if target.is_invalid() || !unsafe { IsWindow(Some(target)) }.as_bool() {
-        emit(ImeHotkeyEvent::SendFailed { id, reason: ImeSendFailure::TargetWindowGone });
+        on_send_done(main, failure_code(Err(ImeSendFailure::TargetWindowGone)), id);
         return;
     }
     SENDING.store(true, Ordering::SeqCst);
@@ -908,41 +1007,30 @@ fn on_send(main: HWND) {
     let spawned = std::thread::Builder::new()
         .name("ime-hotkey-send".into())
         .spawn(move || {
-            let result = run_send(&job);
-            let code = match result {
-                Ok(()) => 0,
-                Err(ImeSendFailure::TargetWindowGone) => 1,
-                Err(ImeSendFailure::FocusFailed) => 2,
-                Err(ImeSendFailure::FocusLost) => 3,
-                Err(ImeSendFailure::Busy) => 4,
-                Err(ImeSendFailure::ClipboardFailed) => 5,
-            };
+            let code = failure_code(run_send(&job));
             if GENERATION.load(Ordering::SeqCst) == job.generation {
                 post_main(WM_APP_SEND_DONE, code, job.id as isize);
             }
         });
     if spawned.is_err() {
-        SENDING.store(false, Ordering::SeqCst);
-        emit(ImeHotkeyEvent::SendFailed { id, reason: ImeSendFailure::FocusFailed });
+        on_send_done(main, failure_code(Err(ImeSendFailure::FocusFailed)), id);
     }
 }
 
 fn on_send_done(main: HWND, code: usize, id: u64) {
     SENDING.store(false, Ordering::SeqCst);
-    let reason = match code {
-        0 => {
+    let reason = match failure_from_code(code) {
+        Ok(()) => {
             clear_edit();
             emit(ImeHotkeyEvent::Sent { id });
             return;
         }
-        1 => ImeSendFailure::TargetWindowGone,
-        2 => ImeSendFailure::FocusFailed,
-        3 => ImeSendFailure::FocusLost,
-        5 => ImeSendFailure::ClipboardFailed,
-        _ => ImeSendFailure::Busy,
+        Err(reason) => reason,
     };
-    // Keep the text so the user can retry; the Dart side follows up with a message.
+    // Keep the text so the user can retry. The Dart side follows up with a message for this
+    // submit, so make it current again (hiding the popup had cleared it).
     show_popup(main);
+    CURRENT_SUBMIT.store(id, Ordering::SeqCst);
     emit(ImeHotkeyEvent::SendFailed { id, reason });
 }
 
@@ -1004,10 +1092,17 @@ unsafe extern "system" fn main_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam
             return LRESULT(0);
         }
         WM_APP_MESSAGE => {
-            let pending = lock_shared().as_mut().and_then(|s| s.pending_message.take());
-            if let Some((text, is_error, busy)) = pending {
-                set_status(&text, is_error);
-                set_busy(busy);
+            let current = CURRENT_SUBMIT.load(Ordering::SeqCst);
+            let latest = lock_shared().as_mut().and_then(|s| {
+                s.pending_messages
+                    .drain(..)
+                    .filter(|m| m.id == current && current != 0)
+                    .next_back()
+            });
+            // Messages about an older or cancelled submit are dropped.
+            if let Some(m) = latest {
+                set_status(&m.text, m.is_error);
+                set_busy(m.busy);
             }
             return LRESULT(0);
         }
@@ -1018,8 +1113,12 @@ unsafe extern "system" fn main_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam
             return LRESULT(0);
         }
         WM_APP_CAPTURED => {
-            emit(ImeHotkeyEvent::HotkeyCaptured {
-                hotkey: unpack_hotkey(wparam.0 as u64),
+            emit(match lparam.0 {
+                CAPTURE_OK => ImeHotkeyEvent::HotkeyCaptured {
+                    hotkey: Some(unpack_hotkey(wparam.0 as u64)),
+                },
+                CAPTURE_CANCELLED => ImeHotkeyEvent::HotkeyCaptured { hotkey: None },
+                _ => ImeHotkeyEvent::HotkeyCaptureRejected,
             });
             return LRESULT(0);
         }

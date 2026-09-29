@@ -92,6 +92,12 @@ class InputMethodHotkeySettingsDialog extends HookConsumerWidget {
                   : null,
               child: Text(state.isCapturing ? S.current.input_method_hotkey_press_keys : hotkeyName),
             ),
+            info: Text(
+              S.current.input_method_hotkey_rules,
+              style: state.isCapturing && state.captureRejected
+                  ? TextStyle(fontSize: 13, color: Colors.red)
+                  : secondaryStyle,
+            ),
           ),
           _item(
             S.current.input_method_hotkey_game_only,

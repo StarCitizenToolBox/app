@@ -2410,7 +2410,6 @@
   "input_method_hotkey_error_target_gone": "Окно игры закрыто", "@input_method_hotkey_error_target_gone": {},
   "input_method_hotkey_error_focus_failed": "Не удалось переключиться обратно на окно игры, попробуйте ещё раз", "@input_method_hotkey_error_focus_failed": {},
   "input_method_hotkey_error_focus_lost": "Во время ввода на передний план вышло другое окно; ввод остановлен", "@input_method_hotkey_error_focus_lost": {},
-  "input_method_hotkey_error_busy": "Предыдущее сообщение ещё отправляется", "@input_method_hotkey_error_busy": {},
   "input_method_hotkey_switch": "Быстрый ввод в игре:", "@input_method_hotkey_switch": {},
   "input_method_hotkey_settings": "Настройки быстрого ввода", "@input_method_hotkey_settings": {},
   "input_method_hotkey_window_position": "Положение поля ввода", "@input_method_hotkey_window_position": {},
@@ -2420,5 +2419,6 @@
   "input_method_hotkey_translating": "Перевод…", "@input_method_hotkey_translating": {},
   "input_method_hotkey_translate_failed": "Не удалось перевести. Нажмите Enter ещё раз, чтобы отправить только китайский текст", "@input_method_hotkey_translate_failed": {},
   "input_method_hotkey_chat_mode_manual": "Открывать чат вручную", "@input_method_hotkey_chat_mode_manual": {},
-  "input_method_hotkey_error_clipboard": "Не удалось записать в буфер обмена, попробуйте ещё раз", "@input_method_hotkey_error_clipboard": {}
+  "input_method_hotkey_error_clipboard": "Не удалось записать в буфер обмена, попробуйте ещё раз", "@input_method_hotkey_error_clipboard": {},
+  "input_method_hotkey_rules": "Должно содержать Ctrl, Alt или Win либо быть клавишей F1–F24", "@input_method_hotkey_rules": {}
 }

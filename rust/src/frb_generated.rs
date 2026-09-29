@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1567295354;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1174347137;
 
 // Section: executor
 
@@ -1623,23 +1623,22 @@ fn wire__crate__api__ime_hotkey_api__ime_hotkey_display_name_impl(
         },
     )
 }
-fn wire__crate__api__ime_hotkey_api__ime_hotkey_is_running_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+fn wire__crate__api__ime_hotkey_api__ime_hotkey_is_valid_impl(
+    hotkey: impl CstDecode<crate::api::ime_hotkey_api::ImeHotkey>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "ime_hotkey_is_running",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+            debug_name: "ime_hotkey_is_valid",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
-            move |context| {
-                transform_result_dco::<_, _, ()>((move || {
-                    let output_ok =
-                        Ok::<_, ()>(crate::api::ime_hotkey_api::ime_hotkey_is_running())?;
-                    std::result::Result::Ok(output_ok)
-                })())
-            }
+            let api_hotkey = hotkey.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok =
+                    Ok::<_, ()>(crate::api::ime_hotkey_api::ime_hotkey_is_valid(api_hotkey))?;
+                std::result::Result::Ok(output_ok)
+            })())
         },
     )
 }
@@ -1670,6 +1669,7 @@ fn wire__crate__api__ime_hotkey_api__ime_hotkey_send_impl(
 }
 fn wire__crate__api__ime_hotkey_api__ime_hotkey_show_message_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
+    id: impl CstDecode<u64>,
     message: impl CstDecode<String>,
     is_error: impl CstDecode<bool>,
     busy: impl CstDecode<bool>,
@@ -1681,6 +1681,7 @@ fn wire__crate__api__ime_hotkey_api__ime_hotkey_show_message_impl(
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
+            let api_id = id.cst_decode();
             let api_message = message.cst_decode();
             let api_is_error = is_error.cst_decode();
             let api_busy = busy.cst_decode();
@@ -1688,6 +1689,7 @@ fn wire__crate__api__ime_hotkey_api__ime_hotkey_show_message_impl(
                 transform_result_dco::<_, _, ()>((move || {
                     let output_ok = Ok::<_, ()>({
                         crate::api::ime_hotkey_api::ime_hotkey_show_message(
+                            api_id,
                             api_message,
                             api_is_error,
                             api_busy,
@@ -1719,13 +1721,12 @@ fn wire__crate__api__ime_hotkey_api__ime_hotkey_start_impl(
             let api_config = config.cst_decode();
             let api_sink = sink.cst_decode();
             move |context| {
-                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
-                    (move || {
-                        let output_ok =
-                            crate::api::ime_hotkey_api::ime_hotkey_start(api_config, api_sink)?;
-                        std::result::Result::Ok(output_ok)
-                    })(),
-                )
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Ok::<_, ()>({
+                        crate::api::ime_hotkey_api::ime_hotkey_start(api_config, api_sink);
+                    })?;
+                    std::result::Result::Ok(output_ok)
+                })())
             }
         },
     )
@@ -4102,8 +4103,7 @@ impl CstDecode<crate::api::ime_hotkey_api::ImeSendFailure> for i32 {
             0 => crate::api::ime_hotkey_api::ImeSendFailure::TargetWindowGone,
             1 => crate::api::ime_hotkey_api::ImeSendFailure::FocusFailed,
             2 => crate::api::ime_hotkey_api::ImeSendFailure::FocusLost,
-            3 => crate::api::ime_hotkey_api::ImeSendFailure::Busy,
-            4 => crate::api::ime_hotkey_api::ImeSendFailure::ClipboardFailed,
+            3 => crate::api::ime_hotkey_api::ImeSendFailure::ClipboardFailed,
             _ => unreachable!("Invalid variant for ImeSendFailure: {}", self),
         }
     }
@@ -4611,10 +4611,13 @@ impl SseDecode for crate::api::ime_hotkey_api::ImeHotkeyEvent {
             }
             4 => {
                 let mut var_hotkey =
-                    <crate::api::ime_hotkey_api::ImeHotkey>::sse_decode(deserializer);
+                    <Option<crate::api::ime_hotkey_api::ImeHotkey>>::sse_decode(deserializer);
                 return crate::api::ime_hotkey_api::ImeHotkeyEvent::HotkeyCaptured {
                     hotkey: var_hotkey,
                 };
+            }
+            5 => {
+                return crate::api::ime_hotkey_api::ImeHotkeyEvent::HotkeyCaptureRejected;
             }
             _ => {
                 unimplemented!("");
@@ -4631,8 +4634,7 @@ impl SseDecode for crate::api::ime_hotkey_api::ImeSendFailure {
             0 => crate::api::ime_hotkey_api::ImeSendFailure::TargetWindowGone,
             1 => crate::api::ime_hotkey_api::ImeSendFailure::FocusFailed,
             2 => crate::api::ime_hotkey_api::ImeSendFailure::FocusLost,
-            3 => crate::api::ime_hotkey_api::ImeSendFailure::Busy,
-            4 => crate::api::ime_hotkey_api::ImeSendFailure::ClipboardFailed,
+            3 => crate::api::ime_hotkey_api::ImeSendFailure::ClipboardFailed,
             _ => unreachable!("Invalid variant for ImeSendFailure: {}", inner),
         };
     }
@@ -5062,6 +5064,19 @@ impl SseDecode for Option<i32> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<i32>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::ime_hotkey_api::ImeHotkey> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::ime_hotkey_api::ImeHotkey>::sse_decode(
+                deserializer,
+            ));
         } else {
             return None;
         }
@@ -6088,6 +6103,9 @@ impl flutter_rust_bridge::IntoDart for crate::api::ime_hotkey_api::ImeHotkeyEven
             crate::api::ime_hotkey_api::ImeHotkeyEvent::HotkeyCaptured { hotkey } => {
                 [4.into_dart(), hotkey.into_into_dart().into_dart()].into_dart()
             }
+            crate::api::ime_hotkey_api::ImeHotkeyEvent::HotkeyCaptureRejected => {
+                [5.into_dart()].into_dart()
+            }
             _ => {
                 unimplemented!("");
             }
@@ -6112,8 +6130,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::ime_hotkey_api::ImeSendFailur
             Self::TargetWindowGone => 0.into_dart(),
             Self::FocusFailed => 1.into_dart(),
             Self::FocusLost => 2.into_dart(),
-            Self::Busy => 3.into_dart(),
-            Self::ClipboardFailed => 4.into_dart(),
+            Self::ClipboardFailed => 3.into_dart(),
             _ => unreachable!(),
         }
     }
@@ -7235,7 +7252,10 @@ impl SseEncode for crate::api::ime_hotkey_api::ImeHotkeyEvent {
             }
             crate::api::ime_hotkey_api::ImeHotkeyEvent::HotkeyCaptured { hotkey } => {
                 <i32>::sse_encode(4, serializer);
-                <crate::api::ime_hotkey_api::ImeHotkey>::sse_encode(hotkey, serializer);
+                <Option<crate::api::ime_hotkey_api::ImeHotkey>>::sse_encode(hotkey, serializer);
+            }
+            crate::api::ime_hotkey_api::ImeHotkeyEvent::HotkeyCaptureRejected => {
+                <i32>::sse_encode(5, serializer);
             }
             _ => {
                 unimplemented!("");
@@ -7252,8 +7272,7 @@ impl SseEncode for crate::api::ime_hotkey_api::ImeSendFailure {
                 crate::api::ime_hotkey_api::ImeSendFailure::TargetWindowGone => 0,
                 crate::api::ime_hotkey_api::ImeSendFailure::FocusFailed => 1,
                 crate::api::ime_hotkey_api::ImeSendFailure::FocusLost => 2,
-                crate::api::ime_hotkey_api::ImeSendFailure::Busy => 3,
-                crate::api::ime_hotkey_api::ImeSendFailure::ClipboardFailed => 4,
+                crate::api::ime_hotkey_api::ImeSendFailure::ClipboardFailed => 3,
                 _ => {
                     unimplemented!("");
                 }
@@ -7598,6 +7617,16 @@ impl SseEncode for Option<i32> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <i32>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::ime_hotkey_api::ImeHotkey> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::ime_hotkey_api::ImeHotkey>::sse_encode(value, serializer);
         }
     }
 }
@@ -8484,6 +8513,7 @@ mod io {
                         hotkey: ans.hotkey.cst_decode(),
                     }
                 }
+                5 => crate::api::ime_hotkey_api::ImeHotkeyEvent::HotkeyCaptureRejected,
                 _ => unreachable!(),
             }
         }
@@ -10035,10 +10065,10 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_is_running(
-        port_: i64,
-    ) {
-        wire__crate__api__ime_hotkey_api__ime_hotkey_is_running_impl(port_)
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_is_valid(
+        hotkey: *mut wire_cst_ime_hotkey,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__ime_hotkey_api__ime_hotkey_is_valid_impl(hotkey)
     }
 
     #[unsafe(no_mangle)]
@@ -10053,12 +10083,13 @@ mod io {
     #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_show_message(
         port_: i64,
+        id: u64,
         message: *mut wire_cst_list_prim_u_8_strict,
         is_error: bool,
         busy: bool,
     ) {
         wire__crate__api__ime_hotkey_api__ime_hotkey_show_message_impl(
-            port_, message, is_error, busy,
+            port_, id, message, is_error, busy,
         )
     }
 

@@ -50,12 +50,16 @@ pub enum ImeHotkeyEvent {
     Submit { id: u64, text: String },
     /// The encoded text was pasted into the game.
     Sent { id: u64 },
-    /// Typing was not started or was aborted; the popup is shown again with the text kept.
+    /// Pasting was not started or was aborted; the popup is shown again with the text kept.
+    /// A message for this `id` can follow with [`ime_hotkey_show_message`].
     SendFailed { id: u64, reason: ImeSendFailure },
     /// The user dragged the popup to a new place.
     WindowMoved { x: i32, y: i32 },
-    /// Result of [`ime_hotkey_begin_capture`].
-    HotkeyCaptured { hotkey: ImeHotkey },
+    /// Result of [`ime_hotkey_begin_capture`]; `None` when cancelled with Esc.
+    HotkeyCaptured { hotkey: Option<ImeHotkey> },
+    /// The pressed combination cannot be a hotkey (see [`ime_hotkey_is_valid`]); capturing
+    /// continues.
+    HotkeyCaptureRejected,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -66,29 +70,23 @@ pub enum ImeSendFailure {
     FocusFailed,
     /// Another window came to the front before the text was sent; sending stopped.
     FocusLost,
-    /// A previous message is still being sent.
-    Busy,
     /// The text could not be put on the clipboard.
     ClipboardFailed,
 }
 
 /// Starts the hook thread and popup. Calling it again restarts with the new config.
-pub fn ime_hotkey_start(
-    config: ImeHotkeyConfig,
-    sink: StreamSink<ImeHotkeyEvent>,
-) -> anyhow::Result<()> {
+/// Startup failures arrive as an error on the returned stream.
+pub fn ime_hotkey_start(config: ImeHotkeyConfig, sink: StreamSink<ImeHotkeyEvent>) {
     #[cfg(windows)]
-    {
-        crate::ime_hotkey::win_impl::start(config, sink)
-    }
+    crate::ime_hotkey::win_impl::start(config, sink);
     #[cfg(not(windows))]
     {
-        drop((config, sink));
-        Err(anyhow::anyhow!("ime hotkey is only supported on Windows"))
+        drop(config);
+        let _ = sink.add_error(anyhow::anyhow!("ime hotkey is only supported on Windows"));
     }
 }
 
-/// Replaces the config of the running popup (hotkey, timings, position, texts).
+/// Replaces the config of the running popup (hotkey, chat handling, position, texts).
 pub fn ime_hotkey_update_config(config: ImeHotkeyConfig) {
     #[cfg(windows)]
     crate::ime_hotkey::win_impl::update_config(config);
@@ -102,17 +100,6 @@ pub fn ime_hotkey_stop() {
     crate::ime_hotkey::win_impl::stop();
 }
 
-pub fn ime_hotkey_is_running() -> bool {
-    #[cfg(windows)]
-    {
-        crate::ime_hotkey::win_impl::is_running()
-    }
-    #[cfg(not(windows))]
-    {
-        false
-    }
-}
-
 /// Pastes `encoded` into the window that was in front when the popup was opened, followed by
 /// Enter when `auto_send` is set. `id` must match the [`ImeHotkeyEvent::Submit`] being answered.
 pub fn ime_hotkey_send(id: u64, encoded: String) {
@@ -123,18 +110,19 @@ pub fn ime_hotkey_send(id: u64, encoded: String) {
 }
 
 /// Shows `message` under the edit box and keeps the popup open (e.g. unsupported characters).
+/// `id` is the submit it belongs to; messages for an older or cancelled submit are ignored.
 /// `busy` keeps the edit read-only while the submit is still being processed (translating);
 /// otherwise the user can edit and submit again.
-pub fn ime_hotkey_show_message(message: String, is_error: bool, busy: bool) {
+pub fn ime_hotkey_show_message(id: u64, message: String, is_error: bool, busy: bool) {
     #[cfg(windows)]
-    crate::ime_hotkey::win_impl::show_message(message, is_error, busy);
+    crate::ime_hotkey::win_impl::show_message(id, message, is_error, busy);
     #[cfg(not(windows))]
-    drop((message, is_error, busy));
+    drop((id, message, is_error, busy));
 }
 
 /// The next key combination pressed anywhere is reported as
 /// [`ImeHotkeyEvent::HotkeyCaptured`] and swallowed instead of triggering the popup.
-/// Esc alone cancels without an event. Requires a running popup.
+/// Esc alone cancels. Requires a running popup.
 pub fn ime_hotkey_begin_capture() -> anyhow::Result<()> {
     #[cfg(windows)]
     {
@@ -149,6 +137,13 @@ pub fn ime_hotkey_begin_capture() -> anyhow::Result<()> {
 pub fn ime_hotkey_cancel_capture() {
     #[cfg(windows)]
     crate::ime_hotkey::win_impl::cancel_capture();
+}
+
+/// A hotkey needs Ctrl, Alt or Win, or an F1-F24 key, so it never takes a key the popup or
+/// plain typing needs (Enter, Esc, letters, ...).
+#[flutter_rust_bridge::frb(sync)]
+pub fn ime_hotkey_is_valid(hotkey: ImeHotkey) -> bool {
+    crate::ime_hotkey::logic::is_valid_hotkey(&hotkey)
 }
 
 /// Human readable name such as `Ctrl + Alt + Space`, using the current keyboard layout.

@@ -78,7 +78,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.13.0';
 
   @override
-  int get rustContentHash => -1567295354;
+  int get rustContentHash => -1174347137;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -297,7 +297,7 @@ abstract class RustLibApi extends BaseApi {
 
   String crateApiImeHotkeyApiImeHotkeyDisplayName({required ImeHotkey hotkey});
 
-  Future<bool> crateApiImeHotkeyApiImeHotkeyIsRunning();
+  bool crateApiImeHotkeyApiImeHotkeyIsValid({required ImeHotkey hotkey});
 
   Future<void> crateApiImeHotkeyApiImeHotkeySend({
     required BigInt id,
@@ -305,6 +305,7 @@ abstract class RustLibApi extends BaseApi {
   });
 
   Future<void> crateApiImeHotkeyApiImeHotkeyShowMessage({
+    required BigInt id,
     required String message,
     required bool isError,
     required bool busy,
@@ -2509,27 +2510,31 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<bool> crateApiImeHotkeyApiImeHotkeyIsRunning() {
-    return handler.executeNormal(
-      NormalTask(
-        callFfi: (port_) {
-          return wire.wire__crate__api__ime_hotkey_api__ime_hotkey_is_running(
-            port_,
+  bool crateApiImeHotkeyApiImeHotkeyIsValid({required ImeHotkey hotkey}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_box_autoadd_ime_hotkey(hotkey);
+          return wire.wire__crate__api__ime_hotkey_api__ime_hotkey_is_valid(
+            arg0,
           );
         },
         codec: DcoCodec(
           decodeSuccessData: dco_decode_bool,
           decodeErrorData: null,
         ),
-        constMeta: kCrateApiImeHotkeyApiImeHotkeyIsRunningConstMeta,
-        argValues: [],
+        constMeta: kCrateApiImeHotkeyApiImeHotkeyIsValidConstMeta,
+        argValues: [hotkey],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiImeHotkeyApiImeHotkeyIsRunningConstMeta =>
-      const TaskConstMeta(debugName: "ime_hotkey_is_running", argNames: []);
+  TaskConstMeta get kCrateApiImeHotkeyApiImeHotkeyIsValidConstMeta =>
+      const TaskConstMeta(
+        debugName: "ime_hotkey_is_valid",
+        argNames: ["hotkey"],
+      );
 
   @override
   Future<void> crateApiImeHotkeyApiImeHotkeySend({
@@ -2566,6 +2571,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   Future<void> crateApiImeHotkeyApiImeHotkeyShowMessage({
+    required BigInt id,
     required String message,
     required bool isError,
     required bool busy,
@@ -2573,14 +2579,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return handler.executeNormal(
       NormalTask(
         callFfi: (port_) {
-          var arg0 = cst_encode_String(message);
-          var arg1 = cst_encode_bool(isError);
-          var arg2 = cst_encode_bool(busy);
+          var arg0 = cst_encode_u_64(id);
+          var arg1 = cst_encode_String(message);
+          var arg2 = cst_encode_bool(isError);
+          var arg3 = cst_encode_bool(busy);
           return wire.wire__crate__api__ime_hotkey_api__ime_hotkey_show_message(
             port_,
             arg0,
             arg1,
             arg2,
+            arg3,
           );
         },
         codec: DcoCodec(
@@ -2588,7 +2596,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeErrorData: null,
         ),
         constMeta: kCrateApiImeHotkeyApiImeHotkeyShowMessageConstMeta,
-        argValues: [message, isError, busy],
+        argValues: [id, message, isError, busy],
         apiImpl: this,
       ),
     );
@@ -2597,7 +2605,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateApiImeHotkeyApiImeHotkeyShowMessageConstMeta =>
       const TaskConstMeta(
         debugName: "ime_hotkey_show_message",
-        argNames: ["message", "isError", "busy"],
+        argNames: ["id", "message", "isError", "busy"],
       );
 
   @override
@@ -2619,7 +2627,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           },
           codec: DcoCodec(
             decodeSuccessData: dco_decode_unit,
-            decodeErrorData: dco_decode_AnyhowException,
+            decodeErrorData: null,
           ),
           constMeta: kCrateApiImeHotkeyApiImeHotkeyStartConstMeta,
           argValues: [config, sink],
@@ -5830,8 +5838,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         );
       case 4:
         return ImeHotkeyEvent_HotkeyCaptured(
-          hotkey: dco_decode_box_autoadd_ime_hotkey(raw[1]),
+          hotkey: dco_decode_opt_box_autoadd_ime_hotkey(raw[1]),
         );
+      case 5:
+        return ImeHotkeyEvent_HotkeyCaptureRejected();
       default:
         throw Exception("unreachable");
     }
@@ -6094,6 +6104,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   int? dco_decode_opt_box_autoadd_i_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_i_32(raw);
+  }
+
+  @protected
+  ImeHotkey? dco_decode_opt_box_autoadd_ime_hotkey(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_ime_hotkey(raw);
   }
 
   @protected
@@ -7029,8 +7045,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         var var_y = sse_decode_i_32(deserializer);
         return ImeHotkeyEvent_WindowMoved(x: var_x, y: var_y);
       case 4:
-        var var_hotkey = sse_decode_box_autoadd_ime_hotkey(deserializer);
+        var var_hotkey = sse_decode_opt_box_autoadd_ime_hotkey(deserializer);
         return ImeHotkeyEvent_HotkeyCaptured(hotkey: var_hotkey);
+      case 5:
+        return ImeHotkeyEvent_HotkeyCaptureRejected();
       default:
         throw UnimplementedError('');
     }
@@ -7429,6 +7447,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
     if (sse_decode_bool(deserializer)) {
       return (sse_decode_box_autoadd_i_32(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
+  ImeHotkey? sse_decode_opt_box_autoadd_ime_hotkey(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_ime_hotkey(deserializer));
     } else {
       return null;
     }
@@ -8624,7 +8655,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         sse_encode_i_32(y, serializer);
       case ImeHotkeyEvent_HotkeyCaptured(hotkey: final hotkey):
         sse_encode_i_32(4, serializer);
-        sse_encode_box_autoadd_ime_hotkey(hotkey, serializer);
+        sse_encode_opt_box_autoadd_ime_hotkey(hotkey, serializer);
+      case ImeHotkeyEvent_HotkeyCaptureRejected():
+        sse_encode_i_32(5, serializer);
     }
   }
 
@@ -8995,6 +9028,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bool(self != null, serializer);
     if (self != null) {
       sse_encode_box_autoadd_i_32(self, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_opt_box_autoadd_ime_hotkey(
+    ImeHotkey? self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_ime_hotkey(self, serializer);
     }
   }
 

@@ -40,6 +40,9 @@ abstract class InputMethodHotkeyState with _$InputMethodHotkeyState {
     @Default(false) bool enabled,
     @Default(false) bool isRunning,
     @Default(false) bool isCapturing,
+
+    /// The last key pressed while capturing cannot be a hotkey.
+    @Default(false) bool captureRejected,
     @Default(_defaultHotkey) ime.ImeHotkey hotkey,
     @Default(true) bool gameOnly,
     @Default(true) bool autoSend,
@@ -117,13 +120,15 @@ class InputMethodHotkeyService extends _$InputMethodHotkeyService {
   ime.ImeHotkey _hotkeyFromMap(Map m) {
     final vk = m["vk"];
     if (vk is! int || vk <= 0) return _defaultHotkey;
-    return ime.ImeHotkey(
+    final hotkey = ime.ImeHotkey(
       vk: vk,
       ctrl: m["ctrl"] == true,
       alt: m["alt"] == true,
       shift: m["shift"] == true,
       win: m["win"] == true,
     );
+    // Hotkeys saved before the rules existed (e.g. plain Enter) fall back to the default.
+    return ime.imeHotkeyIsValid(hotkey: hotkey) ? hotkey : _defaultHotkey;
   }
 
   Map<String, dynamic> _hotkeyToMap(ime.ImeHotkey h) => {
@@ -239,13 +244,17 @@ class InputMethodHotkeyService extends _$InputMethodHotkeyService {
   /// The next key combination pressed is stored as the hotkey (Esc cancels).
   Future<void> beginCapture() async {
     if (!state.isRunning) return;
-    await ime.imeHotkeyBeginCapture();
-    state = state.copyWith(isCapturing: true);
+    try {
+      await ime.imeHotkeyBeginCapture();
+      state = state.copyWith(isCapturing: true, captureRejected: false);
+    } catch (e) {
+      dPrint("[InputMethodHotkeyService] begin capture error: $e");
+    }
   }
 
   Future<void> cancelCapture() async {
     await ime.imeHotkeyCancelCapture();
-    state = state.copyWith(isCapturing: false);
+    state = state.copyWith(isCapturing: false, captureRejected: false);
   }
 
   Future<void> _onEvent(ime.ImeHotkeyEvent event) async {
@@ -254,17 +263,20 @@ class InputMethodHotkeyService extends _$InputMethodHotkeyService {
         await _onSubmit(id, text);
       case ime.ImeHotkeyEvent_Sent():
         _warnedText = null;
-      case ime.ImeHotkeyEvent_SendFailed(:final reason):
-        await _showMessage(_failureText(reason), isError: true);
+      case ime.ImeHotkeyEvent_SendFailed(:final id, :final reason):
+        await _showMessage(id, _failureText(reason), isError: true);
       case ime.ImeHotkeyEvent_WindowMoved(:final x, :final y):
         state = state.copyWith(windowX: x, windowY: y);
         final box = await AppHive.openBox("app_conf");
         await box.put(_kWindowPos, [x, y]);
       case ime.ImeHotkeyEvent_HotkeyCaptured(:final hotkey):
-        state = state.copyWith(hotkey: hotkey, isCapturing: false);
+        state = state.copyWith(hotkey: hotkey ?? state.hotkey, isCapturing: false, captureRejected: false);
+        if (hotkey == null) return;
         final box = await AppHive.openBox("app_conf");
         await box.put(_kHotkey, _hotkeyToMap(hotkey));
         await _pushConfig();
+      case ime.ImeHotkeyEvent_HotkeyCaptureRejected():
+        state = state.copyWith(captureRejected: true);
     }
   }
 
@@ -273,39 +285,44 @@ class InputMethodHotkeyService extends _$InputMethodHotkeyService {
       await _handleSubmit(id, text);
     } catch (e) {
       dPrint("[InputMethodHotkeyService] submit error: $e");
-      await _showMessage(e.toString(), isError: true);
+      await _showMessage(id, e.toString(), isError: true);
     }
   }
 
-  Future<void> _showMessage(String message, {required bool isError, bool busy = false}) =>
-      ime.imeHotkeyShowMessage(message: message, isError: isError, busy: busy);
+  /// Shows a message in the popup for submit [id]; ignored once that submit is cancelled.
+  Future<void> _showMessage(BigInt id, String message, {required bool isError, bool busy = false}) =>
+      ime.imeHotkeyShowMessage(id: id, message: message, isError: isError, busy: busy);
 
   Future<void> _handleSubmit(BigInt id, String text) async {
     final table = await _loadTable();
     if (table == null || table.isEmpty) {
-      await _showMessage(S.current.input_method_hotkey_error_no_table, isError: true);
+      await _showMessage(id, S.current.input_method_hotkey_error_no_table, isError: true);
       return;
     }
     final result = encodeCommunityInputMethod(text, table);
     if (result.text.isEmpty) {
-      await _showMessage(S.current.input_method_hotkey_error_nothing_to_send, isError: true);
+      await _showMessage(id, S.current.input_method_hotkey_error_nothing_to_send, isError: true);
       return;
     }
     if (result.unsupported.isNotEmpty && _warnedText != text) {
       _warnedText = text;
-      await _showMessage(S.current.input_method_hotkey_unsupported_chars(result.unsupported.join(" ")), isError: true);
+      await _showMessage(
+        id,
+        S.current.input_method_hotkey_unsupported_chars(result.unsupported.join(" ")),
+        isError: true,
+      );
       return;
     }
     var output = result.text;
     if (await _isTranslateEnabled()) {
-      await _showMessage(S.current.input_method_hotkey_translating, isError: false, busy: true);
+      await _showMessage(id, S.current.input_method_hotkey_translating, isError: false, busy: true);
       final translated = await _translate(text);
       if (translated != null) {
         // Same format as the input method dialog.
         output = "$output \n[en] $translated";
       } else if (_translateFailedText != text) {
         _translateFailedText = text;
-        await _showMessage(S.current.input_method_hotkey_translate_failed, isError: true);
+        await _showMessage(id, S.current.input_method_hotkey_translate_failed, isError: true);
         return;
       }
     }
@@ -342,9 +359,16 @@ class InputMethodHotkeyService extends _$InputMethodHotkeyService {
     }
   }
 
-  Future<bool> _ensureTranslateModel() async {
+  /// The model load in progress, shared by preload and the first translation so it runs once.
+  Future<bool>? _modelLoading;
+
+  Future<bool> _ensureTranslateModel() => _modelLoading ??= _loadTranslateModel().whenComplete(() {
+    _modelLoading = null;
+  });
+
+  Future<bool> _loadTranslateModel() async {
     final modelDir = inputMethodTranslateModelDir(appGlobalState.applicationSupportDir!);
-    if (!await isInputMethodTranslateModelAvailable(modelDir)) return false;
+    if (!await isInputMethodTranslateModelAvailable(modelDir) || !ref.mounted) return false;
     final provider = inputMethodTranslateModelProvider(modelDir);
     if (provider != _translateModelProvider) {
       _translateModelSub?.close();
@@ -353,7 +377,12 @@ class InputMethodHotkeyService extends _$InputMethodHotkeyService {
     }
     if (!ref.read(provider)) {
       final error = await ref.read(provider.notifier).initModel();
-      if (error != null) return false;
+      if (error != null || !ref.mounted) return false;
+    }
+    // Quick input may have been turned off while loading; do not keep the model for nothing.
+    if (!state.enabled) {
+      _releaseTranslateModel();
+      return false;
     }
     return true;
   }
@@ -375,7 +404,6 @@ class InputMethodHotkeyService extends _$InputMethodHotkeyService {
     ime.ImeSendFailure.targetWindowGone => S.current.input_method_hotkey_error_target_gone,
     ime.ImeSendFailure.focusFailed => S.current.input_method_hotkey_error_focus_failed,
     ime.ImeSendFailure.focusLost => S.current.input_method_hotkey_error_focus_lost,
-    ime.ImeSendFailure.busy => S.current.input_method_hotkey_error_busy,
     ime.ImeSendFailure.clipboardFailed => S.current.input_method_hotkey_error_clipboard,
   };
 

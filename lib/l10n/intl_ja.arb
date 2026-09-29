@@ -2410,7 +2410,6 @@
   "input_method_hotkey_error_target_gone": "ゲームウィンドウが閉じられました", "@input_method_hotkey_error_target_gone": {},
   "input_method_hotkey_error_focus_failed": "ゲームウィンドウに切り替えられませんでした。もう一度お試しください", "@input_method_hotkey_error_focus_failed": {},
   "input_method_hotkey_error_focus_lost": "入力中に別のウィンドウが前面に出たため、入力を中止しました", "@input_method_hotkey_error_focus_lost": {},
-  "input_method_hotkey_error_busy": "前のメッセージを送信中です", "@input_method_hotkey_error_busy": {},
   "input_method_hotkey_switch": "ゲーム内クイック入力：", "@input_method_hotkey_switch": {},
   "input_method_hotkey_settings": "クイック入力の設定", "@input_method_hotkey_settings": {},
   "input_method_hotkey_window_position": "入力ボックスの位置", "@input_method_hotkey_window_position": {},
@@ -2420,5 +2419,6 @@
   "input_method_hotkey_translating": "翻訳中…", "@input_method_hotkey_translating": {},
   "input_method_hotkey_translate_failed": "翻訳に失敗しました。もう一度 Enter を押すと中国語のみ送信します", "@input_method_hotkey_translate_failed": {},
   "input_method_hotkey_chat_mode_manual": "チャットを手動で開く", "@input_method_hotkey_chat_mode_manual": {},
-  "input_method_hotkey_error_clipboard": "クリップボードに書き込めませんでした。もう一度お試しください", "@input_method_hotkey_error_clipboard": {}
+  "input_method_hotkey_error_clipboard": "クリップボードに書き込めませんでした。もう一度お試しください", "@input_method_hotkey_error_clipboard": {},
+  "input_method_hotkey_rules": "Ctrl・Alt・Win のいずれかを含めるか、F1～F24 を使用してください", "@input_method_hotkey_rules": {}
 }

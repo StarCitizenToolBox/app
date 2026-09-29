@@ -49,7 +49,7 @@ final class InputMethodHotkeyServiceProvider
 }
 
 String _$inputMethodHotkeyServiceHash() =>
-    r'2c5a2013c94c165d9b0f6159c191bfdc56c4d73d';
+    r'53d8105b44179e099705f49d61c0b5e46f4b6a07';
 
 /// Global hotkey popup for the community input method: owns the settings and answers the
 /// popup's submit events with encoded text (issue #322).
