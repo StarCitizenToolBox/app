@@ -133,6 +133,7 @@ windows = { version = "0.62.2", features = [
     "Win32_System_LibraryLoader",
     "Win32_System_DataExchange",
     "Win32_System_Memory",
+    "Win32_System_StationsAndDesktops",
 ] }
 win32job = "2.0.3"
 wmi = "0.18"

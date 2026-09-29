@@ -38,7 +38,7 @@ use windows::Win32::UI::Input::KeyboardAndMouse::{
 };
 use windows::Win32::UI::WindowsAndMessaging::*;
 
-use super::clipboard::ClipboardSnapshot;
+use super::clipboard::{ClipboardSnapshot, ReadResult};
 use super::logic::*;
 use crate::api::ime_hotkey_api::{ImeHotkeyConfig, ImeHotkeyEvent, ImeSendFailure};
 use crate::frb_generated::StreamSink;
@@ -583,7 +583,7 @@ fn run_send(job: &SendJob) -> std::result::Result<(), ImeSendFailure> {
         .ok_or(ImeSendFailure::ClipboardFailed)?;
     // Saving the old clipboard (e.g. a large image) can take a moment.
     if let Err(e) = check() {
-        snapshot.restore(load_hwnd(&MAIN_HWND));
+        snapshot.restore();
         return Err(e);
     }
     let hkl = unsafe { GetKeyboardLayout(GetWindowThreadProcessId(job.target, None)) };
@@ -611,12 +611,15 @@ fn run_send(job: &SendJob) -> std::result::Result<(), ImeSendFailure> {
     // Restore once the game has read the text (it is delay rendered), so a stalled game cannot
     // paste the previous clipboard instead. If it never reads it (Ctrl+V not handled), give up
     // waiting eventually rather than keep the user's clipboard.
-    if snapshot.wait_read(Duration::from_secs(5)) {
-        pause(100);
-    } else {
-        println!("[ime_hotkey] the game did not read the clipboard; restoring anyway");
+    match snapshot.wait_read(Duration::from_secs(5)) {
+        ReadResult::Game => pause(100),
+        // Something else rendered the text first, so the game's read cannot be observed.
+        ReadResult::Other => pause(500),
+        ReadResult::TimedOut => {
+            println!("[ime_hotkey] the game did not read the clipboard; restoring anyway")
+        }
     }
-    snapshot.restore(load_hwnd(&MAIN_HWND));
+    snapshot.restore();
     Ok(())
 }
 
