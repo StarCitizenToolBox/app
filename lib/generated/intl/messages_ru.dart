@@ -1311,16 +1311,19 @@ class MessageLookup extends MessageLookupByLibrary {
       "Если чат не открыт при нажатии горячей клавиши, вводимые символы будут восприняты игрой как управление.",
     ),
     "input_method_hotkey_confirm_content": MessageLookupByLibrary.simpleMessage(
-      "Эта функция устанавливает глобальный хук клавиатуры для отслеживания горячей клавиши и вводит текст в игру, имитируя нажатия клавиш. Она не внедряется в игру и не изменяет её, но некоторые антивирусы или античиты могут обращать внимание на такое поведение. Используйте на свой риск.\n\nЗапускайте игру в режиме окна без рамки; в эксклюзивном полноэкранном режиме игра может свернуться при появлении поля ввода.",
+      "Эта функция устанавливает глобальный хук клавиатуры для отслеживания горячей клавиши и вставляет текст в игру через буфер обмена и имитацию нажатий (Ctrl+V, Enter). Она не внедряется в игру и не изменяет её, но некоторые антивирусы или античиты могут обращать внимание на такое поведение. Используйте на свой риск.\n\nЗапускайте игру в режиме окна без рамки; в эксклюзивном полноэкранном режиме игра может свернуться при появлении поля ввода.",
     ),
     "input_method_hotkey_confirm_title": MessageLookupByLibrary.simpleMessage(
       "Включить быстрый ввод в игре?",
     ),
     "input_method_hotkey_description": MessageLookupByLibrary.simpleMessage(
-      "Нажмите горячую клавишу в игре, чтобы открыть поле ввода, введите китайский текст системным IME и нажмите Enter — текст будет преобразован в коды метода ввода сообщества и напечатан в игровой чат. Ничего не внедряется в игру, файлы игры не изменяются, буфер обмена не используется.",
+      "Нажмите горячую клавишу в игре, чтобы открыть поле ввода, введите китайский текст системным IME и нажмите Enter — текст будет преобразован в коды метода ввода сообщества и вставлен в игровой чат. Ничего не внедряется в игру, файлы игры не изменяются; после вставки прежнее содержимое буфера обмена восстанавливается.",
     ),
     "input_method_hotkey_error_busy": MessageLookupByLibrary.simpleMessage(
       "Предыдущее сообщение ещё отправляется",
+    ),
+    "input_method_hotkey_error_clipboard": MessageLookupByLibrary.simpleMessage(
+      "Не удалось записать в буфер обмена, попробуйте ещё раз",
     ),
     "input_method_hotkey_error_focus_failed":
         MessageLookupByLibrary.simpleMessage(
@@ -1346,13 +1349,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "input_method_hotkey_hotkey": MessageLookupByLibrary.simpleMessage(
       "Горячая клавиша",
     ),
-    "input_method_hotkey_key_interval": MessageLookupByLibrary.simpleMessage(
-      "Интервал нажатий (мс)",
-    ),
-    "input_method_hotkey_key_interval_tips":
-        MessageLookupByLibrary.simpleMessage(
-          "Увеличьте, если в игре теряются символы",
-        ),
     "input_method_hotkey_popup_hint": MessageLookupByLibrary.simpleMessage(
       "Enter — отправить · Esc — отмена · перетащите пустую область для перемещения",
     ),

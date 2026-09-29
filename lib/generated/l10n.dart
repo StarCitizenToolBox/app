@@ -14351,10 +14351,10 @@ class S {
     );
   }
 
-  /// `Press a hotkey in game to pop up an input box, type Chinese with your system IME, and press Enter to convert it to community input method codes and type it into the game chat. Nothing is injected into the game, no game files are changed and the clipboard is not used.`
+  /// `Press a hotkey in game to pop up an input box, type Chinese with your system IME, and press Enter to convert it to community input method codes and paste it into the game chat. Nothing is injected into the game and no game files are changed; the clipboard content is restored after pasting.`
   String get input_method_hotkey_description {
     return Intl.message(
-      'Press a hotkey in game to pop up an input box, type Chinese with your system IME, and press Enter to convert it to community input method codes and type it into the game chat. Nothing is injected into the game, no game files are changed and the clipboard is not used.',
+      'Press a hotkey in game to pop up an input box, type Chinese with your system IME, and press Enter to convert it to community input method codes and paste it into the game chat. Nothing is injected into the game and no game files are changed; the clipboard content is restored after pasting.',
       name: 'input_method_hotkey_description',
       desc: '',
       args: [],
@@ -14371,10 +14371,10 @@ class S {
     );
   }
 
-  /// `This feature installs a global keyboard hook to detect the hotkey and types text into the game by simulating key presses. It does not inject into or modify the game, but some security software or anti-cheat may flag this kind of behavior. Use at your own risk.\n\nRun the game in borderless window mode; showing the input box over exclusive fullscreen may minimize the game.`
+  /// `This feature installs a global keyboard hook to detect the hotkey and pastes text into the game through the clipboard and simulated key presses (Ctrl+V, Enter). It does not inject into or modify the game, but some security software or anti-cheat may flag this kind of behavior. Use at your own risk.\n\nRun the game in borderless window mode; showing the input box over exclusive fullscreen may minimize the game.`
   String get input_method_hotkey_confirm_content {
     return Intl.message(
-      'This feature installs a global keyboard hook to detect the hotkey and types text into the game by simulating key presses. It does not inject into or modify the game, but some security software or anti-cheat may flag this kind of behavior. Use at your own risk.\n\nRun the game in borderless window mode; showing the input box over exclusive fullscreen may minimize the game.',
+      'This feature installs a global keyboard hook to detect the hotkey and pastes text into the game through the clipboard and simulated key presses (Ctrl+V, Enter). It does not inject into or modify the game, but some security software or anti-cheat may flag this kind of behavior. Use at your own risk.\n\nRun the game in borderless window mode; showing the input box over exclusive fullscreen may minimize the game.',
       name: 'input_method_hotkey_confirm_content',
       desc: '',
       args: [],
@@ -14466,26 +14466,6 @@ class S {
     return Intl.message(
       'If the chat box is not open when you press the hotkey, the typed characters are treated as game controls.',
       name: 'input_method_hotkey_chat_mode_tips',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Key interval (ms)`
-  String get input_method_hotkey_key_interval {
-    return Intl.message(
-      'Key interval (ms)',
-      name: 'input_method_hotkey_key_interval',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Increase it if characters get lost in game`
-  String get input_method_hotkey_key_interval_tips {
-    return Intl.message(
-      'Increase it if characters get lost in game',
-      name: 'input_method_hotkey_key_interval_tips',
       desc: '',
       args: [],
     );
@@ -14696,6 +14676,16 @@ class S {
     return Intl.message(
       'Open the chat manually',
       name: 'input_method_hotkey_chat_mode_manual',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not write to the clipboard, please try again`
+  String get input_method_hotkey_error_clipboard {
+    return Intl.message(
+      'Could not write to the clipboard, please try again',
+      name: 'input_method_hotkey_error_clipboard',
       desc: '',
       args: [],
     );

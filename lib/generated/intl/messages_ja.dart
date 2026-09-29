@@ -1173,16 +1173,19 @@ class MessageLookup extends MessageLookupByLibrary {
       "ホットキーを押したときにチャットが開いていないと、入力した文字はゲームの操作として扱われます。",
     ),
     "input_method_hotkey_confirm_content": MessageLookupByLibrary.simpleMessage(
-      "この機能はホットキーを検出するためにグローバルキーボードフックを設定し、キー入力をシミュレートしてゲームに文字を入力します。ゲームへのインジェクションや改変は行いませんが、一部のセキュリティソフトやアンチチートがこの種の動作を検知する可能性があります。自己責任でご利用ください。\n\nゲームをボーダーレスウィンドウモードで実行してください。排他的フルスクリーンでは入力ボックスの表示でゲームが最小化される場合があります。",
+      "この機能はホットキーを検出するためにグローバルキーボードフックを設定し、クリップボードとキー入力のシミュレーション（Ctrl+V、Enter）でゲームに文字を貼り付けます。ゲームへのインジェクションや改変は行いませんが、一部のセキュリティソフトやアンチチートがこの種の動作を検知する可能性があります。自己責任でご利用ください。\n\nゲームをボーダーレスウィンドウモードで実行してください。排他的フルスクリーンでは入力ボックスの表示でゲームが最小化される場合があります。",
     ),
     "input_method_hotkey_confirm_title": MessageLookupByLibrary.simpleMessage(
       "ゲーム内クイック入力を有効にしますか？",
     ),
     "input_method_hotkey_description": MessageLookupByLibrary.simpleMessage(
-      "ゲーム中にホットキーで入力ボックスを表示し、システムの IME で中国語を入力して Enter を押すと、コミュニティ入力メソッドのコードに変換してゲームのチャットに入力します。ゲームへのインジェクションやゲームファイルの変更は行わず、クリップボードも使用しません。",
+      "ゲーム中にホットキーで入力ボックスを表示し、システムの IME で中国語を入力して Enter を押すと、コミュニティ入力メソッドのコードに変換してゲームのチャットに貼り付けます。ゲームへのインジェクションやゲームファイルの変更は行わず、貼り付け後にクリップボードの内容を元に戻します。",
     ),
     "input_method_hotkey_error_busy": MessageLookupByLibrary.simpleMessage(
       "前のメッセージを送信中です",
+    ),
+    "input_method_hotkey_error_clipboard": MessageLookupByLibrary.simpleMessage(
+      "クリップボードに書き込めませんでした。もう一度お試しください",
     ),
     "input_method_hotkey_error_focus_failed":
         MessageLookupByLibrary.simpleMessage(
@@ -1204,11 +1207,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "オフにすると、どのウィンドウでもホットキーで入力ボックスが開きます（メモ帳でのテストに便利です）。",
     ),
     "input_method_hotkey_hotkey": MessageLookupByLibrary.simpleMessage("ホットキー"),
-    "input_method_hotkey_key_interval": MessageLookupByLibrary.simpleMessage(
-      "キー入力間隔（ミリ秒）",
-    ),
-    "input_method_hotkey_key_interval_tips":
-        MessageLookupByLibrary.simpleMessage("ゲームで文字が抜ける場合は大きくしてください"),
     "input_method_hotkey_popup_hint": MessageLookupByLibrary.simpleMessage(
       "Enter で送信 · Esc でキャンセル · 空白部分をドラッグで移動",
     ),

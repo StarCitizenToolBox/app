@@ -2387,9 +2387,9 @@
   "p4k_source_mirror_not_eligible":"必要なオブジェクトはミラー配信の対象外です。公式サイトへ自動切替しません。","p4k_source_mirror_not_mirrored":"必要なオブジェクトはまだミラーに収録されていません。公式サイトへ自動切替しません。","p4k_source_mirror_incomplete_base":"ローカルのベースパッケージが不完全なため、ミラーでは差分更新を続行できません。公式サイトへ自動切替しません。","p4k_source_mirror_release_mismatch":"ミラーのリリースと現在の更新リリースが一致しません。公式サイトへ自動切替しません。",
   "p4k_source_object_sha":"オブジェクト SHA-256：{v0}","@p4k_source_object_sha":{"placeholders":{"v0":{}}},"p4k_source_compressed_size":"圧縮サイズ（バイト）：{v0}","@p4k_source_compressed_size":{"placeholders":{"v0":{}}},"p4k_update_payload_conservative_estimate":"{v0}（保守的な推定）","@p4k_update_payload_conservative_estimate":{"placeholders":{"v0":{}}},
   "input_method_hotkey_title": "ゲーム内クイック入力（実験的）", "@input_method_hotkey_title": {},
-  "input_method_hotkey_description": "ゲーム中にホットキーで入力ボックスを表示し、システムの IME で中国語を入力して Enter を押すと、コミュニティ入力メソッドのコードに変換してゲームのチャットに入力します。ゲームへのインジェクションやゲームファイルの変更は行わず、クリップボードも使用しません。", "@input_method_hotkey_description": {},
+  "input_method_hotkey_description": "ゲーム中にホットキーで入力ボックスを表示し、システムの IME で中国語を入力して Enter を押すと、コミュニティ入力メソッドのコードに変換してゲームのチャットに貼り付けます。ゲームへのインジェクションやゲームファイルの変更は行わず、貼り付け後にクリップボードの内容を元に戻します。", "@input_method_hotkey_description": {},
   "input_method_hotkey_confirm_title": "ゲーム内クイック入力を有効にしますか？", "@input_method_hotkey_confirm_title": {},
-  "input_method_hotkey_confirm_content": "この機能はホットキーを検出するためにグローバルキーボードフックを設定し、キー入力をシミュレートしてゲームに文字を入力します。ゲームへのインジェクションや改変は行いませんが、一部のセキュリティソフトやアンチチートがこの種の動作を検知する可能性があります。自己責任でご利用ください。\n\nゲームをボーダーレスウィンドウモードで実行してください。排他的フルスクリーンでは入力ボックスの表示でゲームが最小化される場合があります。", "@input_method_hotkey_confirm_content": {},
+  "input_method_hotkey_confirm_content": "この機能はホットキーを検出するためにグローバルキーボードフックを設定し、クリップボードとキー入力のシミュレーション（Ctrl+V、Enter）でゲームに文字を貼り付けます。ゲームへのインジェクションや改変は行いませんが、一部のセキュリティソフトやアンチチートがこの種の動作を検知する可能性があります。自己責任でご利用ください。\n\nゲームをボーダーレスウィンドウモードで実行してください。排他的フルスクリーンでは入力ボックスの表示でゲームが最小化される場合があります。", "@input_method_hotkey_confirm_content": {},
   "input_method_hotkey_hotkey": "ホットキー", "@input_method_hotkey_hotkey": {},
   "input_method_hotkey_press_keys": "新しいキーの組み合わせを押してください（Esc でキャンセル）…", "@input_method_hotkey_press_keys": {},
   "input_method_hotkey_game_only": "ゲームウィンドウでのみ反応する", "@input_method_hotkey_game_only": {},
@@ -2399,8 +2399,6 @@
   "input_method_hotkey_chat_mode_close_after_send": "チャットを手動で開き、自動送信後に閉じる", "@input_method_hotkey_chat_mode_close_after_send": {},
   "input_method_hotkey_chat_mode_open_before_send": "チャットを自動で開く", "@input_method_hotkey_chat_mode_open_before_send": {},
   "input_method_hotkey_chat_mode_tips": "ホットキーを押したときにチャットが開いていないと、入力した文字はゲームの操作として扱われます。", "@input_method_hotkey_chat_mode_tips": {},
-  "input_method_hotkey_key_interval": "キー入力間隔（ミリ秒）", "@input_method_hotkey_key_interval": {},
-  "input_method_hotkey_key_interval_tips": "ゲームで文字が抜ける場合は大きくしてください", "@input_method_hotkey_key_interval_tips": {},
   "input_method_hotkey_reset_position": "入力ボックスの位置をリセット", "@input_method_hotkey_reset_position": {},
   "input_method_hotkey_usage": "使い方：ゲーム中に {v0} を押す → 中国語を入力 → Enter で送信、Esc でキャンセル。入力ボックスの空白部分をドラッグして移動できます。", "@input_method_hotkey_usage": {"placeholders": {"v0": {}}},
   "input_method_hotkey_start_failed": "起動に失敗しました：{v0}", "@input_method_hotkey_start_failed": {"placeholders": {"v0": {}}},
@@ -2421,5 +2419,6 @@
   "input_method_hotkey_popup_hint_input_only": "Enter で入力 · Esc でキャンセル · 空白部分をドラッグで移動", "@input_method_hotkey_popup_hint_input_only": {},
   "input_method_hotkey_translating": "翻訳中…", "@input_method_hotkey_translating": {},
   "input_method_hotkey_translate_failed": "翻訳に失敗しました。もう一度 Enter を押すと中国語のみ送信します", "@input_method_hotkey_translate_failed": {},
-  "input_method_hotkey_chat_mode_manual": "チャットを手動で開く", "@input_method_hotkey_chat_mode_manual": {}
+  "input_method_hotkey_chat_mode_manual": "チャットを手動で開く", "@input_method_hotkey_chat_mode_manual": {},
+  "input_method_hotkey_error_clipboard": "クリップボードに書き込めませんでした。もう一度お試しください", "@input_method_hotkey_error_clipboard": {}
 }

@@ -1,5 +1,5 @@
 //! Windows backend: one thread owns the low-level keyboard hook, the popup window and its
-//! message loop; typing into the game runs on a short-lived sender thread so the hook keeps
+//! message loop; pasting into the game runs on a short-lived sender thread so the hook keeps
 //! being serviced while we sleep between keystrokes (a stalled LL hook gets removed by Windows).
 
 use std::sync::atomic::{AtomicBool, AtomicIsize, AtomicU32, AtomicU64, Ordering};
@@ -32,7 +32,7 @@ use windows::Win32::UI::Input::Ime::{
 };
 use windows::Win32::UI::Input::KeyboardAndMouse::{
     GetAsyncKeyState, GetKeyNameTextW, GetKeyState, GetKeyboardLayout, MapVirtualKeyExW,
-    MapVirtualKeyW, SendInput, SetFocus, VkKeyScanExW, INPUT, INPUT_0, INPUT_KEYBOARD, KEYBDINPUT,
+    MapVirtualKeyW, SendInput, SetFocus, INPUT, INPUT_0, INPUT_KEYBOARD, KEYBDINPUT,
     KEYBD_EVENT_FLAGS, KEYEVENTF_EXTENDEDKEY, KEYEVENTF_KEYUP, KEYEVENTF_SCANCODE,
     MAPVK_VK_TO_VSC_EX, VIRTUAL_KEY,
 };
@@ -83,7 +83,7 @@ static SHARED: Lazy<Mutex<Option<Shared>>> = Lazy::new(|| Mutex::new(None));
 type UiThread = (JoinHandle<()>, u32);
 static THREAD: Lazy<Mutex<Option<UiThread>>> = Lazy::new(|| Mutex::new(None));
 
-/// Bumped on every start/stop; a sender thread from an older generation stops typing.
+/// Bumped on every start/stop; a sender thread from an older generation stops.
 static GENERATION: AtomicU64 = AtomicU64::new(0);
 static MAIN_HWND: AtomicIsize = AtomicIsize::new(0);
 static EDIT_HWND: AtomicIsize = AtomicIsize::new(0);
@@ -476,7 +476,6 @@ struct SendJob {
     generation: u64,
     target: HWND,
     text: String,
-    key_interval: Duration,
     open_chat_before_send: bool,
     auto_send: bool,
     reopen_chat_after_send: bool,
@@ -535,28 +534,12 @@ fn run_send(job: &SendJob) -> std::result::Result<(), ImeSendFailure> {
         pause(250);
     }
 
+    check()?;
+    let clipboard = ClipboardGuard::replace(&job.text).ok_or(ImeSendFailure::ClipboardFailed)?;
     let hkl = unsafe { GetKeyboardLayout(GetWindowThreadProcessId(job.target, None)) };
-    for ch in job.text.chars() {
-        check()?;
-        let mut units = [0u16; 2];
-        let units = ch.encode_utf16(&mut units);
-        if units.len() != 1 {
-            continue;
-        }
-        let vk_scan = unsafe { VkKeyScanExW(units[0], hkl) };
-        let scan_ex = if vk_scan == -1 {
-            0
-        } else {
-            unsafe { MapVirtualKeyExW((vk_scan as u16 & 0xFF) as u32, MAPVK_VK_TO_VSC_EX, Some(hkl)) }
-        };
-        match plan_char_keys(vk_scan, scan_ex) {
-            Some(keys) => {
-                type_scan_keys(&keys);
-                std::thread::sleep(job.key_interval);
-            }
-            None => println!("[ime_hotkey] cannot type {ch:?} with the game's keyboard layout"),
-        }
-    }
+    let v_scan = unsafe { MapVirtualKeyExW(0x56, MAPVK_VK_TO_VSC_EX, Some(hkl)) };
+    type_scan_keys(&ctrl_v_keys(v_scan));
+    pause(100);
 
     if job.auto_send {
         check()?;
@@ -567,7 +550,46 @@ fn run_send(job: &SendJob) -> std::result::Result<(), ImeSendFailure> {
             type_scan_keys(&enter);
         }
     }
+    // The game reads the clipboard while handling Ctrl+V; give it time before restoring.
+    pause(300);
+    drop(clipboard);
     Ok(())
+}
+
+/// Puts text on the clipboard and restores the previous content when dropped.
+struct ClipboardGuard {
+    saved: Vec<clipboard_rs::ClipboardContent>,
+}
+
+impl ClipboardGuard {
+    fn replace(text: &str) -> Option<Self> {
+        use clipboard_rs::{Clipboard, ClipboardContent, ClipboardContext, ContentFormat};
+        let ctx = ClipboardContext::new().ok()?;
+        let mut saved = ctx
+            .get(&[
+                ContentFormat::Image,
+                ContentFormat::Text,
+                ContentFormat::Rtf,
+                ContentFormat::Html,
+                ContentFormat::Files,
+            ])
+            .unwrap_or_default();
+        // Setting an image clears the clipboard, so it has to go first.
+        saved.sort_by_key(|c| !matches!(c, ClipboardContent::Image(_)));
+        ctx.set_text(text.to_string()).ok()?;
+        Some(Self { saved })
+    }
+}
+
+impl Drop for ClipboardGuard {
+    fn drop(&mut self) {
+        use clipboard_rs::{Clipboard, ClipboardContext};
+        let Ok(ctx) = ClipboardContext::new() else {
+            return;
+        };
+        let saved = std::mem::take(&mut self.saved);
+        let _ = if saved.is_empty() { ctx.clear() } else { ctx.set(saved) };
+    }
 }
 
 // ---------------------------------------------------------------------------------------
@@ -879,7 +901,6 @@ fn on_send(main: HWND) {
         generation: GENERATION.load(Ordering::SeqCst),
         target,
         text,
-        key_interval: Duration::from_millis(config.key_interval_ms.clamp(1, 1000) as u64),
         open_chat_before_send: config.open_chat_before_send,
         auto_send: config.auto_send,
         reopen_chat_after_send: config.reopen_chat_after_send,
@@ -894,6 +915,7 @@ fn on_send(main: HWND) {
                 Err(ImeSendFailure::FocusFailed) => 2,
                 Err(ImeSendFailure::FocusLost) => 3,
                 Err(ImeSendFailure::Busy) => 4,
+                Err(ImeSendFailure::ClipboardFailed) => 5,
             };
             if GENERATION.load(Ordering::SeqCst) == job.generation {
                 post_main(WM_APP_SEND_DONE, code, job.id as isize);
@@ -916,6 +938,7 @@ fn on_send_done(main: HWND, code: usize, id: u64) {
         1 => ImeSendFailure::TargetWindowGone,
         2 => ImeSendFailure::FocusFailed,
         3 => ImeSendFailure::FocusLost,
+        5 => ImeSendFailure::ClipboardFailed,
         _ => ImeSendFailure::Busy,
     };
     // Keep the text so the user can retry; the Dart side follows up with a message.

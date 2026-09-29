@@ -27,7 +27,7 @@ Future<void> imeHotkeyStop() =>
 Future<bool> imeHotkeyIsRunning() =>
     RustLib.instance.api.crateApiImeHotkeyApiImeHotkeyIsRunning();
 
-/// Types `encoded` into the window that was in front when the popup was opened, followed by
+/// Pastes `encoded` into the window that was in front when the popup was opened, followed by
 /// Enter when `auto_send` is set. `id` must match the [`ImeHotkeyEvent::Submit`] being answered.
 Future<void> imeHotkeySend({required BigInt id, required String encoded}) =>
     RustLib.instance.api.crateApiImeHotkeyApiImeHotkeySend(
@@ -103,13 +103,10 @@ class ImeHotkeyConfig {
   /// Only react to the hotkey while `StarCitizen.exe` owns the foreground window.
   final bool gameOnly;
 
-  /// Pause after each typed character, in milliseconds.
-  final int keyIntervalMs;
-
-  /// Press Enter to open the chat box before typing.
+  /// Press Enter to open the chat box before pasting.
   final bool openChatBeforeSend;
 
-  /// Press Enter after typing to send the message. When false the text is only typed.
+  /// Press Enter after pasting to send the message. When false the text is only pasted.
   final bool autoSend;
 
   /// Press Enter again after sending so the chat box stays open for the next message.
@@ -124,13 +121,12 @@ class ImeHotkeyConfig {
   /// Hint shown under the edit box while idle.
   final String hintText;
 
-  /// Status text shown while the text is being encoded / typed.
+  /// Status text shown while the text is being encoded / pasted.
   final String sendingText;
 
   const ImeHotkeyConfig({
     required this.hotkey,
     required this.gameOnly,
-    required this.keyIntervalMs,
     required this.openChatBeforeSend,
     required this.autoSend,
     required this.reopenChatAfterSend,
@@ -144,7 +140,6 @@ class ImeHotkeyConfig {
   int get hashCode =>
       hotkey.hashCode ^
       gameOnly.hashCode ^
-      keyIntervalMs.hashCode ^
       openChatBeforeSend.hashCode ^
       autoSend.hashCode ^
       reopenChatAfterSend.hashCode ^
@@ -160,7 +155,6 @@ class ImeHotkeyConfig {
           runtimeType == other.runtimeType &&
           hotkey == other.hotkey &&
           gameOnly == other.gameOnly &&
-          keyIntervalMs == other.keyIntervalMs &&
           openChatBeforeSend == other.openChatBeforeSend &&
           autoSend == other.autoSend &&
           reopenChatAfterSend == other.reopenChatAfterSend &&
@@ -181,7 +175,7 @@ sealed class ImeHotkeyEvent with _$ImeHotkeyEvent {
     required String text,
   }) = ImeHotkeyEvent_Submit;
 
-  /// The encoded text was typed into the game.
+  /// The encoded text was pasted into the game.
   const factory ImeHotkeyEvent.sent({required BigInt id}) = ImeHotkeyEvent_Sent;
 
   /// Typing was not started or was aborted; the popup is shown again with the text kept.
@@ -206,9 +200,12 @@ enum ImeSendFailure {
   /// Windows refused to bring the game window back to the front.
   focusFailed,
 
-  /// Another window came to the front while typing; typing stopped.
+  /// Another window came to the front before the text was sent; sending stopped.
   focusLost,
 
-  /// A previous message is still being typed.
+  /// A previous message is still being sent.
   busy,
+
+  /// The text could not be put on the clipboard.
+  clipboardFailed,
 }

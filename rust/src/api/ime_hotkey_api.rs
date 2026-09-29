@@ -4,9 +4,9 @@
 //! over the game window, a small native popup with a plain Win32 EDIT control takes focus so
 //! the user can type with the system IME. Enter (outside of IME composition) emits
 //! [`ImeHotkeyEvent::Submit`]; the Dart side encodes the text and answers with
-//! [`ime_hotkey_send`], which switches back to the game and types the encoded text as scancodes.
+//! [`ime_hotkey_send`], which switches back to the game and pastes the encoded text with Ctrl+V.
 //!
-//! Nothing is injected into the game process and the clipboard is not touched.
+//! Nothing is injected into the game process; the clipboard content is restored after pasting.
 //! Only Windows is supported; on other platforms starting returns an error.
 
 use crate::frb_generated::StreamSink;
@@ -26,11 +26,9 @@ pub struct ImeHotkeyConfig {
     pub hotkey: ImeHotkey,
     /// Only react to the hotkey while `StarCitizen.exe` owns the foreground window.
     pub game_only: bool,
-    /// Pause after each typed character, in milliseconds.
-    pub key_interval_ms: u32,
-    /// Press Enter to open the chat box before typing.
+    /// Press Enter to open the chat box before pasting.
     pub open_chat_before_send: bool,
-    /// Press Enter after typing to send the message. When false the text is only typed.
+    /// Press Enter after pasting to send the message. When false the text is only pasted.
     pub auto_send: bool,
     /// Press Enter again after sending so the chat box stays open for the next message.
     /// Only used with `auto_send`.
@@ -41,7 +39,7 @@ pub struct ImeHotkeyConfig {
     pub window_y: Option<i32>,
     /// Hint shown under the edit box while idle.
     pub hint_text: String,
-    /// Status text shown while the text is being encoded / typed.
+    /// Status text shown while the text is being encoded / pasted.
     pub sending_text: String,
 }
 
@@ -50,7 +48,7 @@ pub enum ImeHotkeyEvent {
     /// The user pressed Enter in the popup. Answer with [`ime_hotkey_send`] (same `id`) or
     /// [`ime_hotkey_show_message`].
     Submit { id: u64, text: String },
-    /// The encoded text was typed into the game.
+    /// The encoded text was pasted into the game.
     Sent { id: u64 },
     /// Typing was not started or was aborted; the popup is shown again with the text kept.
     SendFailed { id: u64, reason: ImeSendFailure },
@@ -66,10 +64,12 @@ pub enum ImeSendFailure {
     TargetWindowGone,
     /// Windows refused to bring the game window back to the front.
     FocusFailed,
-    /// Another window came to the front while typing; typing stopped.
+    /// Another window came to the front before the text was sent; sending stopped.
     FocusLost,
-    /// A previous message is still being typed.
+    /// A previous message is still being sent.
     Busy,
+    /// The text could not be put on the clipboard.
+    ClipboardFailed,
 }
 
 /// Starts the hook thread and popup. Calling it again restarts with the new config.
@@ -113,7 +113,7 @@ pub fn ime_hotkey_is_running() -> bool {
     }
 }
 
-/// Types `encoded` into the window that was in front when the popup was opened, followed by
+/// Pastes `encoded` into the window that was in front when the popup was opened, followed by
 /// Enter when `auto_send` is set. `id` must match the [`ImeHotkeyEvent::Submit`] being answered.
 pub fn ime_hotkey_send(id: u64, encoded: String) {
     #[cfg(windows)]

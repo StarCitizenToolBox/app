@@ -5792,19 +5792,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ImeHotkeyConfig dco_decode_ime_hotkey_config(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 10)
-      throw Exception('unexpected arr length: expect 10 but see ${arr.length}');
+    if (arr.length != 9)
+      throw Exception('unexpected arr length: expect 9 but see ${arr.length}');
     return ImeHotkeyConfig(
       hotkey: dco_decode_ime_hotkey(arr[0]),
       gameOnly: dco_decode_bool(arr[1]),
-      keyIntervalMs: dco_decode_u_32(arr[2]),
-      openChatBeforeSend: dco_decode_bool(arr[3]),
-      autoSend: dco_decode_bool(arr[4]),
-      reopenChatAfterSend: dco_decode_bool(arr[5]),
-      windowX: dco_decode_opt_box_autoadd_i_32(arr[6]),
-      windowY: dco_decode_opt_box_autoadd_i_32(arr[7]),
-      hintText: dco_decode_String(arr[8]),
-      sendingText: dco_decode_String(arr[9]),
+      openChatBeforeSend: dco_decode_bool(arr[2]),
+      autoSend: dco_decode_bool(arr[3]),
+      reopenChatAfterSend: dco_decode_bool(arr[4]),
+      windowX: dco_decode_opt_box_autoadd_i_32(arr[5]),
+      windowY: dco_decode_opt_box_autoadd_i_32(arr[6]),
+      hintText: dco_decode_String(arr[7]),
+      sendingText: dco_decode_String(arr[8]),
     );
   }
 
@@ -6988,7 +6987,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_hotkey = sse_decode_ime_hotkey(deserializer);
     var var_gameOnly = sse_decode_bool(deserializer);
-    var var_keyIntervalMs = sse_decode_u_32(deserializer);
     var var_openChatBeforeSend = sse_decode_bool(deserializer);
     var var_autoSend = sse_decode_bool(deserializer);
     var var_reopenChatAfterSend = sse_decode_bool(deserializer);
@@ -6999,7 +6997,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return ImeHotkeyConfig(
       hotkey: var_hotkey,
       gameOnly: var_gameOnly,
-      keyIntervalMs: var_keyIntervalMs,
       openChatBeforeSend: var_openChatBeforeSend,
       autoSend: var_autoSend,
       reopenChatAfterSend: var_reopenChatAfterSend,
@@ -8594,7 +8591,6 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_ime_hotkey(self.hotkey, serializer);
     sse_encode_bool(self.gameOnly, serializer);
-    sse_encode_u_32(self.keyIntervalMs, serializer);
     sse_encode_bool(self.openChatBeforeSend, serializer);
     sse_encode_bool(self.autoSend, serializer);
     sse_encode_bool(self.reopenChatAfterSend, serializer);

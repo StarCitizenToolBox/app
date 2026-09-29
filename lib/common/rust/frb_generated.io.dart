@@ -1526,7 +1526,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ) {
     cst_api_fill_to_wire_ime_hotkey(apiObj.hotkey, wireObj.hotkey);
     wireObj.game_only = cst_encode_bool(apiObj.gameOnly);
-    wireObj.key_interval_ms = cst_encode_u_32(apiObj.keyIntervalMs);
     wireObj.open_chat_before_send = cst_encode_bool(apiObj.openChatBeforeSend);
     wireObj.auto_send = cst_encode_bool(apiObj.autoSend);
     wireObj.reopen_chat_after_send = cst_encode_bool(
@@ -6921,9 +6920,6 @@ final class wire_cst_ime_hotkey_config extends ffi.Struct {
 
   @ffi.Bool()
   external bool game_only;
-
-  @ffi.Uint32()
-  external int key_interval_ms;
 
   @ffi.Bool()
   external bool open_chat_before_send;

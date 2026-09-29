@@ -1297,16 +1297,19 @@ class MessageLookup extends MessageLookupByLibrary {
       "若按下快捷键时聊天框没有打开，输入的字符会被游戏当作按键操作。",
     ),
     "input_method_hotkey_confirm_content": MessageLookupByLibrary.simpleMessage(
-      "该功能会安装全局键盘钩子来监听快捷键，并通过模拟键盘按键把文本输入到游戏中。它不会注入或修改游戏，但部分安全软件或反作弊程序可能会关注此类行为，请自行评估风险。\n\n请将游戏设置为无边框窗口模式，独占全屏下弹出输入框可能导致游戏最小化。",
+      "该功能会安装全局键盘钩子来监听快捷键，并通过剪贴板和模拟按键（Ctrl+V、Enter）把文本粘贴到游戏中。它不会注入或修改游戏，但部分安全软件或反作弊程序可能会关注此类行为，请自行评估风险。\n\n请将游戏设置为无边框窗口模式，独占全屏下弹出输入框可能导致游戏最小化。",
     ),
     "input_method_hotkey_confirm_title": MessageLookupByLibrary.simpleMessage(
       "启用游戏内快捷输入？",
     ),
     "input_method_hotkey_description": MessageLookupByLibrary.simpleMessage(
-      "在游戏中按快捷键弹出输入框，用系统输入法输入中文，按 Enter 后自动转换为社区输入法编码并输入到游戏聊天框。不注入游戏、不修改游戏文件、不使用剪贴板。",
+      "在游戏中按快捷键弹出输入框，用系统输入法输入中文，按 Enter 后自动转换为社区输入法编码并粘贴到游戏聊天框。不注入游戏、不修改游戏文件，粘贴后会还原剪贴板原有内容。",
     ),
     "input_method_hotkey_error_busy": MessageLookupByLibrary.simpleMessage(
       "上一条消息仍在发送中",
+    ),
+    "input_method_hotkey_error_clipboard": MessageLookupByLibrary.simpleMessage(
+      "无法写入剪贴板，请重试",
     ),
     "input_method_hotkey_error_focus_failed":
         MessageLookupByLibrary.simpleMessage("无法切换回游戏窗口，请重试"),
@@ -1326,11 +1329,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "关闭后，快捷键在任意窗口中都会弹出输入框（可用于在记事本中测试）。",
     ),
     "input_method_hotkey_hotkey": MessageLookupByLibrary.simpleMessage("快捷键"),
-    "input_method_hotkey_key_interval": MessageLookupByLibrary.simpleMessage(
-      "按键间隔（毫秒）",
-    ),
-    "input_method_hotkey_key_interval_tips":
-        MessageLookupByLibrary.simpleMessage("游戏中出现丢字时请调大"),
     "input_method_hotkey_popup_hint": MessageLookupByLibrary.simpleMessage(
       "Enter 发送 · Esc 取消 · 拖动空白处移动",
     ),

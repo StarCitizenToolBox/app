@@ -56,11 +56,6 @@ class InputMethodHotkeySettingsDialog extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(inputMethodHotkeyServiceProvider);
     final model = ref.read(inputMethodHotkeyServiceProvider.notifier);
-    final interval = useState(state.keyIntervalMs.toDouble());
-    useEffect(() {
-      interval.value = state.keyIntervalMs.toDouble();
-      return null;
-    }, [state.keyIntervalMs]);
     // Leaving the dialog while waiting for a key combination would leave the hook capturing.
     useEffect(
       () =>
@@ -122,28 +117,6 @@ class InputMethodHotkeySettingsDialog extends HookConsumerWidget {
               },
             ),
             info: Text(S.current.input_method_hotkey_chat_mode_tips, style: secondaryStyle),
-          ),
-          _item(
-            S.current.input_method_hotkey_key_interval,
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 180,
-                  child: Slider(
-                    value: interval.value,
-                    min: 5,
-                    max: 200,
-                    divisions: 39,
-                    onChanged: (v) => interval.value = v,
-                    onChangeEnd: (v) => model.setKeyInterval(v.round()),
-                  ),
-                ),
-                SizedBox(width: 8),
-                SizedBox(width: 32, child: Text("${interval.value.round()}")),
-              ],
-            ),
-            info: Text(S.current.input_method_hotkey_key_interval_tips, style: secondaryStyle),
           ),
           _item(
             S.current.input_method_hotkey_window_position,

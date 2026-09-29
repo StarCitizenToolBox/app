@@ -4103,6 +4103,7 @@ impl CstDecode<crate::api::ime_hotkey_api::ImeSendFailure> for i32 {
             1 => crate::api::ime_hotkey_api::ImeSendFailure::FocusFailed,
             2 => crate::api::ime_hotkey_api::ImeSendFailure::FocusLost,
             3 => crate::api::ime_hotkey_api::ImeSendFailure::Busy,
+            4 => crate::api::ime_hotkey_api::ImeSendFailure::ClipboardFailed,
             _ => unreachable!("Invalid variant for ImeSendFailure: {}", self),
         }
     }
@@ -4553,7 +4554,6 @@ impl SseDecode for crate::api::ime_hotkey_api::ImeHotkeyConfig {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_hotkey = <crate::api::ime_hotkey_api::ImeHotkey>::sse_decode(deserializer);
         let mut var_gameOnly = <bool>::sse_decode(deserializer);
-        let mut var_keyIntervalMs = <u32>::sse_decode(deserializer);
         let mut var_openChatBeforeSend = <bool>::sse_decode(deserializer);
         let mut var_autoSend = <bool>::sse_decode(deserializer);
         let mut var_reopenChatAfterSend = <bool>::sse_decode(deserializer);
@@ -4564,7 +4564,6 @@ impl SseDecode for crate::api::ime_hotkey_api::ImeHotkeyConfig {
         return crate::api::ime_hotkey_api::ImeHotkeyConfig {
             hotkey: var_hotkey,
             game_only: var_gameOnly,
-            key_interval_ms: var_keyIntervalMs,
             open_chat_before_send: var_openChatBeforeSend,
             auto_send: var_autoSend,
             reopen_chat_after_send: var_reopenChatAfterSend,
@@ -4633,6 +4632,7 @@ impl SseDecode for crate::api::ime_hotkey_api::ImeSendFailure {
             1 => crate::api::ime_hotkey_api::ImeSendFailure::FocusFailed,
             2 => crate::api::ime_hotkey_api::ImeSendFailure::FocusLost,
             3 => crate::api::ime_hotkey_api::ImeSendFailure::Busy,
+            4 => crate::api::ime_hotkey_api::ImeSendFailure::ClipboardFailed,
             _ => unreachable!("Invalid variant for ImeSendFailure: {}", inner),
         };
     }
@@ -6038,7 +6038,6 @@ impl flutter_rust_bridge::IntoDart for crate::api::ime_hotkey_api::ImeHotkeyConf
         [
             self.hotkey.into_into_dart().into_dart(),
             self.game_only.into_into_dart().into_dart(),
-            self.key_interval_ms.into_into_dart().into_dart(),
             self.open_chat_before_send.into_into_dart().into_dart(),
             self.auto_send.into_into_dart().into_dart(),
             self.reopen_chat_after_send.into_into_dart().into_dart(),
@@ -6114,6 +6113,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::ime_hotkey_api::ImeSendFailur
             Self::FocusFailed => 1.into_dart(),
             Self::FocusLost => 2.into_dart(),
             Self::Busy => 3.into_dart(),
+            Self::ClipboardFailed => 4.into_dart(),
             _ => unreachable!(),
         }
     }
@@ -7200,7 +7200,6 @@ impl SseEncode for crate::api::ime_hotkey_api::ImeHotkeyConfig {
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <crate::api::ime_hotkey_api::ImeHotkey>::sse_encode(self.hotkey, serializer);
         <bool>::sse_encode(self.game_only, serializer);
-        <u32>::sse_encode(self.key_interval_ms, serializer);
         <bool>::sse_encode(self.open_chat_before_send, serializer);
         <bool>::sse_encode(self.auto_send, serializer);
         <bool>::sse_encode(self.reopen_chat_after_send, serializer);
@@ -7254,6 +7253,7 @@ impl SseEncode for crate::api::ime_hotkey_api::ImeSendFailure {
                 crate::api::ime_hotkey_api::ImeSendFailure::FocusFailed => 1,
                 crate::api::ime_hotkey_api::ImeSendFailure::FocusLost => 2,
                 crate::api::ime_hotkey_api::ImeSendFailure::Busy => 3,
+                crate::api::ime_hotkey_api::ImeSendFailure::ClipboardFailed => 4,
                 _ => {
                     unimplemented!("");
                 }
@@ -8437,7 +8437,6 @@ mod io {
             crate::api::ime_hotkey_api::ImeHotkeyConfig {
                 hotkey: self.hotkey.cst_decode(),
                 game_only: self.game_only.cst_decode(),
-                key_interval_ms: self.key_interval_ms.cst_decode(),
                 open_chat_before_send: self.open_chat_before_send.cst_decode(),
                 auto_send: self.auto_send.cst_decode(),
                 reopen_chat_after_send: self.reopen_chat_after_send.cst_decode(),
@@ -9124,7 +9123,6 @@ mod io {
             Self {
                 hotkey: Default::default(),
                 game_only: Default::default(),
-                key_interval_ms: Default::default(),
                 open_chat_before_send: Default::default(),
                 auto_send: Default::default(),
                 reopen_chat_after_send: Default::default(),
@@ -11298,7 +11296,6 @@ mod io {
     pub struct wire_cst_ime_hotkey_config {
         hotkey: wire_cst_ime_hotkey,
         game_only: bool,
-        key_interval_ms: u32,
         open_chat_before_send: bool,
         auto_send: bool,
         reopen_chat_after_send: bool,

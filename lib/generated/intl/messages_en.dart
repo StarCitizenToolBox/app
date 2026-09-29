@@ -1525,16 +1525,19 @@ class MessageLookup extends MessageLookupByLibrary {
       "If the chat box is not open when you press the hotkey, the typed characters are treated as game controls.",
     ),
     "input_method_hotkey_confirm_content": MessageLookupByLibrary.simpleMessage(
-      "This feature installs a global keyboard hook to detect the hotkey and types text into the game by simulating key presses. It does not inject into or modify the game, but some security software or anti-cheat may flag this kind of behavior. Use at your own risk.\n\nRun the game in borderless window mode; showing the input box over exclusive fullscreen may minimize the game.",
+      "This feature installs a global keyboard hook to detect the hotkey and pastes text into the game through the clipboard and simulated key presses (Ctrl+V, Enter). It does not inject into or modify the game, but some security software or anti-cheat may flag this kind of behavior. Use at your own risk.\n\nRun the game in borderless window mode; showing the input box over exclusive fullscreen may minimize the game.",
     ),
     "input_method_hotkey_confirm_title": MessageLookupByLibrary.simpleMessage(
       "Enable in-game quick input?",
     ),
     "input_method_hotkey_description": MessageLookupByLibrary.simpleMessage(
-      "Press a hotkey in game to pop up an input box, type Chinese with your system IME, and press Enter to convert it to community input method codes and type it into the game chat. Nothing is injected into the game, no game files are changed and the clipboard is not used.",
+      "Press a hotkey in game to pop up an input box, type Chinese with your system IME, and press Enter to convert it to community input method codes and paste it into the game chat. Nothing is injected into the game and no game files are changed; the clipboard content is restored after pasting.",
     ),
     "input_method_hotkey_error_busy": MessageLookupByLibrary.simpleMessage(
       "The previous message is still being sent",
+    ),
+    "input_method_hotkey_error_clipboard": MessageLookupByLibrary.simpleMessage(
+      "Could not write to the clipboard, please try again",
     ),
     "input_method_hotkey_error_focus_failed":
         MessageLookupByLibrary.simpleMessage(
@@ -1560,13 +1563,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "input_method_hotkey_hotkey": MessageLookupByLibrary.simpleMessage(
       "Hotkey",
     ),
-    "input_method_hotkey_key_interval": MessageLookupByLibrary.simpleMessage(
-      "Key interval (ms)",
-    ),
-    "input_method_hotkey_key_interval_tips":
-        MessageLookupByLibrary.simpleMessage(
-          "Increase it if characters get lost in game",
-        ),
     "input_method_hotkey_popup_hint": MessageLookupByLibrary.simpleMessage(
       "Enter to send · Esc to cancel · drag empty area to move",
     ),

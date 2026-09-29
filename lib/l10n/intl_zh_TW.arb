@@ -2540,9 +2540,9 @@
   "keybinding_import_stick_mismatch": "此預設對應的搖桿與目前不同，匯入後請在裝置頁檢查編號。", "@keybinding_import_stick_mismatch": {},
   "keybinding_identify_found": "已辨識", "@keybinding_identify_found": {},
   "input_method_hotkey_title": "遊戲內快捷輸入（實驗性）", "@input_method_hotkey_title": {},
-  "input_method_hotkey_description": "在遊戲中按快捷鍵彈出輸入框，用系統輸入法輸入中文，按 Enter 後自動轉換為社區輸入法編碼並輸入到遊戲聊天框。不注入遊戲、不修改遊戲檔案、不使用剪貼簿。", "@input_method_hotkey_description": {},
+  "input_method_hotkey_description": "在遊戲中按快捷鍵彈出輸入框，用系統輸入法輸入中文，按 Enter 後自動轉換為社區輸入法編碼並貼上到遊戲聊天框。不注入遊戲、不修改遊戲檔案，貼上後會還原剪貼簿原有內容。", "@input_method_hotkey_description": {},
   "input_method_hotkey_confirm_title": "啟用遊戲內快捷輸入？", "@input_method_hotkey_confirm_title": {},
-  "input_method_hotkey_confirm_content": "該功能會安裝全域鍵盤鉤子來監聽快捷鍵，並透過模擬鍵盤按鍵把文字輸入到遊戲中。它不會注入或修改遊戲，但部分安全軟體或反作弊程式可能會關注此類行為，請自行評估風險。\n\n請將遊戲設定為無邊框視窗模式，獨佔全螢幕下彈出輸入框可能導致遊戲最小化。", "@input_method_hotkey_confirm_content": {},
+  "input_method_hotkey_confirm_content": "該功能會安裝全域鍵盤鉤子來監聽快捷鍵，並透過剪貼簿和模擬按鍵（Ctrl+V、Enter）把文字貼上到遊戲中。它不會注入或修改遊戲，但部分安全軟體或反作弊程式可能會關注此類行為，請自行評估風險。\n\n請將遊戲設定為無邊框視窗模式，獨佔全螢幕下彈出輸入框可能導致遊戲最小化。", "@input_method_hotkey_confirm_content": {},
   "input_method_hotkey_hotkey": "快捷鍵", "@input_method_hotkey_hotkey": {},
   "input_method_hotkey_press_keys": "請按下新的組合鍵（Esc 取消）…", "@input_method_hotkey_press_keys": {},
   "input_method_hotkey_game_only": "僅在遊戲視窗中回應", "@input_method_hotkey_game_only": {},
@@ -2552,8 +2552,6 @@
   "input_method_hotkey_chat_mode_close_after_send": "使用者手動開啟聊天框，自動發送後關閉", "@input_method_hotkey_chat_mode_close_after_send": {},
   "input_method_hotkey_chat_mode_open_before_send": "自動開啟聊天框", "@input_method_hotkey_chat_mode_open_before_send": {},
   "input_method_hotkey_chat_mode_tips": "若按下快捷鍵時聊天框沒有開啟，輸入的字元會被遊戲當作按鍵操作。", "@input_method_hotkey_chat_mode_tips": {},
-  "input_method_hotkey_key_interval": "按鍵間隔（毫秒）", "@input_method_hotkey_key_interval": {},
-  "input_method_hotkey_key_interval_tips": "遊戲中出現丟字時請調大", "@input_method_hotkey_key_interval_tips": {},
   "input_method_hotkey_reset_position": "重設輸入框位置", "@input_method_hotkey_reset_position": {},
   "input_method_hotkey_usage": "用法：在遊戲中按 {v0} → 輸入中文 → Enter 發送；Esc 取消。拖動輸入框空白處可移動位置。", "@input_method_hotkey_usage": {"placeholders": {"v0": {}}},
   "input_method_hotkey_start_failed": "啟動失敗：{v0}", "@input_method_hotkey_start_failed": {"placeholders": {"v0": {}}},
@@ -2574,5 +2572,6 @@
   "input_method_hotkey_popup_hint_input_only": "Enter 輸入 · Esc 取消 · 拖動空白處移動", "@input_method_hotkey_popup_hint_input_only": {},
   "input_method_hotkey_translating": "翻譯中…", "@input_method_hotkey_translating": {},
   "input_method_hotkey_translate_failed": "翻譯失敗，再按一次 Enter 僅發送中文", "@input_method_hotkey_translate_failed": {},
-  "input_method_hotkey_chat_mode_manual": "使用者手動開啟聊天框", "@input_method_hotkey_chat_mode_manual": {}
+  "input_method_hotkey_chat_mode_manual": "使用者手動開啟聊天框", "@input_method_hotkey_chat_mode_manual": {},
+  "input_method_hotkey_error_clipboard": "無法寫入剪貼簿，請重試", "@input_method_hotkey_error_clipboard": {}
 }

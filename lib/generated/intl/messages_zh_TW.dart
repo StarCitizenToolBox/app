@@ -1195,16 +1195,19 @@ class MessageLookup extends MessageLookupByLibrary {
       "若按下快捷鍵時聊天框沒有開啟，輸入的字元會被遊戲當作按鍵操作。",
     ),
     "input_method_hotkey_confirm_content": MessageLookupByLibrary.simpleMessage(
-      "該功能會安裝全域鍵盤鉤子來監聽快捷鍵，並透過模擬鍵盤按鍵把文字輸入到遊戲中。它不會注入或修改遊戲，但部分安全軟體或反作弊程式可能會關注此類行為，請自行評估風險。\n\n請將遊戲設定為無邊框視窗模式，獨佔全螢幕下彈出輸入框可能導致遊戲最小化。",
+      "該功能會安裝全域鍵盤鉤子來監聽快捷鍵，並透過剪貼簿和模擬按鍵（Ctrl+V、Enter）把文字貼上到遊戲中。它不會注入或修改遊戲，但部分安全軟體或反作弊程式可能會關注此類行為，請自行評估風險。\n\n請將遊戲設定為無邊框視窗模式，獨佔全螢幕下彈出輸入框可能導致遊戲最小化。",
     ),
     "input_method_hotkey_confirm_title": MessageLookupByLibrary.simpleMessage(
       "啟用遊戲內快捷輸入？",
     ),
     "input_method_hotkey_description": MessageLookupByLibrary.simpleMessage(
-      "在遊戲中按快捷鍵彈出輸入框，用系統輸入法輸入中文，按 Enter 後自動轉換為社區輸入法編碼並輸入到遊戲聊天框。不注入遊戲、不修改遊戲檔案、不使用剪貼簿。",
+      "在遊戲中按快捷鍵彈出輸入框，用系統輸入法輸入中文，按 Enter 後自動轉換為社區輸入法編碼並貼上到遊戲聊天框。不注入遊戲、不修改遊戲檔案，貼上後會還原剪貼簿原有內容。",
     ),
     "input_method_hotkey_error_busy": MessageLookupByLibrary.simpleMessage(
       "上一則訊息仍在發送中",
+    ),
+    "input_method_hotkey_error_clipboard": MessageLookupByLibrary.simpleMessage(
+      "無法寫入剪貼簿，請重試",
     ),
     "input_method_hotkey_error_focus_failed":
         MessageLookupByLibrary.simpleMessage("無法切換回遊戲視窗，請重試"),
@@ -1224,11 +1227,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "關閉後，快捷鍵在任意視窗中都會彈出輸入框（可用於在記事本中測試）。",
     ),
     "input_method_hotkey_hotkey": MessageLookupByLibrary.simpleMessage("快捷鍵"),
-    "input_method_hotkey_key_interval": MessageLookupByLibrary.simpleMessage(
-      "按鍵間隔（毫秒）",
-    ),
-    "input_method_hotkey_key_interval_tips":
-        MessageLookupByLibrary.simpleMessage("遊戲中出現丟字時請調大"),
     "input_method_hotkey_popup_hint": MessageLookupByLibrary.simpleMessage(
       "Enter 發送 · Esc 取消 · 拖動空白處移動",
     ),

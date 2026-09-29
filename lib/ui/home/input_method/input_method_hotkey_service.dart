@@ -43,7 +43,6 @@ abstract class InputMethodHotkeyState with _$InputMethodHotkeyState {
     @Default(_defaultHotkey) ime.ImeHotkey hotkey,
     @Default(true) bool gameOnly,
     @Default(true) bool autoSend,
-    @Default(30) int keyIntervalMs,
     @Default(InputMethodHotkeyChatMode.openBeforeSend) InputMethodHotkeyChatMode chatMode,
     int? windowX,
     int? windowY,
@@ -59,7 +58,6 @@ class InputMethodHotkeyService extends _$InputMethodHotkeyService {
   static const _kHotkey = "input_method_hotkey";
   static const _kGameOnly = "input_method_hotkey_game_only";
   static const _kAutoSend = "input_method_hotkey_auto_send";
-  static const _kKeyInterval = "input_method_hotkey_key_interval";
   static const _kChatMode = "input_method_hotkey_chat_mode";
   static const _kWindowPos = "input_method_hotkey_window_pos";
 
@@ -98,7 +96,6 @@ class InputMethodHotkeyService extends _$InputMethodHotkeyService {
       hotkey: hotkeyMap is Map ? _hotkeyFromMap(hotkeyMap) : _defaultHotkey,
       gameOnly: box.get(_kGameOnly, defaultValue: true),
       autoSend: box.get(_kAutoSend, defaultValue: true),
-      keyIntervalMs: box.get(_kKeyInterval, defaultValue: 30),
       chatMode:
           InputMethodHotkeyChatMode.values.asNameMap()[box.get(_kChatMode)] ?? InputMethodHotkeyChatMode.openBeforeSend,
       windowX: pos is List && pos.length == 2 ? pos[0] as int? : null,
@@ -142,7 +139,6 @@ class InputMethodHotkeyService extends _$InputMethodHotkeyService {
   ime.ImeHotkeyConfig _config() => ime.ImeHotkeyConfig(
     hotkey: state.hotkey,
     gameOnly: state.gameOnly,
-    keyIntervalMs: state.keyIntervalMs,
     openChatBeforeSend: state.chatMode == InputMethodHotkeyChatMode.openBeforeSend,
     autoSend: state.autoSend,
     reopenChatAfterSend: state.chatMode == InputMethodHotkeyChatMode.keepOpen,
@@ -226,13 +222,6 @@ class InputMethodHotkeyService extends _$InputMethodHotkeyService {
     await _pushConfig();
   }
 
-  Future<void> setKeyInterval(int ms) async {
-    state = state.copyWith(keyIntervalMs: ms.clamp(5, 200));
-    final box = await AppHive.openBox("app_conf");
-    await box.put(_kKeyInterval, state.keyIntervalMs);
-    await _pushConfig();
-  }
-
   Future<void> setChatMode(InputMethodHotkeyChatMode mode) async {
     state = state.copyWith(chatMode: mode);
     final box = await AppHive.openBox("app_conf");
@@ -312,9 +301,8 @@ class InputMethodHotkeyService extends _$InputMethodHotkeyService {
       await _showMessage(S.current.input_method_hotkey_translating, isError: false, busy: true);
       final translated = await _translate(text);
       if (translated != null) {
-        // Same format as the input method dialog, on one line since a typed newline would be
-        // a key press in the game.
-        output = "$output [en] $translated";
+        // Same format as the input method dialog.
+        output = "$output \n[en] $translated";
       } else if (_translateFailedText != text) {
         _translateFailedText = text;
         await _showMessage(S.current.input_method_hotkey_translate_failed, isError: true);
@@ -388,6 +376,7 @@ class InputMethodHotkeyService extends _$InputMethodHotkeyService {
     ime.ImeSendFailure.focusFailed => S.current.input_method_hotkey_error_focus_failed,
     ime.ImeSendFailure.focusLost => S.current.input_method_hotkey_error_focus_lost,
     ime.ImeSendFailure.busy => S.current.input_method_hotkey_error_busy,
+    ime.ImeSendFailure.clipboardFailed => S.current.input_method_hotkey_error_clipboard,
   };
 
   /// Reads the input method table the localization installed into the game's `global.ini`
