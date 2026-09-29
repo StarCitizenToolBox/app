@@ -526,7 +526,36 @@ struct SendJob {
 // HWND is a raw pointer; the sender thread only passes it back to user32.
 unsafe impl Send for SendJob {}
 
-fn run_send(job: &SendJob) -> std::result::Result<(), ImeSendFailure> {
+/// Held from saving the clipboard until it is restored, so the next paste cannot snapshot the
+/// previous chat line as "the user's clipboard".
+static RESTORE_LOCK: Mutex<()> = Mutex::new(());
+
+/// A paste whose clipboard restore is still due; finished after the popup is usable again.
+struct PendingRestore {
+    snapshot: ClipboardSnapshot,
+    _lock: std::sync::MutexGuard<'static, ()>,
+}
+
+impl PendingRestore {
+    /// Restores once the game has read the text (it is delay rendered), so a stalled game
+    /// cannot paste the previous clipboard instead. If it never reads it (Ctrl+V not handled),
+    /// give up waiting eventually rather than keep the user's clipboard.
+    fn finish(self) {
+        match self.snapshot.wait_read(Duration::from_secs(5)) {
+            ReadResult::Game => std::thread::sleep(Duration::from_millis(100)),
+            // Something else rendered the text first, so the game's read cannot be observed.
+            ReadResult::Other => std::thread::sleep(Duration::from_millis(500)),
+            ReadResult::TimedOut => {
+                println!("[ime_hotkey] the game did not read the clipboard; restoring anyway")
+            }
+        }
+        self.snapshot.restore();
+    }
+}
+
+/// Switches to the game and pastes. The clipboard restore is returned instead of awaited, so
+/// the hotkey works again right after the keystrokes.
+fn run_send(job: &SendJob) -> std::result::Result<Option<PendingRestore>, ImeSendFailure> {
     let alive = || GENERATION.load(Ordering::SeqCst) == job.generation;
     let in_front = || unsafe { GetForegroundWindow() } == job.target;
     let pause = |ms: u64| std::thread::sleep(Duration::from_millis(ms));
@@ -577,6 +606,9 @@ fn run_send(job: &SendJob) -> std::result::Result<(), ImeSendFailure> {
     }
 
     check()?;
+    let lock = RESTORE_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+    // Waiting for the previous restore may have taken a while.
+    check()?;
     let mut target_pid = 0u32;
     unsafe { GetWindowThreadProcessId(job.target, Some(&mut target_pid)) };
     let snapshot = ClipboardSnapshot::replace_with_text(load_hwnd(&MAIN_HWND), target_pid, &job.text)
@@ -608,19 +640,10 @@ fn run_send(job: &SendJob) -> std::result::Result<(), ImeSendFailure> {
     if finish().is_err() {
         println!("[ime_hotkey] focus changed after pasting; not sending / reopening");
     }
-    // Restore once the game has read the text (it is delay rendered), so a stalled game cannot
-    // paste the previous clipboard instead. If it never reads it (Ctrl+V not handled), give up
-    // waiting eventually rather than keep the user's clipboard.
-    match snapshot.wait_read(Duration::from_secs(5)) {
-        ReadResult::Game => pause(100),
-        // Something else rendered the text first, so the game's read cannot be observed.
-        ReadResult::Other => pause(500),
-        ReadResult::TimedOut => {
-            println!("[ime_hotkey] the game did not read the clipboard; restoring anyway")
-        }
-    }
-    snapshot.restore();
-    Ok(())
+    Ok(Some(PendingRestore {
+        snapshot,
+        _lock: lock,
+    }))
 }
 
 // ---------------------------------------------------------------------------------------
@@ -978,9 +1001,13 @@ fn on_send(main: HWND) {
     let spawned = std::thread::Builder::new()
         .name("ime-hotkey-send".into())
         .spawn(move || {
-            let code = failure_code(run_send(&job));
+            let result = run_send(&job);
+            let code = failure_code(result.as_ref().map(|_| ()).map_err(|e| *e));
             if GENERATION.load(Ordering::SeqCst) == job.generation {
                 post_main(WM_APP_SEND_DONE, code, job.id as isize);
+            }
+            if let Ok(Some(pending)) = result {
+                pending.finish();
             }
         });
     if spawned.is_err() {

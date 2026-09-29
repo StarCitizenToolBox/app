@@ -8,7 +8,7 @@
 //! content is only restored after that (or a timeout), so a stalled game cannot paste the
 //! user's old clipboard into the chat.
 
-use std::sync::atomic::{AtomicU64, AtomicU8, Ordering};
+use std::sync::atomic::{AtomicU32, AtomicU64, AtomicU8, Ordering};
 use std::sync::Mutex;
 use std::time::{Duration, Instant};
 
@@ -17,7 +17,7 @@ use windows::Win32::Foundation::{GlobalFree, HANDLE, HGLOBAL, HWND};
 use windows::Win32::Graphics::Gdi::{CopyEnhMetaFileW, DeleteEnhMetaFile, HENHMETAFILE};
 use windows::Win32::System::DataExchange::{
     CloseClipboard, EmptyClipboard, EnumClipboardFormats, GetClipboardData, GetClipboardOwner,
-    GetOpenClipboardWindow, IsClipboardFormatAvailable, OpenClipboard, RegisterClipboardFormatW,
+    GetClipboardSequenceNumber, GetOpenClipboardWindow, IsClipboardFormatAvailable, OpenClipboard, RegisterClipboardFormatW,
     SetClipboardData,
 };
 use windows::Win32::System::Memory::{GlobalAlloc, GlobalLock, GlobalSize, GlobalUnlock, GMEM_MOVEABLE};
@@ -196,6 +196,13 @@ const READ_BY_GAME: u8 = 2;
 /// Who rendered the pending text. Delayed data is only rendered once, so when something else
 /// reads it first the game's read cannot be observed any more.
 static READ_BY: AtomicU8 = AtomicU8::new(NOT_READ);
+/// Clipboard sequence number right after our last write, to tell our (now ownerless) content
+/// apart from something copied later by an app that opened the clipboard without a window.
+static OWN_SEQUENCE: AtomicU32 = AtomicU32::new(0);
+
+fn remember_own_sequence() {
+    OWN_SEQUENCE.store(unsafe { GetClipboardSequenceNumber() }, Ordering::SeqCst);
+}
 
 fn lock_render() -> std::sync::MutexGuard<'static, Option<PendingRender>> {
     PENDING_RENDER.lock().unwrap_or_else(|e| e.into_inner())
@@ -213,6 +220,7 @@ pub(crate) fn on_render_format(format: u32) {
     if !write_global(CF_UNICODETEXT, &render.bytes) {
         return;
     }
+    remember_own_sequence();
     let reader = unsafe { GetOpenClipboardWindow() }.unwrap_or_default();
     let mut reader_pid = 0u32;
     if !reader.is_invalid() {
@@ -235,6 +243,7 @@ pub(crate) fn on_render_all_formats(owner: HWND) {
     if unsafe { GetClipboardOwner() }.ok() == Some(owner) {
         if let Some(render) = lock_render().as_ref() {
             write_global(CF_UNICODETEXT, &render.bytes);
+            remember_own_sequence();
         }
     }
 }
@@ -314,6 +323,7 @@ impl ClipboardSnapshot {
                 write_global(id, &0u32.to_le_bytes());
             }
         }
+        remember_own_sequence();
         Some(Self {
             owner,
             token,
@@ -352,9 +362,11 @@ impl ClipboardSnapshot {
         };
         let owner = unsafe { GetClipboardOwner() }.unwrap_or_default();
         // Still ours: owned by the popup, or ownerless because the popup was destroyed with the
-        // text rendered (quick input stopped meanwhile).
+        // text rendered (quick input stopped meanwhile) and nothing was written since.
         let ours = owner == self.owner
-            || (owner.is_invalid() && !unsafe { IsWindow(Some(self.owner)) }.as_bool());
+            || (owner.is_invalid()
+                && !unsafe { IsWindow(Some(self.owner)) }.as_bool()
+                && unsafe { GetClipboardSequenceNumber() } == OWN_SEQUENCE.load(Ordering::SeqCst));
         if !ours {
             println!("[ime_hotkey] clipboard changed after the paste; not restoring");
             return;
