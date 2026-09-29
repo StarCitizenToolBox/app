@@ -8,6 +8,7 @@ import 'api/asar_api.dart';
 import 'api/audio_api.dart';
 import 'api/downloader_api.dart';
 import 'api/http_api.dart';
+import 'api/ime_hotkey_api.dart';
 import 'api/input_capture_api.dart';
 import 'api/ort_api.dart';
 import 'api/p4k_upgrader_api.dart';
@@ -77,7 +78,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.13.0';
 
   @override
-  int get rustContentHash => -1680963501;
+  int get rustContentHash => -1567295354;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -289,6 +290,35 @@ abstract class RustLibApi extends BaseApi {
   Future<SystemInfo> crateApiWin32ApiGetSystemInfo();
 
   Future<BigInt> crateApiWin32ApiGetSystemMemorySizeGb();
+
+  Future<void> crateApiImeHotkeyApiImeHotkeyBeginCapture();
+
+  Future<void> crateApiImeHotkeyApiImeHotkeyCancelCapture();
+
+  String crateApiImeHotkeyApiImeHotkeyDisplayName({required ImeHotkey hotkey});
+
+  Future<bool> crateApiImeHotkeyApiImeHotkeyIsRunning();
+
+  Future<void> crateApiImeHotkeyApiImeHotkeySend({
+    required BigInt id,
+    required String encoded,
+  });
+
+  Future<void> crateApiImeHotkeyApiImeHotkeyShowMessage({
+    required String message,
+    required bool isError,
+    required bool busy,
+  });
+
+  Stream<ImeHotkeyEvent> crateApiImeHotkeyApiImeHotkeyStart({
+    required ImeHotkeyConfig config,
+  });
+
+  Future<void> crateApiImeHotkeyApiImeHotkeyStop();
+
+  Future<void> crateApiImeHotkeyApiImeHotkeyUpdateConfig({
+    required ImeHotkeyConfig config,
+  });
 
   Stream<InputCaptureEvent> crateApiInputCaptureApiInputCaptureStart();
 
@@ -2402,6 +2432,261 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateApiWin32ApiGetSystemMemorySizeGbConstMeta =>
       const TaskConstMeta(debugName: "get_system_memory_size_gb", argNames: []);
+
+  @override
+  Future<void> crateApiImeHotkeyApiImeHotkeyBeginCapture() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire
+              .wire__crate__api__ime_hotkey_api__ime_hotkey_begin_capture(
+                port_,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiImeHotkeyApiImeHotkeyBeginCaptureConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiImeHotkeyApiImeHotkeyBeginCaptureConstMeta =>
+      const TaskConstMeta(debugName: "ime_hotkey_begin_capture", argNames: []);
+
+  @override
+  Future<void> crateApiImeHotkeyApiImeHotkeyCancelCapture() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire
+              .wire__crate__api__ime_hotkey_api__ime_hotkey_cancel_capture(
+                port_,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiImeHotkeyApiImeHotkeyCancelCaptureConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiImeHotkeyApiImeHotkeyCancelCaptureConstMeta =>
+      const TaskConstMeta(debugName: "ime_hotkey_cancel_capture", argNames: []);
+
+  @override
+  String crateApiImeHotkeyApiImeHotkeyDisplayName({required ImeHotkey hotkey}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          var arg0 = cst_encode_box_autoadd_ime_hotkey(hotkey);
+          return wire.wire__crate__api__ime_hotkey_api__ime_hotkey_display_name(
+            arg0,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_String,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiImeHotkeyApiImeHotkeyDisplayNameConstMeta,
+        argValues: [hotkey],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiImeHotkeyApiImeHotkeyDisplayNameConstMeta =>
+      const TaskConstMeta(
+        debugName: "ime_hotkey_display_name",
+        argNames: ["hotkey"],
+      );
+
+  @override
+  Future<bool> crateApiImeHotkeyApiImeHotkeyIsRunning() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__ime_hotkey_api__ime_hotkey_is_running(
+            port_,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_bool,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiImeHotkeyApiImeHotkeyIsRunningConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiImeHotkeyApiImeHotkeyIsRunningConstMeta =>
+      const TaskConstMeta(debugName: "ime_hotkey_is_running", argNames: []);
+
+  @override
+  Future<void> crateApiImeHotkeyApiImeHotkeySend({
+    required BigInt id,
+    required String encoded,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_u_64(id);
+          var arg1 = cst_encode_String(encoded);
+          return wire.wire__crate__api__ime_hotkey_api__ime_hotkey_send(
+            port_,
+            arg0,
+            arg1,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiImeHotkeyApiImeHotkeySendConstMeta,
+        argValues: [id, encoded],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiImeHotkeyApiImeHotkeySendConstMeta =>
+      const TaskConstMeta(
+        debugName: "ime_hotkey_send",
+        argNames: ["id", "encoded"],
+      );
+
+  @override
+  Future<void> crateApiImeHotkeyApiImeHotkeyShowMessage({
+    required String message,
+    required bool isError,
+    required bool busy,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_String(message);
+          var arg1 = cst_encode_bool(isError);
+          var arg2 = cst_encode_bool(busy);
+          return wire.wire__crate__api__ime_hotkey_api__ime_hotkey_show_message(
+            port_,
+            arg0,
+            arg1,
+            arg2,
+          );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiImeHotkeyApiImeHotkeyShowMessageConstMeta,
+        argValues: [message, isError, busy],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiImeHotkeyApiImeHotkeyShowMessageConstMeta =>
+      const TaskConstMeta(
+        debugName: "ime_hotkey_show_message",
+        argNames: ["message", "isError", "busy"],
+      );
+
+  @override
+  Stream<ImeHotkeyEvent> crateApiImeHotkeyApiImeHotkeyStart({
+    required ImeHotkeyConfig config,
+  }) {
+    final sink = RustStreamSink<ImeHotkeyEvent>();
+    unawaited(
+      handler.executeNormal(
+        NormalTask(
+          callFfi: (port_) {
+            var arg0 = cst_encode_box_autoadd_ime_hotkey_config(config);
+            var arg1 = cst_encode_StreamSink_ime_hotkey_event_Dco(sink);
+            return wire.wire__crate__api__ime_hotkey_api__ime_hotkey_start(
+              port_,
+              arg0,
+              arg1,
+            );
+          },
+          codec: DcoCodec(
+            decodeSuccessData: dco_decode_unit,
+            decodeErrorData: dco_decode_AnyhowException,
+          ),
+          constMeta: kCrateApiImeHotkeyApiImeHotkeyStartConstMeta,
+          argValues: [config, sink],
+          apiImpl: this,
+        ),
+      ),
+    );
+    return sink.stream;
+  }
+
+  TaskConstMeta get kCrateApiImeHotkeyApiImeHotkeyStartConstMeta =>
+      const TaskConstMeta(
+        debugName: "ime_hotkey_start",
+        argNames: ["config", "sink"],
+      );
+
+  @override
+  Future<void> crateApiImeHotkeyApiImeHotkeyStop() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          return wire.wire__crate__api__ime_hotkey_api__ime_hotkey_stop(port_);
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiImeHotkeyApiImeHotkeyStopConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiImeHotkeyApiImeHotkeyStopConstMeta =>
+      const TaskConstMeta(debugName: "ime_hotkey_stop", argNames: []);
+
+  @override
+  Future<void> crateApiImeHotkeyApiImeHotkeyUpdateConfig({
+    required ImeHotkeyConfig config,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          var arg0 = cst_encode_box_autoadd_ime_hotkey_config(config);
+          return wire
+              .wire__crate__api__ime_hotkey_api__ime_hotkey_update_config(
+                port_,
+                arg0,
+              );
+        },
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_unit,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiImeHotkeyApiImeHotkeyUpdateConfigConstMeta,
+        argValues: [config],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiImeHotkeyApiImeHotkeyUpdateConfigConstMeta =>
+      const TaskConstMeta(
+        debugName: "ime_hotkey_update_config",
+        argNames: ["config"],
+      );
 
   @override
   Stream<InputCaptureEvent> crateApiInputCaptureApiInputCaptureStart() {
@@ -5170,6 +5455,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  RustStreamSink<ImeHotkeyEvent> dco_decode_StreamSink_ime_hotkey_event_Dco(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    throw UnimplementedError();
+  }
+
+  @protected
   RustStreamSink<InputCaptureEvent>
   dco_decode_StreamSink_input_capture_event_Dco(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -5250,6 +5543,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   int dco_decode_box_autoadd_i_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
+  }
+
+  @protected
+  ImeHotkey dco_decode_box_autoadd_ime_hotkey(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_ime_hotkey(raw);
+  }
+
+  @protected
+  ImeHotkeyConfig dco_decode_box_autoadd_ime_hotkey_config(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_ime_hotkey_config(raw);
   }
 
   @protected
@@ -5466,6 +5771,77 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   PlatformInt64 dco_decode_i_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dcoDecodeI64(raw);
+  }
+
+  @protected
+  ImeHotkey dco_decode_ime_hotkey(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 5)
+      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    return ImeHotkey(
+      vk: dco_decode_u_32(arr[0]),
+      ctrl: dco_decode_bool(arr[1]),
+      alt: dco_decode_bool(arr[2]),
+      shift: dco_decode_bool(arr[3]),
+      win: dco_decode_bool(arr[4]),
+    );
+  }
+
+  @protected
+  ImeHotkeyConfig dco_decode_ime_hotkey_config(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 10)
+      throw Exception('unexpected arr length: expect 10 but see ${arr.length}');
+    return ImeHotkeyConfig(
+      hotkey: dco_decode_ime_hotkey(arr[0]),
+      gameOnly: dco_decode_bool(arr[1]),
+      keyIntervalMs: dco_decode_u_32(arr[2]),
+      openChatBeforeSend: dco_decode_bool(arr[3]),
+      autoSend: dco_decode_bool(arr[4]),
+      reopenChatAfterSend: dco_decode_bool(arr[5]),
+      windowX: dco_decode_opt_box_autoadd_i_32(arr[6]),
+      windowY: dco_decode_opt_box_autoadd_i_32(arr[7]),
+      hintText: dco_decode_String(arr[8]),
+      sendingText: dco_decode_String(arr[9]),
+    );
+  }
+
+  @protected
+  ImeHotkeyEvent dco_decode_ime_hotkey_event(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return ImeHotkeyEvent_Submit(
+          id: dco_decode_u_64(raw[1]),
+          text: dco_decode_String(raw[2]),
+        );
+      case 1:
+        return ImeHotkeyEvent_Sent(id: dco_decode_u_64(raw[1]));
+      case 2:
+        return ImeHotkeyEvent_SendFailed(
+          id: dco_decode_u_64(raw[1]),
+          reason: dco_decode_ime_send_failure(raw[2]),
+        );
+      case 3:
+        return ImeHotkeyEvent_WindowMoved(
+          x: dco_decode_i_32(raw[1]),
+          y: dco_decode_i_32(raw[2]),
+        );
+      case 4:
+        return ImeHotkeyEvent_HotkeyCaptured(
+          hotkey: dco_decode_box_autoadd_ime_hotkey(raw[1]),
+        );
+      default:
+        throw Exception("unreachable");
+    }
+  }
+
+  @protected
+  ImeSendFailure dco_decode_ime_send_failure(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return ImeSendFailure.values[raw as int];
   }
 
   @protected
@@ -6244,6 +6620,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  RustStreamSink<ImeHotkeyEvent> sse_decode_StreamSink_ime_hotkey_event_Dco(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    throw UnimplementedError('Unreachable ()');
+  }
+
+  @protected
   RustStreamSink<InputCaptureEvent>
   sse_decode_StreamSink_input_capture_event_Dco(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -6334,6 +6718,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   int sse_decode_box_autoadd_i_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  ImeHotkey sse_decode_box_autoadd_ime_hotkey(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_ime_hotkey(deserializer));
+  }
+
+  @protected
+  ImeHotkeyConfig sse_decode_box_autoadd_ime_hotkey_config(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_ime_hotkey_config(deserializer));
   }
 
   @protected
@@ -6566,6 +6964,86 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   PlatformInt64 sse_decode_i_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getPlatformInt64();
+  }
+
+  @protected
+  ImeHotkey sse_decode_ime_hotkey(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_vk = sse_decode_u_32(deserializer);
+    var var_ctrl = sse_decode_bool(deserializer);
+    var var_alt = sse_decode_bool(deserializer);
+    var var_shift = sse_decode_bool(deserializer);
+    var var_win = sse_decode_bool(deserializer);
+    return ImeHotkey(
+      vk: var_vk,
+      ctrl: var_ctrl,
+      alt: var_alt,
+      shift: var_shift,
+      win: var_win,
+    );
+  }
+
+  @protected
+  ImeHotkeyConfig sse_decode_ime_hotkey_config(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_hotkey = sse_decode_ime_hotkey(deserializer);
+    var var_gameOnly = sse_decode_bool(deserializer);
+    var var_keyIntervalMs = sse_decode_u_32(deserializer);
+    var var_openChatBeforeSend = sse_decode_bool(deserializer);
+    var var_autoSend = sse_decode_bool(deserializer);
+    var var_reopenChatAfterSend = sse_decode_bool(deserializer);
+    var var_windowX = sse_decode_opt_box_autoadd_i_32(deserializer);
+    var var_windowY = sse_decode_opt_box_autoadd_i_32(deserializer);
+    var var_hintText = sse_decode_String(deserializer);
+    var var_sendingText = sse_decode_String(deserializer);
+    return ImeHotkeyConfig(
+      hotkey: var_hotkey,
+      gameOnly: var_gameOnly,
+      keyIntervalMs: var_keyIntervalMs,
+      openChatBeforeSend: var_openChatBeforeSend,
+      autoSend: var_autoSend,
+      reopenChatAfterSend: var_reopenChatAfterSend,
+      windowX: var_windowX,
+      windowY: var_windowY,
+      hintText: var_hintText,
+      sendingText: var_sendingText,
+    );
+  }
+
+  @protected
+  ImeHotkeyEvent sse_decode_ime_hotkey_event(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_id = sse_decode_u_64(deserializer);
+        var var_text = sse_decode_String(deserializer);
+        return ImeHotkeyEvent_Submit(id: var_id, text: var_text);
+      case 1:
+        var var_id = sse_decode_u_64(deserializer);
+        return ImeHotkeyEvent_Sent(id: var_id);
+      case 2:
+        var var_id = sse_decode_u_64(deserializer);
+        var var_reason = sse_decode_ime_send_failure(deserializer);
+        return ImeHotkeyEvent_SendFailed(id: var_id, reason: var_reason);
+      case 3:
+        var var_x = sse_decode_i_32(deserializer);
+        var var_y = sse_decode_i_32(deserializer);
+        return ImeHotkeyEvent_WindowMoved(x: var_x, y: var_y);
+      case 4:
+        var var_hotkey = sse_decode_box_autoadd_ime_hotkey(deserializer);
+        return ImeHotkeyEvent_HotkeyCaptured(hotkey: var_hotkey);
+      default:
+        throw UnimplementedError('');
+    }
+  }
+
+  @protected
+  ImeSendFailure sse_decode_ime_send_failure(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_i_32(deserializer);
+    return ImeSendFailure.values[inner];
   }
 
   @protected
@@ -7643,6 +8121,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  int cst_encode_ime_send_failure(ImeSendFailure raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_i_32(raw.index);
+  }
+
+  @protected
   int cst_encode_input_device_kind(InputDeviceKind raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return cst_encode_i_32(raw.index);
@@ -7733,6 +8217,23 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as ArcDataForgeImpl).frbInternalSseEncode(move: null),
+      serializer,
+    );
+  }
+
+  @protected
+  void sse_encode_StreamSink_ime_hotkey_event_Dco(
+    RustStreamSink<ImeHotkeyEvent> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(
+      self.setupAndSerialize(
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_ime_hotkey_event,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+      ),
       serializer,
     );
   }
@@ -7852,6 +8353,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_box_autoadd_i_32(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_i_32(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_ime_hotkey(
+    ImeHotkey self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_ime_hotkey(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_ime_hotkey_config(
+    ImeHotkeyConfig self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_ime_hotkey_config(self, serializer);
   }
 
   @protected
@@ -8055,6 +8574,71 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_i_64(PlatformInt64 self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putPlatformInt64(self);
+  }
+
+  @protected
+  void sse_encode_ime_hotkey(ImeHotkey self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.vk, serializer);
+    sse_encode_bool(self.ctrl, serializer);
+    sse_encode_bool(self.alt, serializer);
+    sse_encode_bool(self.shift, serializer);
+    sse_encode_bool(self.win, serializer);
+  }
+
+  @protected
+  void sse_encode_ime_hotkey_config(
+    ImeHotkeyConfig self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_ime_hotkey(self.hotkey, serializer);
+    sse_encode_bool(self.gameOnly, serializer);
+    sse_encode_u_32(self.keyIntervalMs, serializer);
+    sse_encode_bool(self.openChatBeforeSend, serializer);
+    sse_encode_bool(self.autoSend, serializer);
+    sse_encode_bool(self.reopenChatAfterSend, serializer);
+    sse_encode_opt_box_autoadd_i_32(self.windowX, serializer);
+    sse_encode_opt_box_autoadd_i_32(self.windowY, serializer);
+    sse_encode_String(self.hintText, serializer);
+    sse_encode_String(self.sendingText, serializer);
+  }
+
+  @protected
+  void sse_encode_ime_hotkey_event(
+    ImeHotkeyEvent self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case ImeHotkeyEvent_Submit(id: final id, text: final text):
+        sse_encode_i_32(0, serializer);
+        sse_encode_u_64(id, serializer);
+        sse_encode_String(text, serializer);
+      case ImeHotkeyEvent_Sent(id: final id):
+        sse_encode_i_32(1, serializer);
+        sse_encode_u_64(id, serializer);
+      case ImeHotkeyEvent_SendFailed(id: final id, reason: final reason):
+        sse_encode_i_32(2, serializer);
+        sse_encode_u_64(id, serializer);
+        sse_encode_ime_send_failure(reason, serializer);
+      case ImeHotkeyEvent_WindowMoved(x: final x, y: final y):
+        sse_encode_i_32(3, serializer);
+        sse_encode_i_32(x, serializer);
+        sse_encode_i_32(y, serializer);
+      case ImeHotkeyEvent_HotkeyCaptured(hotkey: final hotkey):
+        sse_encode_i_32(4, serializer);
+        sse_encode_box_autoadd_ime_hotkey(hotkey, serializer);
+    }
+  }
+
+  @protected
+  void sse_encode_ime_send_failure(
+    ImeSendFailure self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.index, serializer);
   }
 
   @protected

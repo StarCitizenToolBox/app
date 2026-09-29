@@ -2,6 +2,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:starcitizen_doctor/ui/home/input_method/input_method_hotkey_service.dart';
 import 'package:starcitizen_doctor/app.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/provider/download_manager.dart';
@@ -30,6 +31,8 @@ class IndexUI extends HookConsumerWidget {
     ref.watch(homeUIModelProvider.select((value) => null));
     ref.watch(settingsUIModelProvider.select((value) => null));
     ref.watch(partyRoomUIModelProvider.select((value) => null));
+    // keeps the in-game input method hotkey alive for the whole session
+    ref.watch(inputMethodHotkeyServiceProvider.select((value) => null));
 
     final curIndex = useState(0);
     // Remember the previously selected tab so the indicator knows which way

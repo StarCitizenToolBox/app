@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueNom,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1680963501;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1567295354;
 
 // Section: executor
 
@@ -1557,6 +1557,219 @@ fn wire__crate__api__win32_api__get_system_memory_size_gb_impl(
                         std::result::Result::Ok(output_ok)
                     })(),
                 )
+            }
+        },
+    )
+}
+fn wire__crate__api__ime_hotkey_api__ime_hotkey_begin_capture_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ime_hotkey_begin_capture",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::ime_hotkey_api::ime_hotkey_begin_capture()?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__ime_hotkey_api__ime_hotkey_cancel_capture_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ime_hotkey_cancel_capture",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Ok::<_, ()>({
+                        crate::api::ime_hotkey_api::ime_hotkey_cancel_capture();
+                    })?;
+                    std::result::Result::Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__ime_hotkey_api__ime_hotkey_display_name_impl(
+    hotkey: impl CstDecode<crate::api::ime_hotkey_api::ImeHotkey>,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::DcoCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ime_hotkey_display_name",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let api_hotkey = hotkey.cst_decode();
+            transform_result_dco::<_, _, ()>((move || {
+                let output_ok = Ok::<_, ()>(crate::api::ime_hotkey_api::ime_hotkey_display_name(
+                    api_hotkey,
+                ))?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__ime_hotkey_api__ime_hotkey_is_running_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ime_hotkey_is_running",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok =
+                        Ok::<_, ()>(crate::api::ime_hotkey_api::ime_hotkey_is_running())?;
+                    std::result::Result::Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__ime_hotkey_api__ime_hotkey_send_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    id: impl CstDecode<u64>,
+    encoded: impl CstDecode<String>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ime_hotkey_send",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_id = id.cst_decode();
+            let api_encoded = encoded.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Ok::<_, ()>({
+                        crate::api::ime_hotkey_api::ime_hotkey_send(api_id, api_encoded);
+                    })?;
+                    std::result::Result::Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__ime_hotkey_api__ime_hotkey_show_message_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    message: impl CstDecode<String>,
+    is_error: impl CstDecode<bool>,
+    busy: impl CstDecode<bool>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ime_hotkey_show_message",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_message = message.cst_decode();
+            let api_is_error = is_error.cst_decode();
+            let api_busy = busy.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Ok::<_, ()>({
+                        crate::api::ime_hotkey_api::ime_hotkey_show_message(
+                            api_message,
+                            api_is_error,
+                            api_busy,
+                        );
+                    })?;
+                    std::result::Result::Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__ime_hotkey_api__ime_hotkey_start_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    config: impl CstDecode<crate::api::ime_hotkey_api::ImeHotkeyConfig>,
+    sink: impl CstDecode<
+        StreamSink<
+            crate::api::ime_hotkey_api::ImeHotkeyEvent,
+            flutter_rust_bridge::for_generated::DcoCodec,
+        >,
+    >,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ime_hotkey_start",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_config = config.cst_decode();
+            let api_sink = sink.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::ime_hotkey_api::ime_hotkey_start(api_config, api_sink)?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__ime_hotkey_api__ime_hotkey_stop_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ime_hotkey_stop",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Ok::<_, ()>({
+                        crate::api::ime_hotkey_api::ime_hotkey_stop();
+                    })?;
+                    std::result::Result::Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__ime_hotkey_api__ime_hotkey_update_config_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    config: impl CstDecode<crate::api::ime_hotkey_api::ImeHotkeyConfig>,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::DcoCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "ime_hotkey_update_config",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let api_config = config.cst_decode();
+            move |context| {
+                transform_result_dco::<_, _, ()>((move || {
+                    let output_ok = Ok::<_, ()>({
+                        crate::api::ime_hotkey_api::ime_hotkey_update_config(api_config);
+                    })?;
+                    std::result::Result::Ok(output_ok)
+                })())
             }
         },
     )
@@ -3882,6 +4095,18 @@ impl CstDecode<i64> for i64 {
         self
     }
 }
+impl CstDecode<crate::api::ime_hotkey_api::ImeSendFailure> for i32 {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    fn cst_decode(self) -> crate::api::ime_hotkey_api::ImeSendFailure {
+        match self {
+            0 => crate::api::ime_hotkey_api::ImeSendFailure::TargetWindowGone,
+            1 => crate::api::ime_hotkey_api::ImeSendFailure::FocusFailed,
+            2 => crate::api::ime_hotkey_api::ImeSendFailure::FocusLost,
+            3 => crate::api::ime_hotkey_api::ImeSendFailure::Busy,
+            _ => unreachable!("Invalid variant for ImeSendFailure: {}", self),
+        }
+    }
+}
 impl CstDecode<crate::api::input_capture_api::InputDeviceKind> for i32 {
     // Codec=Cst (C-struct based), see doc to use other codecs
     fn cst_decode(self) -> crate::api::input_capture_api::InputDeviceKind {
@@ -3998,6 +4223,19 @@ impl SseDecode
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <usize>::sse_decode(deserializer);
         return unsafe { decode_rust_opaque_nom(inner) };
+    }
+}
+
+impl SseDecode
+    for StreamSink<
+        crate::api::ime_hotkey_api::ImeHotkeyEvent,
+        flutter_rust_bridge::for_generated::DcoCodec,
+    >
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <String>::sse_decode(deserializer);
+        return StreamSink::deserialize(inner);
     }
 }
 
@@ -4289,6 +4527,114 @@ impl SseDecode for i64 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         deserializer.cursor.read_i64::<NativeEndian>().unwrap()
+    }
+}
+
+impl SseDecode for crate::api::ime_hotkey_api::ImeHotkey {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_vk = <u32>::sse_decode(deserializer);
+        let mut var_ctrl = <bool>::sse_decode(deserializer);
+        let mut var_alt = <bool>::sse_decode(deserializer);
+        let mut var_shift = <bool>::sse_decode(deserializer);
+        let mut var_win = <bool>::sse_decode(deserializer);
+        return crate::api::ime_hotkey_api::ImeHotkey {
+            vk: var_vk,
+            ctrl: var_ctrl,
+            alt: var_alt,
+            shift: var_shift,
+            win: var_win,
+        };
+    }
+}
+
+impl SseDecode for crate::api::ime_hotkey_api::ImeHotkeyConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_hotkey = <crate::api::ime_hotkey_api::ImeHotkey>::sse_decode(deserializer);
+        let mut var_gameOnly = <bool>::sse_decode(deserializer);
+        let mut var_keyIntervalMs = <u32>::sse_decode(deserializer);
+        let mut var_openChatBeforeSend = <bool>::sse_decode(deserializer);
+        let mut var_autoSend = <bool>::sse_decode(deserializer);
+        let mut var_reopenChatAfterSend = <bool>::sse_decode(deserializer);
+        let mut var_windowX = <Option<i32>>::sse_decode(deserializer);
+        let mut var_windowY = <Option<i32>>::sse_decode(deserializer);
+        let mut var_hintText = <String>::sse_decode(deserializer);
+        let mut var_sendingText = <String>::sse_decode(deserializer);
+        return crate::api::ime_hotkey_api::ImeHotkeyConfig {
+            hotkey: var_hotkey,
+            game_only: var_gameOnly,
+            key_interval_ms: var_keyIntervalMs,
+            open_chat_before_send: var_openChatBeforeSend,
+            auto_send: var_autoSend,
+            reopen_chat_after_send: var_reopenChatAfterSend,
+            window_x: var_windowX,
+            window_y: var_windowY,
+            hint_text: var_hintText,
+            sending_text: var_sendingText,
+        };
+    }
+}
+
+impl SseDecode for crate::api::ime_hotkey_api::ImeHotkeyEvent {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_id = <u64>::sse_decode(deserializer);
+                let mut var_text = <String>::sse_decode(deserializer);
+                return crate::api::ime_hotkey_api::ImeHotkeyEvent::Submit {
+                    id: var_id,
+                    text: var_text,
+                };
+            }
+            1 => {
+                let mut var_id = <u64>::sse_decode(deserializer);
+                return crate::api::ime_hotkey_api::ImeHotkeyEvent::Sent { id: var_id };
+            }
+            2 => {
+                let mut var_id = <u64>::sse_decode(deserializer);
+                let mut var_reason =
+                    <crate::api::ime_hotkey_api::ImeSendFailure>::sse_decode(deserializer);
+                return crate::api::ime_hotkey_api::ImeHotkeyEvent::SendFailed {
+                    id: var_id,
+                    reason: var_reason,
+                };
+            }
+            3 => {
+                let mut var_x = <i32>::sse_decode(deserializer);
+                let mut var_y = <i32>::sse_decode(deserializer);
+                return crate::api::ime_hotkey_api::ImeHotkeyEvent::WindowMoved {
+                    x: var_x,
+                    y: var_y,
+                };
+            }
+            4 => {
+                let mut var_hotkey =
+                    <crate::api::ime_hotkey_api::ImeHotkey>::sse_decode(deserializer);
+                return crate::api::ime_hotkey_api::ImeHotkeyEvent::HotkeyCaptured {
+                    hotkey: var_hotkey,
+                };
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseDecode for crate::api::ime_hotkey_api::ImeSendFailure {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <i32>::sse_decode(deserializer);
+        return match inner {
+            0 => crate::api::ime_hotkey_api::ImeSendFailure::TargetWindowGone,
+            1 => crate::api::ime_hotkey_api::ImeSendFailure::FocusFailed,
+            2 => crate::api::ime_hotkey_api::ImeSendFailure::FocusLost,
+            3 => crate::api::ime_hotkey_api::ImeSendFailure::Busy,
+            _ => unreachable!("Invalid variant for ImeSendFailure: {}", inner),
+        };
     }
 }
 
@@ -5663,6 +6009,127 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::downloader_api::DownloadTaskS
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::ime_hotkey_api::ImeHotkey {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.vk.into_into_dart().into_dart(),
+            self.ctrl.into_into_dart().into_dart(),
+            self.alt.into_into_dart().into_dart(),
+            self.shift.into_into_dart().into_dart(),
+            self.win.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::ime_hotkey_api::ImeHotkey
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::ime_hotkey_api::ImeHotkey>
+    for crate::api::ime_hotkey_api::ImeHotkey
+{
+    fn into_into_dart(self) -> crate::api::ime_hotkey_api::ImeHotkey {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::ime_hotkey_api::ImeHotkeyConfig {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.hotkey.into_into_dart().into_dart(),
+            self.game_only.into_into_dart().into_dart(),
+            self.key_interval_ms.into_into_dart().into_dart(),
+            self.open_chat_before_send.into_into_dart().into_dart(),
+            self.auto_send.into_into_dart().into_dart(),
+            self.reopen_chat_after_send.into_into_dart().into_dart(),
+            self.window_x.into_into_dart().into_dart(),
+            self.window_y.into_into_dart().into_dart(),
+            self.hint_text.into_into_dart().into_dart(),
+            self.sending_text.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::ime_hotkey_api::ImeHotkeyConfig
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::ime_hotkey_api::ImeHotkeyConfig>
+    for crate::api::ime_hotkey_api::ImeHotkeyConfig
+{
+    fn into_into_dart(self) -> crate::api::ime_hotkey_api::ImeHotkeyConfig {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::ime_hotkey_api::ImeHotkeyEvent {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            crate::api::ime_hotkey_api::ImeHotkeyEvent::Submit { id, text } => [
+                0.into_dart(),
+                id.into_into_dart().into_dart(),
+                text.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::ime_hotkey_api::ImeHotkeyEvent::Sent { id } => {
+                [1.into_dart(), id.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::ime_hotkey_api::ImeHotkeyEvent::SendFailed { id, reason } => [
+                2.into_dart(),
+                id.into_into_dart().into_dart(),
+                reason.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::ime_hotkey_api::ImeHotkeyEvent::WindowMoved { x, y } => [
+                3.into_dart(),
+                x.into_into_dart().into_dart(),
+                y.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::ime_hotkey_api::ImeHotkeyEvent::HotkeyCaptured { hotkey } => {
+                [4.into_dart(), hotkey.into_into_dart().into_dart()].into_dart()
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::ime_hotkey_api::ImeHotkeyEvent
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::ime_hotkey_api::ImeHotkeyEvent>
+    for crate::api::ime_hotkey_api::ImeHotkeyEvent
+{
+    fn into_into_dart(self) -> crate::api::ime_hotkey_api::ImeHotkeyEvent {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::ime_hotkey_api::ImeSendFailure {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            Self::TargetWindowGone => 0.into_dart(),
+            Self::FocusFailed => 1.into_dart(),
+            Self::FocusLost => 2.into_dart(),
+            Self::Busy => 3.into_dart(),
+            _ => unreachable!(),
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::ime_hotkey_api::ImeSendFailure
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::ime_hotkey_api::ImeSendFailure>
+    for crate::api::ime_hotkey_api::ImeSendFailure
+{
+    fn into_into_dart(self) -> crate::api::ime_hotkey_api::ImeSendFailure {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::input_capture_api::InputCaptureEvent {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
@@ -6485,6 +6952,18 @@ impl SseEncode
 
 impl SseEncode
     for StreamSink<
+        crate::api::ime_hotkey_api::ImeHotkeyEvent,
+        flutter_rust_bridge::for_generated::DcoCodec,
+    >
+{
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        unimplemented!("")
+    }
+}
+
+impl SseEncode
+    for StreamSink<
         crate::api::input_capture_api::InputCaptureEvent,
         flutter_rust_bridge::for_generated::DcoCodec,
     >
@@ -6702,6 +7181,85 @@ impl SseEncode for i64 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         serializer.cursor.write_i64::<NativeEndian>(self).unwrap();
+    }
+}
+
+impl SseEncode for crate::api::ime_hotkey_api::ImeHotkey {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u32>::sse_encode(self.vk, serializer);
+        <bool>::sse_encode(self.ctrl, serializer);
+        <bool>::sse_encode(self.alt, serializer);
+        <bool>::sse_encode(self.shift, serializer);
+        <bool>::sse_encode(self.win, serializer);
+    }
+}
+
+impl SseEncode for crate::api::ime_hotkey_api::ImeHotkeyConfig {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <crate::api::ime_hotkey_api::ImeHotkey>::sse_encode(self.hotkey, serializer);
+        <bool>::sse_encode(self.game_only, serializer);
+        <u32>::sse_encode(self.key_interval_ms, serializer);
+        <bool>::sse_encode(self.open_chat_before_send, serializer);
+        <bool>::sse_encode(self.auto_send, serializer);
+        <bool>::sse_encode(self.reopen_chat_after_send, serializer);
+        <Option<i32>>::sse_encode(self.window_x, serializer);
+        <Option<i32>>::sse_encode(self.window_y, serializer);
+        <String>::sse_encode(self.hint_text, serializer);
+        <String>::sse_encode(self.sending_text, serializer);
+    }
+}
+
+impl SseEncode for crate::api::ime_hotkey_api::ImeHotkeyEvent {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            crate::api::ime_hotkey_api::ImeHotkeyEvent::Submit { id, text } => {
+                <i32>::sse_encode(0, serializer);
+                <u64>::sse_encode(id, serializer);
+                <String>::sse_encode(text, serializer);
+            }
+            crate::api::ime_hotkey_api::ImeHotkeyEvent::Sent { id } => {
+                <i32>::sse_encode(1, serializer);
+                <u64>::sse_encode(id, serializer);
+            }
+            crate::api::ime_hotkey_api::ImeHotkeyEvent::SendFailed { id, reason } => {
+                <i32>::sse_encode(2, serializer);
+                <u64>::sse_encode(id, serializer);
+                <crate::api::ime_hotkey_api::ImeSendFailure>::sse_encode(reason, serializer);
+            }
+            crate::api::ime_hotkey_api::ImeHotkeyEvent::WindowMoved { x, y } => {
+                <i32>::sse_encode(3, serializer);
+                <i32>::sse_encode(x, serializer);
+                <i32>::sse_encode(y, serializer);
+            }
+            crate::api::ime_hotkey_api::ImeHotkeyEvent::HotkeyCaptured { hotkey } => {
+                <i32>::sse_encode(4, serializer);
+                <crate::api::ime_hotkey_api::ImeHotkey>::sse_encode(hotkey, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+
+impl SseEncode for crate::api::ime_hotkey_api::ImeSendFailure {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(
+            match self {
+                crate::api::ime_hotkey_api::ImeSendFailure::TargetWindowGone => 0,
+                crate::api::ime_hotkey_api::ImeSendFailure::FocusFailed => 1,
+                crate::api::ime_hotkey_api::ImeSendFailure::FocusLost => 2,
+                crate::api::ime_hotkey_api::ImeSendFailure::Busy => 3,
+                _ => {
+                    unimplemented!("");
+                }
+            },
+            serializer,
+        );
     }
 }
 
@@ -7600,6 +8158,25 @@ mod io {
     impl
         CstDecode<
             StreamSink<
+                crate::api::ime_hotkey_api::ImeHotkeyEvent,
+                flutter_rust_bridge::for_generated::DcoCodec,
+            >,
+        > for *mut wire_cst_list_prim_u_8_strict
+    {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(
+            self,
+        ) -> StreamSink<
+            crate::api::ime_hotkey_api::ImeHotkeyEvent,
+            flutter_rust_bridge::for_generated::DcoCodec,
+        > {
+            let raw: String = self.cst_decode();
+            StreamSink::deserialize(raw)
+        }
+    }
+    impl
+        CstDecode<
+            StreamSink<
                 crate::api::input_capture_api::InputCaptureEvent,
                 flutter_rust_bridge::for_generated::DcoCodec,
             >,
@@ -7696,6 +8273,20 @@ mod io {
         // Codec=Cst (C-struct based), see doc to use other codecs
         fn cst_decode(self) -> i32 {
             unsafe { *flutter_rust_bridge::for_generated::box_from_leak_ptr(self) }
+        }
+    }
+    impl CstDecode<crate::api::ime_hotkey_api::ImeHotkey> for *mut wire_cst_ime_hotkey {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::ime_hotkey_api::ImeHotkey {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<crate::api::ime_hotkey_api::ImeHotkey>::cst_decode(*wrap).into()
+        }
+    }
+    impl CstDecode<crate::api::ime_hotkey_api::ImeHotkeyConfig> for *mut wire_cst_ime_hotkey_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::ime_hotkey_api::ImeHotkeyConfig {
+            let wrap = unsafe { flutter_rust_bridge::for_generated::box_from_leak_ptr(self) };
+            CstDecode::<crate::api::ime_hotkey_api::ImeHotkeyConfig>::cst_decode(*wrap).into()
         }
     }
     impl CstDecode<crate::api::unp4k_model_api::ModelConvertOptions>
@@ -7825,6 +8416,76 @@ mod io {
                 progress: self.progress.cst_decode(),
                 num_peers: self.num_peers.cst_decode(),
                 output_folder: self.output_folder.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::ime_hotkey_api::ImeHotkey> for wire_cst_ime_hotkey {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::ime_hotkey_api::ImeHotkey {
+            crate::api::ime_hotkey_api::ImeHotkey {
+                vk: self.vk.cst_decode(),
+                ctrl: self.ctrl.cst_decode(),
+                alt: self.alt.cst_decode(),
+                shift: self.shift.cst_decode(),
+                win: self.win.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::ime_hotkey_api::ImeHotkeyConfig> for wire_cst_ime_hotkey_config {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::ime_hotkey_api::ImeHotkeyConfig {
+            crate::api::ime_hotkey_api::ImeHotkeyConfig {
+                hotkey: self.hotkey.cst_decode(),
+                game_only: self.game_only.cst_decode(),
+                key_interval_ms: self.key_interval_ms.cst_decode(),
+                open_chat_before_send: self.open_chat_before_send.cst_decode(),
+                auto_send: self.auto_send.cst_decode(),
+                reopen_chat_after_send: self.reopen_chat_after_send.cst_decode(),
+                window_x: self.window_x.cst_decode(),
+                window_y: self.window_y.cst_decode(),
+                hint_text: self.hint_text.cst_decode(),
+                sending_text: self.sending_text.cst_decode(),
+            }
+        }
+    }
+    impl CstDecode<crate::api::ime_hotkey_api::ImeHotkeyEvent> for wire_cst_ime_hotkey_event {
+        // Codec=Cst (C-struct based), see doc to use other codecs
+        fn cst_decode(self) -> crate::api::ime_hotkey_api::ImeHotkeyEvent {
+            match self.tag {
+                0 => {
+                    let ans = unsafe { self.kind.Submit };
+                    crate::api::ime_hotkey_api::ImeHotkeyEvent::Submit {
+                        id: ans.id.cst_decode(),
+                        text: ans.text.cst_decode(),
+                    }
+                }
+                1 => {
+                    let ans = unsafe { self.kind.Sent };
+                    crate::api::ime_hotkey_api::ImeHotkeyEvent::Sent {
+                        id: ans.id.cst_decode(),
+                    }
+                }
+                2 => {
+                    let ans = unsafe { self.kind.SendFailed };
+                    crate::api::ime_hotkey_api::ImeHotkeyEvent::SendFailed {
+                        id: ans.id.cst_decode(),
+                        reason: ans.reason.cst_decode(),
+                    }
+                }
+                3 => {
+                    let ans = unsafe { self.kind.WindowMoved };
+                    crate::api::ime_hotkey_api::ImeHotkeyEvent::WindowMoved {
+                        x: ans.x.cst_decode(),
+                        y: ans.y.cst_decode(),
+                    }
+                }
+                4 => {
+                    let ans = unsafe { self.kind.HotkeyCaptured };
+                    crate::api::ime_hotkey_api::ImeHotkeyEvent::HotkeyCaptured {
+                        hotkey: ans.hotkey.cst_decode(),
+                    }
+                }
+                _ => unreachable!(),
             }
         }
     }
@@ -8438,6 +9099,56 @@ mod io {
         }
     }
     impl Default for wire_cst_download_task_info {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_ime_hotkey {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                vk: Default::default(),
+                ctrl: Default::default(),
+                alt: Default::default(),
+                shift: Default::default(),
+                win: Default::default(),
+            }
+        }
+    }
+    impl Default for wire_cst_ime_hotkey {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_ime_hotkey_config {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                hotkey: Default::default(),
+                game_only: Default::default(),
+                key_interval_ms: Default::default(),
+                open_chat_before_send: Default::default(),
+                auto_send: Default::default(),
+                reopen_chat_after_send: Default::default(),
+                window_x: core::ptr::null_mut(),
+                window_y: core::ptr::null_mut(),
+                hint_text: core::ptr::null_mut(),
+                sending_text: core::ptr::null_mut(),
+            }
+        }
+    }
+    impl Default for wire_cst_ime_hotkey_config {
+        fn default() -> Self {
+            Self::new_with_null_ptr()
+        }
+    }
+    impl NewWithNullPtr for wire_cst_ime_hotkey_event {
+        fn new_with_null_ptr() -> Self {
+            Self {
+                tag: -1,
+                kind: ImeHotkeyEventKind { nil__: () },
+            }
+        }
+    }
+    impl Default for wire_cst_ime_hotkey_event {
         fn default() -> Self {
             Self::new_with_null_ptr()
         }
@@ -9305,6 +10016,79 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_begin_capture(
+        port_: i64,
+    ) {
+        wire__crate__api__ime_hotkey_api__ime_hotkey_begin_capture_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_cancel_capture(
+        port_: i64,
+    ) {
+        wire__crate__api__ime_hotkey_api__ime_hotkey_cancel_capture_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_display_name(
+        hotkey: *mut wire_cst_ime_hotkey,
+    ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+        wire__crate__api__ime_hotkey_api__ime_hotkey_display_name_impl(hotkey)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_is_running(
+        port_: i64,
+    ) {
+        wire__crate__api__ime_hotkey_api__ime_hotkey_is_running_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_send(
+        port_: i64,
+        id: u64,
+        encoded: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__ime_hotkey_api__ime_hotkey_send_impl(port_, id, encoded)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_show_message(
+        port_: i64,
+        message: *mut wire_cst_list_prim_u_8_strict,
+        is_error: bool,
+        busy: bool,
+    ) {
+        wire__crate__api__ime_hotkey_api__ime_hotkey_show_message_impl(
+            port_, message, is_error, busy,
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_start(
+        port_: i64,
+        config: *mut wire_cst_ime_hotkey_config,
+        sink: *mut wire_cst_list_prim_u_8_strict,
+    ) {
+        wire__crate__api__ime_hotkey_api__ime_hotkey_start_impl(port_, config, sink)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_stop(
+        port_: i64,
+    ) {
+        wire__crate__api__ime_hotkey_api__ime_hotkey_stop_impl(port_)
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_update_config(
+        port_: i64,
+        config: *mut wire_cst_ime_hotkey_config,
+    ) {
+        wire__crate__api__ime_hotkey_api__ime_hotkey_update_config_impl(port_, config)
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_wire__crate__api__input_capture_api__input_capture_start(
         port_: i64,
         sink: *mut wire_cst_list_prim_u_8_strict,
@@ -10137,6 +10921,22 @@ mod io {
     }
 
     #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_ime_hotkey(
+    ) -> *mut wire_cst_ime_hotkey {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_ime_hotkey::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_ime_hotkey_config(
+    ) -> *mut wire_cst_ime_hotkey_config {
+        flutter_rust_bridge::for_generated::new_leak_box_ptr(
+            wire_cst_ime_hotkey_config::new_with_null_ptr(),
+        )
+    }
+
+    #[unsafe(no_mangle)]
     pub extern "C" fn frbgen_starcitizen_doctor_cst_new_box_autoadd_model_convert_options(
     ) -> *mut wire_cst_model_convert_options {
         flutter_rust_bridge::for_generated::new_leak_box_ptr(
@@ -10483,6 +11283,73 @@ mod io {
         progress: f64,
         num_peers: usize,
         output_folder: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ime_hotkey {
+        vk: u32,
+        ctrl: bool,
+        alt: bool,
+        shift: bool,
+        win: bool,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ime_hotkey_config {
+        hotkey: wire_cst_ime_hotkey,
+        game_only: bool,
+        key_interval_ms: u32,
+        open_chat_before_send: bool,
+        auto_send: bool,
+        reopen_chat_after_send: bool,
+        window_x: *mut i32,
+        window_y: *mut i32,
+        hint_text: *mut wire_cst_list_prim_u_8_strict,
+        sending_text: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ime_hotkey_event {
+        tag: i32,
+        kind: ImeHotkeyEventKind,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub union ImeHotkeyEventKind {
+        Submit: wire_cst_ImeHotkeyEvent_Submit,
+        Sent: wire_cst_ImeHotkeyEvent_Sent,
+        SendFailed: wire_cst_ImeHotkeyEvent_SendFailed,
+        WindowMoved: wire_cst_ImeHotkeyEvent_WindowMoved,
+        HotkeyCaptured: wire_cst_ImeHotkeyEvent_HotkeyCaptured,
+        nil__: (),
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ImeHotkeyEvent_Submit {
+        id: u64,
+        text: *mut wire_cst_list_prim_u_8_strict,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ImeHotkeyEvent_Sent {
+        id: u64,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ImeHotkeyEvent_SendFailed {
+        id: u64,
+        reason: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ImeHotkeyEvent_WindowMoved {
+        x: i32,
+        y: i32,
+    }
+    #[repr(C)]
+    #[derive(Clone, Copy)]
+    pub struct wire_cst_ImeHotkeyEvent_HotkeyCaptured {
+        hotkey: *mut wire_cst_ime_hotkey,
     }
     #[repr(C)]
     #[derive(Clone, Copy)]

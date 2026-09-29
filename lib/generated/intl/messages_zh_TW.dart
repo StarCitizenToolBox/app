@@ -126,375 +126,382 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m54(v0) => "社區輸入法支持：${v0}";
 
-  static String m55(v0) => "社區輸入法支持已更新到：${v0}";
+  static String m55(v0) => "啟動失敗：${v0}";
 
-  static String m56(v0) => "${v0} 個動作";
+  static String m56(v0) => "以下字元無法轉換，將替換為空格：${v0}　再按一次 Enter 仍然發送";
 
-  static String m57(v0) => "已綁定 ${v0} 項";
+  static String m57(v0) =>
+      "用法：在遊戲中按 ${v0} → 輸入中文 → Enter 發送；Esc 取消。拖動輸入框空白處可移動位置。";
 
-  static String m58(v0, v1) => "「${v0}」（${v1}）";
+  static String m58(v0) => "社區輸入法支持已更新到：${v0}";
 
-  static String m59(v0) => "預設：${v0}";
+  static String m59(v0) => "${v0} 個動作";
 
-  static String m60(v0) =>
+  static String m60(v0) => "已綁定 ${v0} 項";
+
+  static String m61(v0, v1) => "「${v0}」（${v1}）";
+
+  static String m62(v0) => "預設：${v0}";
+
+  static String m63(v0) =>
       "actionmaps.xml 在本工具載入後被修改過（例如在遊戲內改了按鍵）。繼續儲存會覆蓋這些修改，目前檔案會先備份到：\n${v0}";
 
-  static String m61(v0, v1) => "已匯出到 ${v0}\n\n在遊戲的按鍵設定中載入，或在主控台輸入：\n${v1}";
+  static String m64(v0, v1) => "已匯出到 ${v0}\n\n在遊戲的按鍵設定中載入，或在主控台輸入：\n${v1}";
 
-  static String m62(v0, v1, v2) =>
+  static String m65(v0, v1, v2) =>
       "已匯出到 ${v0} 個版本：${v1}\n\n在遊戲的按鍵設定中載入，或在主控台輸入：\n${v2}";
 
-  static String m63(v0) => "套用 ${v0} 項變更";
+  static String m66(v0) => "套用 ${v0} 項變更";
 
-  static String m64(v0) => "共 ${v0} 項變更";
+  static String m67(v0) => "共 ${v0} 項變更";
 
-  static String m65(v0) => "匯入失敗：${v0}";
+  static String m68(v0) => "匯入失敗：${v0}";
 
-  static String m66(v0) => "匯入：${v0}";
+  static String m69(v0) => "匯入：${v0}";
 
-  static String m67(v0) => "${v0} 個輸入已使用";
+  static String m70(v0) => "${v0} 個輸入已使用";
 
-  static String m68(v0) => "每個動作只有一個「${v0}」欄位，在此綁定會取代它原有的${v0}輸入。";
+  static String m71(v0) => "每個動作只有一個「${v0}」欄位，在此綁定會取代它原有的${v0}輸入。";
 
-  static String m69(v0) => "目前綁定 ${v0} 個動作";
+  static String m72(v0) => "目前綁定 ${v0} 個動作";
 
-  static String m70(v0) => "${v0} 軸";
+  static String m73(v0) => "${v0} 軸";
 
-  static String m71(v0) => "按鈕 ${v0}";
+  static String m74(v0) => "按鈕 ${v0}";
 
-  static String m72(v0, v1) => "帽鍵${v0} ${v1}";
+  static String m75(v0, v1) => "帽鍵${v0} ${v1}";
 
-  static String m73(v0) => "${v0} 旋轉";
+  static String m76(v0) => "${v0} 旋轉";
 
-  static String m74(v0) => "滑桿 ${v0}";
+  static String m77(v0) => "滑桿 ${v0}";
 
-  static String m75(v0) => "以下檔案已存在，儲存將覆蓋：\n${v0}";
+  static String m78(v0) => "以下檔案已存在，儲存將覆蓋：\n${v0}";
 
-  static String m76(v0) => "按住 ${v0} 秒後觸發";
+  static String m79(v0) => "按住 ${v0} 秒後觸發";
 
-  static String m77(v0) => "快速連按 ${v0} 次觸發";
+  static String m80(v0) => "快速連按 ${v0} 次觸發";
 
-  static String m78(v0) => "短按切換開 / 關；按住超過 ${v0} 秒則僅在按住期間生效";
+  static String m81(v0) => "短按切換開 / 關；按住超過 ${v0} 秒則僅在按住期間生效";
 
-  static String m79(v0) => "在 ${v0} 秒內放開時觸發，按住過久不觸發";
+  static String m82(v0) => "在 ${v0} 秒內放開時觸發，按住過久不觸發";
 
-  static String m80(v0) => "遊戲預設（${v0}）";
+  static String m83(v0) => "遊戲預設（${v0}）";
 
-  static String m81(v0) => "滑鼠 ${v0} 軸";
+  static String m84(v0) => "滑鼠 ${v0} 軸";
 
-  static String m82(v0) => "滑鼠按鍵 ${v0}";
+  static String m85(v0) => "滑鼠按鍵 ${v0}";
 
-  static String m83(v0) => "沒有符合「${v0}」的動作";
+  static String m86(v0) => "沒有符合「${v0}」的動作";
 
-  static String m84(v0) => "動作：${v0}";
+  static String m87(v0) => "動作：${v0}";
 
-  static String m85(v0) => "${v0} 已使用此輸入，在同一場景中會被同時觸發。";
+  static String m88(v0) => "${v0} 已使用此輸入，在同一場景中會被同時觸發。";
 
-  static String m86(v0) => "此輸入將儲存到「${v0}」欄位";
+  static String m89(v0) => "此輸入將儲存到「${v0}」欄位";
 
-  static String m87(v0) => "已按住 ${v0}，繼續按其他鍵組成組合鍵；直接放開則綁定 ${v0} 本身";
+  static String m90(v0) => "已按住 ${v0}，繼續按其他鍵組成組合鍵；直接放開則綁定 ${v0} 本身";
 
-  static String m88(v0) => "錄製${v0}輸入";
+  static String m91(v0) => "錄製${v0}輸入";
 
-  static String m89(v0, v1) => "也綁定到「${v0}」（${v1}），同一場景下會同時觸發";
+  static String m92(v0, v1) => "也綁定到「${v0}」（${v1}），同一場景下會同時觸發";
 
-  static String m90(v0, v1) => "遊戲預設也用於「${v0}」（${v1}）";
+  static String m93(v0, v1) => "遊戲預設也用於「${v0}」（${v1}）";
 
-  static String m91(v0, v1) => "同時用於「${v0}」（${v1}）：短按 / 長按組合，不算衝突";
+  static String m94(v0, v1) => "同時用於「${v0}」（${v1}）：短按 / 長按組合，不算衝突";
 
-  static String m92(v0) => "寫入前會把目前的 actionmaps.xml 備份到 ${v0}";
+  static String m95(v0) => "寫入前會把目前的 actionmaps.xml 備份到 ${v0}";
 
-  static String m93(v0) => "還有 ${v0} 個動作存在衝突，遊戲中按下時會同時觸發。";
+  static String m96(v0) => "還有 ${v0} 個動作存在衝突，遊戲中按下時會同時觸發。";
 
-  static String m94(v0) => "共 ${v0} 項自訂";
+  static String m97(v0) => "共 ${v0} 項自訂";
 
-  static String m95(v0) => "已儲存 · ${v0} 項自訂";
+  static String m98(v0) => "已儲存 · ${v0} 項自訂";
 
-  static String m96(v0, v1, v2) =>
+  static String m99(v0, v1, v2) =>
       "資料來源 Data.p4k · ${v0} · ${v1} 個動作 · 語言 ${v2}";
 
-  static String m97(v0) => "${v0} 項自訂 · 有未儲存的修改";
+  static String m100(v0) => "${v0} 項自訂 · 有未儲存的修改";
 
-  static String m98(v0) => "已寫入 actionmaps.xml，下次啟動遊戲時生效。\n原檔案備份：${v0}";
+  static String m101(v0) => "已寫入 actionmaps.xml，下次啟動遊戲時生效。\n原檔案備份：${v0}";
 
-  static String m99(v0, v1) =>
+  static String m102(v0, v1) =>
       "已寫入 ${v0} 個版本的 actionmaps.xml：${v1}，下次啟動遊戲時生效，原檔案已備份。";
 
-  static String m100(v0, v1) => "共有 ${v0} 個拓展有更新：${v1}。請前往漢化管理重新安裝。";
+  static String m103(v0, v1) => "共有 ${v0} 個拓展有更新：${v1}。請前往漢化管理重新安裝。";
 
-  static String m101(v0, v1) => "${v0} 有新版本 ${v1}，請前往漢化管理重新安裝。";
+  static String m104(v0, v1) => "${v0} 有新版本 ${v1}，請前往漢化管理重新安裝。";
 
-  static String m102(v0) => "遊戲通道：${v0}";
+  static String m105(v0) => "遊戲通道：${v0}";
 
-  static String m103(v0) => "啟用（${v0}）：";
+  static String m106(v0) => "啟用（${v0}）：";
 
-  static String m104(v0) => "安裝錯誤！\n\n ${v0}";
+  static String m107(v0) => "安裝錯誤！\n\n ${v0}";
 
-  static String m105(v0) => "已安裝：${v0}";
+  static String m108(v0) => "已安裝：${v0}";
 
-  static String m106(v0) => "更新時間：${v0}";
+  static String m109(v0) => "更新時間：${v0}";
 
-  static String m107(v0) => "版本：${v0}";
-
-  static String m108(v0, v1, v2, v3, v4) =>
-      "區域：${v0}   玩家駕駛：${v1}   碰撞實體：${v2} \n碰撞載具: ${v3}   碰撞距離：${v4} ";
-
-  static String m109(v0, v2, v3) => "受害者ID：${v0}   \n位置：${v2}  \n區域：${v3}";
-
-  static String m110(v0) => "詳細資訊：${v0}";
+  static String m110(v0) => "版本：${v0}";
 
   static String m111(v0, v1, v2, v3, v4) =>
+      "區域：${v0}   玩家駕駛：${v1}   碰撞實體：${v2} \n碰撞載具: ${v3}   碰撞距離：${v4} ";
+
+  static String m112(v0, v2, v3) => "受害者ID：${v0}   \n位置：${v2}  \n區域：${v3}";
+
+  static String m113(v0) => "詳細資訊：${v0}";
+
+  static String m114(v0, v1, v2, v3, v4) =>
       "擊殺次數：${v0}   死亡次數：${v1}   自殺次數：${v2}  \n載具損壞（軟死亡）：${v3}   載具損壞（解體）：${v4}";
 
-  static String m112(v0, v1) => "模式：${v0}   用時：${v1} 秒";
+  static String m115(v0, v1) => "模式：${v0}   用時：${v1} 秒";
 
-  static String m113(v0, v1, v2) => "${v0} 小時 ${v1} 分鐘 ${v2} 秒";
+  static String m116(v0, v1, v2) => "${v0} 小時 ${v1} 分鐘 ${v2} 秒";
 
-  static String m114(v0, v1) => "玩家ID：${v0}   位置：${v1}";
+  static String m117(v0, v1) => "玩家ID：${v0}   位置：${v1}";
 
-  static String m115(v0) => "玩家 ${v0} 登入 ...";
+  static String m118(v0) => "玩家 ${v0} 登入 ...";
 
-  static String m116(v0, v1, v2, v3, v4) =>
+  static String m119(v0, v1, v2, v3, v4) =>
       "載具型號：${v0}   \n區域：${v1} \n損毀等級：${v2} （${v3}）   責任方：${v4}";
 
-  static String m117(v0) => "壓縮大小（位元組）：${v0}";
+  static String m120(v0) => "壓縮大小（位元組）：${v0}";
 
-  static String m118(v0) => "目前來源：${v0}";
+  static String m121(v0) => "目前來源：${v0}";
 
-  static String m119(v0) => "鏡像缺少所需物件：${v0}。不會自動切換至官網。";
+  static String m122(v0) => "鏡像缺少所需物件：${v0}。不會自動切換至官網。";
 
-  static String m120(v0) => "物件 SHA-256：${v0}";
+  static String m123(v0) => "物件 SHA-256：${v0}";
 
-  static String m121(v0) => "下載失敗，正在重試：${v0}";
+  static String m124(v0) => "下載失敗，正在重試：${v0}";
 
-  static String m122(v0) => "下載速度：${v0}";
+  static String m125(v0) => "下載速度：${v0}";
 
-  static String m123(v0) => "正在下載：${v0}";
-
-  static String m124(v0) =>
-      "EAC 註冊未完成，已略過（遊戲檔案已更新）：${v0}\n若啟動遊戲時提示反作弊（EAC）錯誤，請在「疑難排解」中修復 EAC，或重新執行更新並在系統管理員權限提示中確認。";
-
-  static String m125(v0) => "EasyAntiCheat 註冊失敗，已繼續作為非致命警告：${v0}";
-
-  static String m126(v0, v1) => "EasyAntiCheat 註冊返回 ${v0}，已作為非致命警告繼續${v1}";
+  static String m126(v0) => "正在下載：${v0}";
 
   static String m127(v0) =>
+      "EAC 註冊未完成，已略過（遊戲檔案已更新）：${v0}\n若啟動遊戲時提示反作弊（EAC）錯誤，請在「疑難排解」中修復 EAC，或重新執行更新並在系統管理員權限提示中確認。";
+
+  static String m128(v0) => "EasyAntiCheat 註冊失敗，已繼續作為非致命警告：${v0}";
+
+  static String m129(v0, v1) => "EasyAntiCheat 註冊返回 ${v0}，已作為非致命警告繼續${v1}";
+
+  static String m130(v0) =>
       "${v0}加密 RSI Launcher store 同步未執行：目前 Dart 端缺少 AES-CBC/PBKDF2 相容實現，如啟動器仍顯示舊版請使用 RSI Launcher Verify";
 
-  static String m128(v0) => "失敗：${v0}";
+  static String m131(v0) => "失敗：${v0}";
 
-  static String m129(v0) => "安裝到 ${v0}";
+  static String m132(v0) => "安裝到 ${v0}";
 
-  static String m130(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9) =>
+  static String m133(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9) =>
       "Manifest 條目：${v0}\nP4K 需要下載（條目）：${v1}\n遊戲檔案需要下載（條目）：${v2}\n去重後下載物件（條目）：${v3}\n完整 P4K 參考大小：${v4}\n本地 Data.p4k.part：${v5}\n本次需下載基礎包：${v6}\n本次需下載物件 (payload)：${v7}\n本次預計下載總量：${v8}\n\n最大對象：\n${v9}";
 
-  static String m131(v0) => "P4K 更新器失敗：${v0}";
+  static String m134(v0) => "P4K 更新器失敗：${v0}";
 
-  static String m132(v0) => "${v0}（保守估算）";
+  static String m135(v0) => "${v0}（保守估算）";
 
-  static String m133(v0) => "正在準備遊戲檔案：${v0}";
+  static String m136(v0) => "正在準備遊戲檔案：${v0}";
 
-  static String m134(v0, v1) =>
+  static String m137(v0, v1) =>
       "發布版本：${v0}\n啟動檔案：${v1}\n\nreleaseInfo 已讀取。可先點選「估算更新量」檢查清單解析是否正常。";
 
-  static String m135(v0, v1, v2) => "階段 ${v0}/${v1}：${v2}";
+  static String m138(v0, v1, v2) => "階段 ${v0}/${v1}：${v2}";
 
-  static String m136(v0) => "更新 build_manifest.id 失敗，已繼續作為非致命警告：${v0}";
+  static String m139(v0) => "更新 build_manifest.id 失敗，已繼續作為非致命警告：${v0}";
 
-  static String m137(v0) => "更新完成：${v0}";
+  static String m140(v0) => "更新完成：${v0}";
 
-  static String m138(v0) => "已更新 build_manifest.id：RequestedP4ChangeNum=${v0}";
+  static String m141(v0) => "已更新 build_manifest.id：RequestedP4ChangeNum=${v0}";
 
-  static String m139(v0) => "正在更新 P4K 條目 metadata：${v0}";
+  static String m142(v0) => "正在更新 P4K 條目 metadata：${v0}";
 
-  static String m140(v0) => "正在校驗中：${v0}";
+  static String m143(v0) => "正在校驗中：${v0}";
 
-  static String m141(v0) => "正在寫入：${v0}";
+  static String m144(v0) => "正在寫入：${v0}";
 
-  static String m142(v0) => "正在寫入遊戲檔案：${v0}";
+  static String m145(v0) => "正在寫入遊戲檔案：${v0}";
 
-  static String m143(v0) => "連接失敗: ${v0}";
+  static String m146(v0) => "連接失敗: ${v0}";
 
-  static String m144(v0) => "${v0} 天前";
+  static String m147(v0) => "${v0} 天前";
 
-  static String m145(v0) => "退出房間失敗: ${v0}";
+  static String m148(v0) => "退出房間失敗: ${v0}";
 
-  static String m146(v0) => "獲取驗證碼失敗: ${v0}";
+  static String m149(v0) => "獲取驗證碼失敗: ${v0}";
 
-  static String m147(v0) => "${v0} 小時前";
+  static String m150(v0) => "${v0} 小時前";
 
-  static String m148(v0) => "確定要踢出 ${v0} 嗎？";
+  static String m151(v0) => "確定要踢出 ${v0} 嗎？";
 
-  static String m149(v0) => "踢出成員失敗：${v0}";
+  static String m152(v0) => "踢出成員失敗：${v0}";
 
-  static String m150(v0) => "載入房間列表失敗: ${v0}";
+  static String m153(v0) => "載入房間列表失敗: ${v0}";
 
-  static String m151(v0, v1) => "${v0}/${v1} 成員";
+  static String m154(v0, v1) => "${v0}/${v1} 成員";
 
-  static String m152(v0) => "${v0} 分鐘前";
+  static String m155(v0) => "${v0} 分鐘前";
 
-  static String m153(v0) => "重連失敗: ${v0}";
+  static String m156(v0) => "重連失敗: ${v0}";
 
-  static String m154(v0) => "重連失敗，已嘗試 ${v0} 次";
+  static String m157(v0) => "重連失敗，已嘗試 ${v0} 次";
 
-  static String m155(v0) => "註冊失敗: ${v0}";
+  static String m158(v0) => "註冊失敗: ${v0}";
 
-  static String m156(v0) => "確定要將房主轉移給 ${v0} 嗎？";
+  static String m159(v0) => "確定要將房主轉移給 ${v0} 嗎？";
 
-  static String m157(v0) => "轉移房主失敗：${v0}";
+  static String m160(v0) => "轉移房主失敗：${v0}";
 
-  static String m158(v0) => "目前狀態：${v0}";
+  static String m161(v0) => "目前狀態：${v0}";
 
-  static String m159(v0, v1, v2) => "${v0}    最小值: ${v1} / 最大值: ${v2}";
+  static String m162(v0, v1, v2) => "${v0}    最小值: ${v1} / 最大值: ${v2}";
 
-  static String m160(v0) => "畫面調整 -> ${v0}";
+  static String m163(v0) => "畫面調整 -> ${v0}";
 
-  static String m161(v0) => "快取大小 ${v0}MB，清理工具箱下載的翻譯文件快取，不會影響已安裝的社群翻譯";
+  static String m164(v0) => "快取大小 ${v0}MB，清理工具箱下載的翻譯文件快取，不會影響已安裝的社群翻譯";
 
-  static String m162(v0) =>
+  static String m165(v0) =>
       "已設定的核心數量：${v0}   （此功能適用於首頁的工具箱快速啟動 或 工具中的RSI啟動器管理員模式，當為 0 時不啟用此功能 ）";
 
-  static String m163(v0) => "⚠ AnalyticsApi.touch(\"launch\") 錯誤: ${v0} - 繼續執行";
+  static String m166(v0) => "⚠ AnalyticsApi.touch(\"launch\") 錯誤: ${v0} - 繼續執行";
 
-  static String m164(v0) => "✗ appModel.initApp() 錯誤: ${v0}";
+  static String m167(v0) => "✗ appModel.initApp() 錯誤: ${v0}";
 
-  static String m165(v0) => "⚠ aria2cModelProvider 初始化錯誤: ${v0}";
+  static String m168(v0) => "⚠ aria2cModelProvider 初始化錯誤: ${v0}";
 
-  static String m166(v0) => "⚠ URLConf.checkHost() 錯誤: ${v0} - 繼續執行";
+  static String m169(v0) => "⚠ URLConf.checkHost() 錯誤: ${v0} - 繼續執行";
 
-  static String m167(v0) => "⚠ appModel.checkUpdate() 錯誤: ${v0} - 繼續執行";
+  static String m170(v0) => "⚠ appModel.checkUpdate() 錯誤: ${v0} - 繼續執行";
 
-  static String m168(v0) => "[診斷] 關閉 Hive boxes 失敗: ${v0}";
+  static String m171(v0) => "[診斷] 關閉 Hive boxes 失敗: ${v0}";
 
-  static String m169(v0) => "[診斷] 資料庫目錄不存在: ${v0}";
+  static String m172(v0) => "[診斷] 資料庫目錄不存在: ${v0}";
 
-  static String m170(v0) => "[診斷] 正在刪除資料庫目錄: ${v0}";
+  static String m173(v0) => "[診斷] 正在刪除資料庫目錄: ${v0}";
 
-  static String m171(v0) => "[診斷] ${v0}";
+  static String m174(v0) => "[診斷] ${v0}";
 
-  static String m172(v0) => "診斷模式 - Step ${v0}";
+  static String m175(v0) => "診斷模式 - Step ${v0}";
 
-  static String m173(v0) => "✗ Hive.openBox(\"app_conf\") 錯誤: ${v0}";
+  static String m176(v0) => "✗ Hive.openBox(\"app_conf\") 錯誤: ${v0}";
 
-  static String m174(v0) => "[${v0}] ⚠ 日誌檔案不存在";
+  static String m177(v0) => "[${v0}] ⚠ 日誌檔案不存在";
 
-  static String m175(v0) => "[${v0}] --- 日誌讀取完成 (顯示最後1000行) ---";
+  static String m178(v0) => "[${v0}] --- 日誌讀取完成 (顯示最後1000行) ---";
 
-  static String m176(v0, v1) => "[${v0}] ✗ 讀取日誌失敗: ${v1}";
+  static String m179(v0, v1) => "[${v0}] ✗ 讀取日誌失敗: ${v1}";
 
-  static String m177(v0) => "[診斷] 重置資料庫失敗: ${v0}";
+  static String m180(v0) => "[診斷] 重置資料庫失敗: ${v0}";
 
-  static String m178(v0) => "[${v0}] 開始初始化...";
+  static String m181(v0) => "[${v0}] 開始初始化...";
 
-  static String m179(v0) => "[${v0}] --- 開始讀取完整日誌檔案 ---";
+  static String m182(v0) => "[${v0}] --- 開始讀取完整日誌檔案 ---";
 
-  static String m180(v0) => "清理失敗，請手動移除，檔案位置：${v0}";
+  static String m183(v0) => "清理失敗，請手動移除，檔案位置：${v0}";
 
-  static String m181(v0) => "出現錯誤：${v0}";
+  static String m184(v0) => "出現錯誤：${v0}";
 
-  static String m182(v0) => "初始化失敗，請截圖報告給開發者。${v0}";
+  static String m185(v0) => "初始化失敗，請截圖報告給開發者。${v0}";
 
-  static String m183(v0) =>
+  static String m186(v0) =>
       "若您使用 nvme 補丁出現問題，請執行此工具。（可能導致遊戲 安裝/更新 無法使用。）\n\n目前補丁狀態：${v0}";
 
-  static String m184(v0) => "使用星際公民中文百科提供的分流下載服務，可用於下載或修復 p4k。 \n版本資訊：${v0}";
+  static String m187(v0) => "使用星際公民中文百科提供的分流下載服務，可用於下載或修復 p4k。 \n版本資訊：${v0}";
 
-  static String m185(v0) =>
+  static String m188(v0) =>
       "在某些情況下 RSI啟動器 的 log 文件會損壞，導致無法完成問題掃描，使用此工具清理損壞的 log 文件。\n\n目前日誌檔案大小：${v0} MB";
 
-  static String m186(v0) => "若遊戲畫面出現異常或版本更新後可使用此工具清除著色器快取 \n\n快取大小：${v0} MB";
+  static String m189(v0) => "若遊戲畫面出現異常或版本更新後可使用此工具清除著色器快取 \n\n快取大小：${v0} MB";
 
-  static String m187(v0, v1, v2, v3, v4) =>
+  static String m190(v0, v1, v2, v3, v4) =>
       "系統：${v0}\n\n處理器：${v1}\n\n記憶體：${v2}GB\n\n顯示卡：\n${v3}\n\n硬碟：\n${v4}\n\n";
 
-  static String m190(v0) => "處理失敗！：${v0}";
+  static String m193(v0) => "處理失敗！：${v0}";
 
-  static String m191(v0) => "讀取啟動器資訊失敗：${v0}";
+  static String m194(v0) => "讀取啟動器資訊失敗：${v0}";
 
-  static String m192(v0) => "補丁狀態：${v0}";
+  static String m195(v0) => "補丁狀態：${v0}";
 
-  static String m193(v0) => "啟動器內部版本資訊：${v0}";
+  static String m196(v0) => "啟動器內部版本資訊：${v0}";
 
-  static String m199(v0) => "音訊解碼失敗：${v0}";
+  static String m202(v0) => "音訊解碼失敗：${v0}";
 
-  static String m200(v0) => "音訊預覽失敗：${v0}";
+  static String m203(v0) => "音訊預覽失敗：${v0}";
 
-  static String m201(v0) => "只能跳到已緩衝區域（目前已緩衝 ${v0}s）";
+  static String m204(v0) => "只能跳到已緩衝區域（目前已緩衝 ${v0}s）";
 
-  static String m203(v0, v1) => "匯出完成，成功 ${v0} 個，跳過 ${v1} 個";
+  static String m206(v0, v1) => "匯出完成，成功 ${v0} 個，跳過 ${v1} 個";
 
-  static String m204(v0) => "匯出完成，共 ${v0} 個文件";
+  static String m207(v0) => "匯出完成，共 ${v0} 個文件";
 
-  static String m208(v0) => "${v0}\n(來自緩存)";
+  static String m211(v0) => "${v0}\n(來自緩存)";
 
-  static String m209(v0, v1) => "${v0}\n還有 ${v1} 個失敗檔案已跳過";
+  static String m212(v0, v1) => "${v0}\n還有 ${v1} 個失敗檔案已跳過";
 
-  static String m210(v0) => "打開文件：${v0}";
+  static String m213(v0) => "打開文件：${v0}";
 
-  static String m211(v0, v1) => "載入完畢：${v0} 個文件，用時：${v1} ms";
+  static String m214(v0, v1) => "載入完畢：${v0} 個文件，用時：${v1} ms";
 
-  static String m212(v0) => "讀取文件：${v0} ...";
+  static String m215(v0) => "讀取文件：${v0} ...";
 
-  static String m213(v0, v1) => "正在處理文件 (${v0}/${v1}) ...";
+  static String m216(v0, v1) => "正在處理文件 (${v0}/${v1}) ...";
 
-  static String m214(v0) => "未知文件類型\n${v0}";
+  static String m217(v0) => "未知文件類型\n${v0}";
 
-  static String m215(v0, v1) => "進度: ${v0}/${v1}";
+  static String m218(v0, v1) => "進度: ${v0}/${v1}";
 
-  static String m216(v0) =>
+  static String m219(v0) =>
       "目前 WEM 編碼不受內建解碼支援（format=0x${v0}）。\n目前版本支援 PCM (0x0001) 和 Wwise Vorbis (0xFFFF) 的 WEM 預覽。";
 
-  static String m217(v0) => "P4K 查看器 -> ${v0}";
+  static String m220(v0) => "P4K 查看器 -> ${v0}";
 
-  static String m218(v0) => "登出失敗: ${v0}";
+  static String m221(v0) => "登出失敗: ${v0}";
 
-  static String m219(v0) => "刷新失敗: ${v0}";
+  static String m222(v0) => "刷新失敗: ${v0}";
 
-  static String m220(v0) => "註冊時間：${v0}";
+  static String m223(v0) => "註冊時間：${v0}";
 
-  static String m221(v0) => "登入了 ${v0} 次";
+  static String m224(v0) => "登入了 ${v0} 次";
 
-  static String m222(v0) => "共檢測到 ${v0} 個帳號";
+  static String m225(v0) => "共檢測到 ${v0} 個帳號";
 
-  static String m223(year) => "查看您在${year}年的星際公民遊玩統計，數據來自本地 log ，請確保在常用電腦上查看。";
+  static String m226(year) => "查看您在${year}年的星際公民遊玩統計，數據來自本地 log ，請確保在常用電腦上查看。";
 
-  static String m224(year) => "${year} 年度報告（限時）";
+  static String m227(year) => "${year} 年度報告（限時）";
 
-  static String m225(v0, v1, v2, v3) => "${v0}月${v1}日 - ${v2}月${v3}日";
+  static String m228(v0, v1, v2, v3) => "${v0}月${v1}日 - ${v2}月${v3}日";
 
-  static String m226(v0, v1) => "${v0} 小時 ${v1} 分鐘";
+  static String m229(v0, v1) => "${v0} 小時 ${v1} 分鐘";
 
-  static String m227(v0) => "${v0} 分鐘";
+  static String m230(v0) => "${v0} 分鐘";
 
-  static String m228(v0, v1) => "您在清晨 ${v0} 月 ${v1} 日開始了星際之旅";
+  static String m231(v0, v1) => "您在清晨 ${v0} 月 ${v1} 日開始了星際之旅";
 
-  static String m229(v0, v1) => "深夜 ${v0} 月 ${v1} 日還在探索宇宙";
+  static String m232(v0, v1) => "深夜 ${v0} 月 ${v1} 日還在探索宇宙";
 
-  static String m230(v0) => "${v0} 次";
+  static String m233(v0) => "${v0} 次";
 
-  static String m231(v0) => "${v0}月";
+  static String m234(v0) => "${v0}月";
 
-  static String m232(v0) => "僅啟動 ${v0} 次";
+  static String m235(v0) => "僅啟動 ${v0} 次";
 
-  static String m233(v0) => "啟動了 ${v0} 次";
+  static String m236(v0) => "啟動了 ${v0} 次";
 
-  static String m234(v0) => "${v0} 小時";
+  static String m237(v0) => "${v0} 小時";
 
-  static String m235(v0, v1) => "${v0}月${v1}日";
+  static String m238(v0, v1) => "${v0}月${v1}日";
 
-  static String m236(year) => "${year} 年，我們一起在星際公民中\n創造了無數精彩回憶";
+  static String m239(year) => "${year} 年，我們一起在星際公民中\n創造了無數精彩回憶";
 
-  static String m237(nextYear) => "期待 ${nextYear} 年繼續與您相伴！";
+  static String m240(nextYear) => "期待 ${nextYear} 年繼續與您相伴！";
 
-  static String m238(year) => "星際公民 ${year} 年度報告";
+  static String m241(year) => "星際公民 ${year} 年度報告";
 
-  static String m239(v0) => "炸了 ${v0} 次";
+  static String m242(v0) => "炸了 ${v0} 次";
 
-  static String m240(v0) => "駕駛了 ${v0} 次";
+  static String m243(v0) => "駕駛了 ${v0} 次";
 
-  static String m241(v0) => "查看全部 ${v0} 個載具";
+  static String m244(v0) => "查看全部 ${v0} 個載具";
 
-  static String m242(year) => "${year} 年度報告";
+  static String m245(year) => "${year} 年度報告";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -1142,9 +1149,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "home_title_app_name": MessageLookupByLibrary.simpleMessage("SC工具箱"),
     "home_title_logging_in": MessageLookupByLibrary.simpleMessage("正在登入..."),
-    "input_method_address_fetch_failed": MessageLookupByLibrary.simpleMessage(
-      "獲取地址失敗，請手動查看電腦IP",
-    ),
     "input_method_auto_copy": MessageLookupByLibrary.simpleMessage("自動複製"),
     "input_method_auto_translate": MessageLookupByLibrary.simpleMessage(
       "雙語翻譯：",
@@ -1158,23 +1162,106 @@ class MessageLookup extends MessageLookupByLibrary {
     "input_method_community_input_method_not_installed":
         MessageLookupByLibrary.simpleMessage("未安裝社區輸入法支持"),
     "input_method_community_input_method_support_version": m54,
-    "input_method_confirm_enable_remote_input":
-        MessageLookupByLibrary.simpleMessage("確認啟用遠程輸入？"),
     "input_method_confirm_install_advanced_localization":
         MessageLookupByLibrary.simpleMessage("確認安裝高級漢化？"),
     "input_method_disclaimer": MessageLookupByLibrary.simpleMessage(
       "*本功能建議僅在非公共頻道中使用。若用戶選擇在公共頻道中使用本功能，由此產生的任何後果（包括但不限於被其他玩家舉報刷屏等），均由用戶自行承擔。\n*若該功能被濫用，我們將關閉該功能。",
     ),
-    "input_method_enable_remote_input_instructions":
-        MessageLookupByLibrary.simpleMessage(
-          "開啟此功能後，可通過手機訪問遠程服務地址，快捷輸入文字，省去切換窗口的麻煩，遊戲流程不中斷。\n\n若彈出防火牆提示，請展開彈窗，手動勾選所有網絡類型並允許，否則可能無法正常訪問此功能。",
-        ),
     "input_method_encoded_text_placeholder":
         MessageLookupByLibrary.simpleMessage("這裡是轉碼後的文本..."),
     "input_method_experimental_input_method":
         MessageLookupByLibrary.simpleMessage("社區輸入法（實驗性）"),
     "input_method_feature_maintenance": MessageLookupByLibrary.simpleMessage(
       "功能維護中，請稍後重試",
+    ),
+    "input_method_hotkey_auto_send": MessageLookupByLibrary.simpleMessage(
+      "自動發送",
+    ),
+    "input_method_hotkey_auto_send_info": MessageLookupByLibrary.simpleMessage(
+      "關閉後僅把文字輸入到遊戲聊天框，由你手動按 Enter 發送。",
+    ),
+    "input_method_hotkey_chat_mode": MessageLookupByLibrary.simpleMessage(
+      "輸入偏好",
+    ),
+    "input_method_hotkey_chat_mode_close_after_send":
+        MessageLookupByLibrary.simpleMessage("使用者手動開啟聊天框，自動發送後關閉"),
+    "input_method_hotkey_chat_mode_keep_open":
+        MessageLookupByLibrary.simpleMessage("使用者手動開啟聊天框，自動發送後重新開啟"),
+    "input_method_hotkey_chat_mode_manual":
+        MessageLookupByLibrary.simpleMessage("使用者手動開啟聊天框"),
+    "input_method_hotkey_chat_mode_open_before_send":
+        MessageLookupByLibrary.simpleMessage("自動開啟聊天框"),
+    "input_method_hotkey_chat_mode_tips": MessageLookupByLibrary.simpleMessage(
+      "若按下快捷鍵時聊天框沒有開啟，輸入的字元會被遊戲當作按鍵操作。",
+    ),
+    "input_method_hotkey_confirm_content": MessageLookupByLibrary.simpleMessage(
+      "該功能會安裝全域鍵盤鉤子來監聽快捷鍵，並透過模擬鍵盤按鍵把文字輸入到遊戲中。它不會注入或修改遊戲，但部分安全軟體或反作弊程式可能會關注此類行為，請自行評估風險。\n\n請將遊戲設定為無邊框視窗模式，獨佔全螢幕下彈出輸入框可能導致遊戲最小化。",
+    ),
+    "input_method_hotkey_confirm_title": MessageLookupByLibrary.simpleMessage(
+      "啟用遊戲內快捷輸入？",
+    ),
+    "input_method_hotkey_description": MessageLookupByLibrary.simpleMessage(
+      "在遊戲中按快捷鍵彈出輸入框，用系統輸入法輸入中文，按 Enter 後自動轉換為社區輸入法編碼並輸入到遊戲聊天框。不注入遊戲、不修改遊戲檔案、不使用剪貼簿。",
+    ),
+    "input_method_hotkey_error_busy": MessageLookupByLibrary.simpleMessage(
+      "上一則訊息仍在發送中",
+    ),
+    "input_method_hotkey_error_focus_failed":
+        MessageLookupByLibrary.simpleMessage("無法切換回遊戲視窗，請重試"),
+    "input_method_hotkey_error_focus_lost":
+        MessageLookupByLibrary.simpleMessage("輸入過程中視窗被切換，已停止輸入"),
+    "input_method_hotkey_error_no_table": MessageLookupByLibrary.simpleMessage(
+      "未找到社區輸入法資料，請在盒子中重新安裝漢化並開啟社區輸入法支援",
+    ),
+    "input_method_hotkey_error_nothing_to_send":
+        MessageLookupByLibrary.simpleMessage("沒有可以發送的內容"),
+    "input_method_hotkey_error_target_gone":
+        MessageLookupByLibrary.simpleMessage("遊戲視窗已關閉"),
+    "input_method_hotkey_game_only": MessageLookupByLibrary.simpleMessage(
+      "僅在遊戲視窗中回應",
+    ),
+    "input_method_hotkey_game_only_info": MessageLookupByLibrary.simpleMessage(
+      "關閉後，快捷鍵在任意視窗中都會彈出輸入框（可用於在記事本中測試）。",
+    ),
+    "input_method_hotkey_hotkey": MessageLookupByLibrary.simpleMessage("快捷鍵"),
+    "input_method_hotkey_key_interval": MessageLookupByLibrary.simpleMessage(
+      "按鍵間隔（毫秒）",
+    ),
+    "input_method_hotkey_key_interval_tips":
+        MessageLookupByLibrary.simpleMessage("遊戲中出現丟字時請調大"),
+    "input_method_hotkey_popup_hint": MessageLookupByLibrary.simpleMessage(
+      "Enter 發送 · Esc 取消 · 拖動空白處移動",
+    ),
+    "input_method_hotkey_popup_hint_input_only":
+        MessageLookupByLibrary.simpleMessage("Enter 輸入 · Esc 取消 · 拖動空白處移動"),
+    "input_method_hotkey_popup_sending": MessageLookupByLibrary.simpleMessage(
+      "正在發送…",
+    ),
+    "input_method_hotkey_press_keys": MessageLookupByLibrary.simpleMessage(
+      "請按下新的組合鍵（Esc 取消）…",
+    ),
+    "input_method_hotkey_reset_position": MessageLookupByLibrary.simpleMessage(
+      "重設輸入框位置",
+    ),
+    "input_method_hotkey_settings": MessageLookupByLibrary.simpleMessage(
+      "快捷輸入設定",
+    ),
+    "input_method_hotkey_start_failed": m55,
+    "input_method_hotkey_switch": MessageLookupByLibrary.simpleMessage(
+      "遊戲內快捷輸入：",
+    ),
+    "input_method_hotkey_title": MessageLookupByLibrary.simpleMessage(
+      "遊戲內快捷輸入（實驗性）",
+    ),
+    "input_method_hotkey_translate_failed":
+        MessageLookupByLibrary.simpleMessage("翻譯失敗，再按一次 Enter 僅發送中文"),
+    "input_method_hotkey_translating": MessageLookupByLibrary.simpleMessage(
+      "翻譯中…",
+    ),
+    "input_method_hotkey_unsupported_chars": m56,
+    "input_method_hotkey_usage": m57,
+    "input_method_hotkey_window_position": MessageLookupByLibrary.simpleMessage(
+      "輸入框位置",
     ),
     "input_method_input_placeholder": MessageLookupByLibrary.simpleMessage(
       "請輸入文本...",
@@ -1189,49 +1276,33 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "input_method_install_community_input_method_support":
         MessageLookupByLibrary.simpleMessage("安裝社區輸入法支持"),
-    "input_method_ip_address_not_found": MessageLookupByLibrary.simpleMessage(
-      "我們沒能找到合適的 ip 地址來訪問服務，請您嘗試以下地址（左右切換）",
-    ),
     "input_method_online_version_prompt": MessageLookupByLibrary.simpleMessage(
       "本功能另有提供在線獨立版，點擊訪問 >",
-    ),
-    "input_method_remote_input_service": MessageLookupByLibrary.simpleMessage(
-      "遠程輸入服務：",
-    ),
-    "input_method_scan_qr_code": MessageLookupByLibrary.simpleMessage(
-      "請使用您的移動設備掃描以下二維碼，或手動訪問連接",
-    ),
-    "input_method_send_success": MessageLookupByLibrary.simpleMessage("發送成功！"),
-    "input_method_service_qr_code": MessageLookupByLibrary.simpleMessage(
-      "服務二維碼",
     ),
     "input_method_support_updated": MessageLookupByLibrary.simpleMessage(
       "社區輸入法支持已更新",
     ),
-    "input_method_support_updated_to_version": m55,
-    "input_method_text_cannot_be_empty": MessageLookupByLibrary.simpleMessage(
-      "文本不能為空！",
-    ),
+    "input_method_support_updated_to_version": m58,
     "input_method_usage_instructions": MessageLookupByLibrary.simpleMessage(
       "使用說明",
     ),
-    "keybinding_action_count": m56,
+    "keybinding_action_count": m59,
     "keybinding_activation_mode": MessageLookupByLibrary.simpleMessage("觸發方式"),
     "keybinding_all_sticks": MessageLookupByLibrary.simpleMessage("全部搖桿"),
     "keybinding_apply": MessageLookupByLibrary.simpleMessage("套用"),
     "keybinding_bindings": MessageLookupByLibrary.simpleMessage("綁定"),
-    "keybinding_bound_count": m57,
+    "keybinding_bound_count": m60,
     "keybinding_clear": MessageLookupByLibrary.simpleMessage("清除"),
     "keybinding_cleared_hint": MessageLookupByLibrary.simpleMessage(
       "已清除，遊戲中不再回應",
     ),
     "keybinding_column_action": MessageLookupByLibrary.simpleMessage("動作"),
     "keybinding_column_mode": MessageLookupByLibrary.simpleMessage("觸發方式"),
-    "keybinding_conflict_item": m58,
+    "keybinding_conflict_item": m61,
     "keybinding_conflicts": MessageLookupByLibrary.simpleMessage("衝突"),
     "keybinding_connected": MessageLookupByLibrary.simpleMessage("已連線"),
     "keybinding_copy": MessageLookupByLibrary.simpleMessage("複製"),
-    "keybinding_default_is": m59,
+    "keybinding_default_is": m62,
     "keybinding_default_none": MessageLookupByLibrary.simpleMessage("預設未綁定"),
     "keybinding_device_gamepad": MessageLookupByLibrary.simpleMessage("手把"),
     "keybinding_device_joystick": MessageLookupByLibrary.simpleMessage("搖桿"),
@@ -1257,13 +1328,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "確定捨棄所有未儲存的按鍵修改嗎？",
     ),
     "keybinding_disconnected": MessageLookupByLibrary.simpleMessage("未連線"),
-    "keybinding_disk_changed": m60,
+    "keybinding_disk_changed": m63,
     "keybinding_disk_changed_title": MessageLookupByLibrary.simpleMessage(
       "設定已在別處被修改",
     ),
     "keybinding_done": MessageLookupByLibrary.simpleMessage("完成"),
-    "keybinding_export_done": m61,
-    "keybinding_export_done_multi": m62,
+    "keybinding_export_done": m64,
+    "keybinding_export_done_multi": m65,
     "keybinding_filter_all": MessageLookupByLibrary.simpleMessage("全部"),
     "keybinding_filter_gamepad": MessageLookupByLibrary.simpleMessage("手把"),
     "keybinding_filter_joystick": MessageLookupByLibrary.simpleMessage("搖桿"),
@@ -1287,12 +1358,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "按下任一裝置的按鍵：鍵盤、滑鼠、手把或搖桿，第一個觸發的裝置會被選中",
     ),
     "keybinding_identify_stop": MessageLookupByLibrary.simpleMessage("停止辨識"),
-    "keybinding_import_apply": m63,
-    "keybinding_import_change_count": m64,
+    "keybinding_import_apply": m66,
+    "keybinding_import_change_count": m67,
     "keybinding_import_done": MessageLookupByLibrary.simpleMessage(
       "已匯入設定檔，檢查後儲存即可生效。",
     ),
-    "keybinding_import_failed": m65,
+    "keybinding_import_failed": m68,
     "keybinding_import_layout": MessageLookupByLibrary.simpleMessage("匯入設定檔…"),
     "keybinding_import_merge": MessageLookupByLibrary.simpleMessage("合併"),
     "keybinding_import_merge_hint": MessageLookupByLibrary.simpleMessage(
@@ -1302,7 +1373,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "沒有需要變更的內容。",
     ),
     "keybinding_import_preset": MessageLookupByLibrary.simpleMessage("匯入遊戲預設…"),
-    "keybinding_import_preview_title": m66,
+    "keybinding_import_preview_title": m69,
     "keybinding_import_replace": MessageLookupByLibrary.simpleMessage("取代"),
     "keybinding_import_replace_hint": MessageLookupByLibrary.simpleMessage(
       "放棄目前所有修改，匯入內容以外的按鍵還原遊戲預設。",
@@ -1310,12 +1381,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "keybinding_import_stick_mismatch": MessageLookupByLibrary.simpleMessage(
       "此預設對應的搖桿與目前不同，匯入後請在裝置頁檢查編號。",
     ),
-    "keybinding_input_count": m67,
+    "keybinding_input_count": m70,
     "keybinding_input_dialog_add": MessageLookupByLibrary.simpleMessage(
       "綁定新動作",
     ),
-    "keybinding_input_dialog_add_hint": m68,
-    "keybinding_input_dialog_current": m69,
+    "keybinding_input_dialog_add_hint": m71,
+    "keybinding_input_dialog_current": m72,
     "keybinding_input_dialog_modifiers": MessageLookupByLibrary.simpleMessage(
       "修飾鍵",
     ),
@@ -1330,11 +1401,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "解除",
     ),
     "keybinding_joysticks": MessageLookupByLibrary.simpleMessage("搖桿"),
-    "keybinding_js_axis": m70,
-    "keybinding_js_button": m71,
-    "keybinding_js_hat": m72,
-    "keybinding_js_rotation": m73,
-    "keybinding_js_slider": m74,
+    "keybinding_js_axis": m73,
+    "keybinding_js_button": m74,
+    "keybinding_js_hat": m75,
+    "keybinding_js_rotation": m76,
+    "keybinding_js_slider": m77,
     "keybinding_kb_legend_base": MessageLookupByLibrary.simpleMessage(
       "顏色越深，該鍵承載的動作越多（單獨按下）",
     ),
@@ -1344,7 +1415,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "keybinding_layer_all": MessageLookupByLibrary.simpleMessage("全部"),
     "keybinding_layer_base": MessageLookupByLibrary.simpleMessage("基礎層"),
     "keybinding_layer_modifier": MessageLookupByLibrary.simpleMessage("組合鍵"),
-    "keybinding_layout_exists": m75,
+    "keybinding_layout_exists": m78,
     "keybinding_layout_exists_title": MessageLookupByLibrary.simpleMessage(
       "覆蓋已有配置？",
     ),
@@ -1383,8 +1454,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "keybinding_mode_desc_default": MessageLookupByLibrary.simpleMessage(
       "使用遊戲為此動作設定的行為。",
     ),
-    "keybinding_mode_desc_hold_for": m76,
-    "keybinding_mode_desc_multi_tap": m77,
+    "keybinding_mode_desc_hold_for": m79,
+    "keybinding_mode_desc_multi_tap": m80,
     "keybinding_mode_desc_non_blocking": MessageLookupByLibrary.simpleMessage(
       "不影響該鍵的單擊動作",
     ),
@@ -1398,15 +1469,15 @@ class MessageLookup extends MessageLookupByLibrary {
       "按住時可重複觸發",
     ),
     "keybinding_mode_desc_separator": MessageLookupByLibrary.simpleMessage("，"),
-    "keybinding_mode_desc_smart_toggle": m78,
-    "keybinding_mode_desc_tap_within": m79,
+    "keybinding_mode_desc_smart_toggle": m81,
+    "keybinding_mode_desc_tap_within": m82,
     "keybinding_mode_desc_until_release": MessageLookupByLibrary.simpleMessage(
       "放開結束",
     ),
     "keybinding_mode_double_tap": MessageLookupByLibrary.simpleMessage("雙擊"),
     "keybinding_mode_double_tap_nonblocking":
         MessageLookupByLibrary.simpleMessage("雙擊·不攔截"),
-    "keybinding_mode_game_default": m80,
+    "keybinding_mode_game_default": m83,
     "keybinding_mode_hold": MessageLookupByLibrary.simpleMessage("按住"),
     "keybinding_mode_hold_no_retrigger": MessageLookupByLibrary.simpleMessage(
       "按住·單次",
@@ -1421,8 +1492,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "keybinding_mode_tap": MessageLookupByLibrary.simpleMessage("短按"),
     "keybinding_mode_tap_quicker": MessageLookupByLibrary.simpleMessage("短按·快"),
-    "keybinding_mouse_axis": m81,
-    "keybinding_mouse_button": m82,
+    "keybinding_mouse_axis": m84,
+    "keybinding_mouse_button": m85,
     "keybinding_mouse_left": MessageLookupByLibrary.simpleMessage("滑鼠左鍵"),
     "keybinding_mouse_middle": MessageLookupByLibrary.simpleMessage("滑鼠中鍵"),
     "keybinding_mouse_right": MessageLookupByLibrary.simpleMessage("滑鼠右鍵"),
@@ -1443,7 +1514,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "keybinding_no_joystick_hint": MessageLookupByLibrary.simpleMessage(
       "插上搖桿後點擊重新整理。已記錄在 actionmaps.xml 中的搖桿即使未連線也會列出。",
     ),
-    "keybinding_no_search_result": m83,
+    "keybinding_no_search_result": m86,
     "keybinding_numbering_hint": MessageLookupByLibrary.simpleMessage(
       "編號與遊戲內一致（來自 actionmaps.xml 的 <options>）。插拔順序變化導致編號錯位時，請用「交換」修正，不會自動重排。",
     ),
@@ -1459,18 +1530,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "keybinding_preset_title": MessageLookupByLibrary.simpleMessage("遊戲預設"),
     "keybinding_profile_menu": MessageLookupByLibrary.simpleMessage("設定檔"),
     "keybinding_record": MessageLookupByLibrary.simpleMessage("錄製"),
-    "keybinding_record_action": m84,
+    "keybinding_record_action": m87,
     "keybinding_record_again": MessageLookupByLibrary.simpleMessage("重新錄製"),
     "keybinding_record_axis_hint": MessageLookupByLibrary.simpleMessage(
       "軸需推過一半行程才會被辨識；按住 Alt / Ctrl / Shift 可錄製修飾鍵組合。",
     ),
     "keybinding_record_confirm": MessageLookupByLibrary.simpleMessage("確認綁定"),
-    "keybinding_record_conflict_body": m85,
+    "keybinding_record_conflict_body": m88,
     "keybinding_record_conflict_title": MessageLookupByLibrary.simpleMessage(
       "此輸入已被使用",
     ),
     "keybinding_record_failed": MessageLookupByLibrary.simpleMessage("輸入監聽失敗"),
-    "keybinding_record_goes_to": m86,
+    "keybinding_record_goes_to": m89,
     "keybinding_record_hint_gamepad": MessageLookupByLibrary.simpleMessage(
       "請按下手把按鍵或推動搖桿",
     ),
@@ -1486,17 +1557,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "keybinding_record_listening_sticks": MessageLookupByLibrary.simpleMessage(
       "正在監聽所有搖桿，按下哪根就綁定到哪根（js1 / js2）：",
     ),
-    "keybinding_record_modifier_held": m87,
+    "keybinding_record_modifier_held": m90,
     "keybinding_record_mouse_pad": MessageLookupByLibrary.simpleMessage(
       "在此處點擊滑鼠按鍵或捲動滾輪",
     ),
     "keybinding_record_replace": MessageLookupByLibrary.simpleMessage(
       "取代：解除其他動作上的此綁定",
     ),
-    "keybinding_record_title": m88,
-    "keybinding_relation_conflict": m89,
-    "keybinding_relation_default_overlap": m90,
-    "keybinding_relation_pair": m91,
+    "keybinding_record_title": m91,
+    "keybinding_relation_conflict": m92,
+    "keybinding_relation_default_overlap": m93,
+    "keybinding_relation_pair": m94,
     "keybinding_reset": MessageLookupByLibrary.simpleMessage("還原預設"),
     "keybinding_reset_action": MessageLookupByLibrary.simpleMessage("重設此動作"),
     "keybinding_reset_all": MessageLookupByLibrary.simpleMessage("全部還原為遊戲預設"),
@@ -1512,8 +1583,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "keybinding_save_actionmaps": MessageLookupByLibrary.simpleMessage(
       "直接寫入目前設定（actionmaps.xml）",
     ),
-    "keybinding_save_actionmaps_hint": m92,
-    "keybinding_save_conflicts": m93,
+    "keybinding_save_actionmaps_hint": m95,
+    "keybinding_save_conflicts": m96,
     "keybinding_save_failed": MessageLookupByLibrary.simpleMessage("儲存失敗"),
     "keybinding_save_layout": MessageLookupByLibrary.simpleMessage(
       "匯出為按鍵設定檔（推薦）",
@@ -1524,7 +1595,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "keybinding_save_layout_name": MessageLookupByLibrary.simpleMessage(
       "設定檔名稱",
     ),
-    "keybinding_save_summary": m94,
+    "keybinding_save_summary": m97,
     "keybinding_save_title": MessageLookupByLibrary.simpleMessage("儲存按鍵設定"),
     "keybinding_scene_flight": MessageLookupByLibrary.simpleMessage("航行"),
     "keybinding_scene_on_foot": MessageLookupByLibrary.simpleMessage("徒步"),
@@ -1541,9 +1612,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "keybinding_state_default": MessageLookupByLibrary.simpleMessage("預設"),
     "keybinding_state_modified": MessageLookupByLibrary.simpleMessage("已修改"),
     "keybinding_state_unbound": MessageLookupByLibrary.simpleMessage("未綁定"),
-    "keybinding_status_saved": m95,
-    "keybinding_status_source": m96,
-    "keybinding_status_unsaved": m97,
+    "keybinding_status_saved": m98,
+    "keybinding_status_source": m99,
+    "keybinding_status_unsaved": m100,
     "keybinding_stick_alias": MessageLookupByLibrary.simpleMessage("別名"),
     "keybinding_stick_alias_hint": MessageLookupByLibrary.simpleMessage(
       "例如：左桿 / 右桿 / 油門",
@@ -1561,8 +1632,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "keybinding_view": MessageLookupByLibrary.simpleMessage("查看"),
     "keybinding_view_diagram": MessageLookupByLibrary.simpleMessage("佈局圖"),
     "keybinding_view_list": MessageLookupByLibrary.simpleMessage("列表"),
-    "keybinding_write_done": m98,
-    "keybinding_write_done_multi": m99,
+    "keybinding_write_done": m101,
+    "keybinding_write_done_multi": m102,
     "keybinding_zoom_fit": MessageLookupByLibrary.simpleMessage("適應視窗"),
     "keybinding_zoom_hint": MessageLookupByLibrary.simpleMessage("滾輪縮放，拖曳平移"),
     "keybinding_zoom_in": MessageLookupByLibrary.simpleMessage("放大"),
@@ -1590,9 +1661,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "localization_extension_update_available":
         MessageLookupByLibrary.simpleMessage("漢化拓展有更新"),
-    "localization_extension_update_multiple": m100,
-    "localization_extension_update_single": m101,
-    "localization_info_channel": m102,
+    "localization_extension_update_multiple": m103,
+    "localization_extension_update_single": m104,
+    "localization_info_channel": m105,
     "localization_info_community_translation":
         MessageLookupByLibrary.simpleMessage("社群翻譯"),
     "localization_info_corrupted_file": MessageLookupByLibrary.simpleMessage(
@@ -1604,14 +1675,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "localization_info_download_timeout": MessageLookupByLibrary.simpleMessage(
       "下載逾時，請檢查網路後重試",
     ),
-    "localization_info_enabled": m103,
+    "localization_info_enabled": m106,
     "localization_info_incompatible_translation_params_warning":
         MessageLookupByLibrary.simpleMessage(
           "USER.cfg 包含不相容的翻譯參數，這可能是以前的翻譯文件的殘留信息。\n\n這將可能導致翻譯無效或亂碼，點擊確認進行快速刪除（不會影響其他配置）。",
         ),
-    "localization_info_installation_error": m104,
+    "localization_info_installation_error": m107,
     "localization_info_installed": MessageLookupByLibrary.simpleMessage("已安裝"),
-    "localization_info_installed_version": m105,
+    "localization_info_installed_version": m108,
     "localization_info_language": MessageLookupByLibrary.simpleMessage(
       "語言：   ",
     ),
@@ -1632,8 +1703,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "localization_info_unavailable": MessageLookupByLibrary.simpleMessage(
       "無法使用",
     ),
-    "localization_info_update_time": m106,
-    "localization_info_version_number": m107,
+    "localization_info_update_time": m109,
+    "localization_info_version_number": m110,
     "log_analyze_game_log_current": MessageLookupByLibrary.simpleMessage(
       "Game.log (當前)",
     ),
@@ -1644,12 +1715,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "log_analyze_select_log_file": MessageLookupByLibrary.simpleMessage(
       "選擇日誌文件",
     ),
-    "log_analyzer_collision_details": m108,
-    "log_analyzer_death_details": m109,
+    "log_analyzer_collision_details": m111,
+    "log_analyzer_death_details": m112,
     "log_analyzer_description": MessageLookupByLibrary.simpleMessage(
       "分析您的遊玩記錄 （登入、死亡、擊殺 等資訊）",
     ),
-    "log_analyzer_details_info": m110,
+    "log_analyzer_details_info": m113,
     "log_analyzer_disintegration": MessageLookupByLibrary.simpleMessage("解體"),
     "log_analyzer_filter_account_related": MessageLookupByLibrary.simpleMessage(
       "帳戶相關",
@@ -1683,9 +1754,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "log_analyzer_game_loading": MessageLookupByLibrary.simpleMessage("遊戲載入"),
     "log_analyzer_game_start": MessageLookupByLibrary.simpleMessage("遊戲啟動"),
-    "log_analyzer_kill_death_suicide_count": m111,
+    "log_analyzer_kill_death_suicide_count": m114,
     "log_analyzer_kill_summary": MessageLookupByLibrary.simpleMessage("擊殺總結"),
-    "log_analyzer_mode_loading_time": m112,
+    "log_analyzer_mode_loading_time": m115,
     "log_analyzer_no_crash_detected": MessageLookupByLibrary.simpleMessage(
       "未檢測到遊戲崩潰資訊",
     ),
@@ -1695,9 +1766,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "log_analyzer_one_click_diagnosis_header":
         MessageLookupByLibrary.simpleMessage("----- 工具箱疑難排解 -----"),
     "log_analyzer_play_time": MessageLookupByLibrary.simpleMessage("遊玩時長"),
-    "log_analyzer_play_time_format": m113,
-    "log_analyzer_player_location": m114,
-    "log_analyzer_player_login": m115,
+    "log_analyzer_play_time_format": m116,
+    "log_analyzer_player_location": m117,
+    "log_analyzer_player_login": m118,
     "log_analyzer_search_placeholder": MessageLookupByLibrary.simpleMessage(
       "輸入關鍵字搜索內容",
     ),
@@ -1706,7 +1777,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "log_analyzer_soft_death": MessageLookupByLibrary.simpleMessage("軟死亡"),
     "log_analyzer_title": MessageLookupByLibrary.simpleMessage("log 分析器"),
-    "log_analyzer_vehicle_damage_details": m116,
+    "log_analyzer_vehicle_damage_details": m119,
     "log_analyzer_view_local_inventory": MessageLookupByLibrary.simpleMessage(
       "查看本地庫存",
     ),
@@ -1731,12 +1802,12 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "無需登入，更新可能不及時；下載完成後請使用官方來源或啟動器再次驗證。",
         ),
-    "p4k_source_compressed_size": m117,
+    "p4k_source_compressed_size": m120,
     "p4k_source_confirm_switch": MessageLookupByLibrary.simpleMessage(
       "確認切換至官網",
     ),
     "p4k_source_continue": MessageLookupByLibrary.simpleMessage("繼續"),
-    "p4k_source_current": m118,
+    "p4k_source_current": m121,
     "p4k_source_dialog_description": MessageLookupByLibrary.simpleMessage(
       "本次下載、更新、修復及重試將使用所選來源。",
     ),
@@ -1755,7 +1826,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_source_error_network": MessageLookupByLibrary.simpleMessage(
       "連線鏡像失敗。不會自動切換至官網。",
     ),
-    "p4k_source_error_object_missing": m119,
+    "p4k_source_error_object_missing": m122,
     "p4k_source_error_provider_unavailable":
         MessageLookupByLibrary.simpleMessage("此版本暫未提供鏡像服務。不會自動切換至官網。"),
     "p4k_source_error_unsupported_channel":
@@ -1776,7 +1847,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_source_mirror_release_mismatch": MessageLookupByLibrary.simpleMessage(
       "鏡像版本與目前更新版本不相符。不會自動切換至官網。",
     ),
-    "p4k_source_object_sha": m120,
+    "p4k_source_object_sha": m123,
     "p4k_source_official": MessageLookupByLibrary.simpleMessage("官網（需登入）"),
     "p4k_source_switch_confirm_body": MessageLookupByLibrary.simpleMessage(
       "鏡像缺少所需內容。切換後，本次下載、更新、修復及重試將改用官網，並需要登入 RSI 帳戶。只有確認後才會停止使用鏡像。",
@@ -1836,7 +1907,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_update_download_basics_p4k": MessageLookupByLibrary.simpleMessage(
       "下載基礎 P4K",
     ),
-    "p4k_update_download_failed_retrying": m121,
+    "p4k_update_download_failed_retrying": m124,
     "p4k_update_download_game_files": MessageLookupByLibrary.simpleMessage(
       "下載遊戲文件",
     ),
@@ -1846,31 +1917,31 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "p4k_update_download_signature_refreshed":
         MessageLookupByLibrary.simpleMessage("已取得新的下載簽名，下載將繼續（已下載的進度會保留）"),
-    "p4k_update_download_speed": m122,
+    "p4k_update_download_speed": m125,
     "p4k_update_download_verify_basics_p4k":
         MessageLookupByLibrary.simpleMessage("下載/校驗基礎 P4K"),
     "p4k_update_download_write_game_files":
         MessageLookupByLibrary.simpleMessage("下載/寫入遊戲文件"),
-    "p4k_update_downloading": m123,
+    "p4k_update_downloading": m126,
     "p4k_update_downloading_objects_game_files_and_patching_p4k":
         MessageLookupByLibrary.simpleMessage("正在下載物件、遊戲檔案並修補 P4K..."),
-    "p4k_update_eac_registration_skipped": m124,
+    "p4k_update_eac_registration_skipped": m127,
     "p4k_update_easyanticheat_installer_not_found_registration_skipped":
         MessageLookupByLibrary.simpleMessage("未找到 EasyAntiCheat 安裝程序，跳過註冊"),
     "p4k_update_easyanticheat_registration_completed":
         MessageLookupByLibrary.simpleMessage("EasyAntiCheat 註冊完成"),
     "p4k_update_easyanticheat_registration_failed_and_has_continued_as_a_non_fat":
-        m125,
+        m128,
     "p4k_update_easyanticheat_registration_returned_has_continued_as_a_non_fatal":
-        m126,
+        m129,
     "p4k_update_encryption_rsi_launcher_store_synchronization_is_not_executed_th":
-        m127,
+        m130,
     "p4k_update_estimate_completed": MessageLookupByLibrary.simpleMessage(
       "估算完成",
     ),
     "p4k_update_estimated_number_of_updates":
         MessageLookupByLibrary.simpleMessage("估算更新量"),
-    "p4k_update_failure": m128,
+    "p4k_update_failure": m131,
     "p4k_update_finish": MessageLookupByLibrary.simpleMessage("完成"),
     "p4k_update_game_downloader_updater": MessageLookupByLibrary.simpleMessage(
       "遊戲下載器 / 更新器",
@@ -1880,11 +1951,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_update_in_depth_repair_of_p4k": MessageLookupByLibrary.simpleMessage(
       "正在深度修復 P4K",
     ),
-    "p4k_update_install_to": m129,
+    "p4k_update_install_to": m132,
     "p4k_update_installation_status_processing_completed":
         MessageLookupByLibrary.simpleMessage("安裝狀態處理完成"),
     "p4k_update_manifest_entry_p4k_requires_download_entry_game_files_need_to_be":
-        m130,
+        m133,
     "p4k_update_manifest_url_cannot_be_empty":
         MessageLookupByLibrary.simpleMessage("Manifest URL 不能為空"),
     "p4k_update_number_of_threads": MessageLookupByLibrary.simpleMessage(
@@ -1896,18 +1967,18 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "p4k_update_p4k_is_being_repaired_in_depth_will_diagnose_first_and_rebuild_i":
         MessageLookupByLibrary.simpleMessage("正在深度修復 P4K（會先診斷，必要時重建，耗時很長）..."),
-    "p4k_update_p4k_updater_failed": m131,
+    "p4k_update_p4k_updater_failed": m134,
     "p4k_update_patching_data_p4k": MessageLookupByLibrary.simpleMessage(
       "修補 Data.p4k",
     ),
     "p4k_update_pause": MessageLookupByLibrary.simpleMessage("暫停"),
-    "p4k_update_payload_conservative_estimate": m132,
+    "p4k_update_payload_conservative_estimate": m135,
     "p4k_update_prepare_game_files": MessageLookupByLibrary.simpleMessage(
       "準備遊戲文件",
     ),
     "p4k_update_preparing_for_p4k_patching":
         MessageLookupByLibrary.simpleMessage("準備 P4K 修補"),
-    "p4k_update_preparing_game_files": m133,
+    "p4k_update_preparing_game_files": m136,
     "p4k_update_preparing_game_files_2": MessageLookupByLibrary.simpleMessage(
       "正在準備遊戲文件",
     ),
@@ -1925,7 +1996,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_update_registering_easyanticheat":
         MessageLookupByLibrary.simpleMessage("正在註冊 EasyAntiCheat"),
     "p4k_update_release_version_startup_file_releaseinfo_has_been_read_you_can_f":
-        m134,
+        m137,
     "p4k_update_requestedp4changenum_cannot_be_inferred_from_releaseinfo_build_m":
         MessageLookupByLibrary.simpleMessage(
           "無法從 releaseInfo 推斷 RequestedP4ChangeNum，未寫入 build_manifest.id",
@@ -1939,7 +2010,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "p4k_update_scanning_local_p4k_records_and_restoring_indexes":
         MessageLookupByLibrary.simpleMessage("正在掃描本機 P4K 記錄並還原索引"),
-    "p4k_update_stage": m135,
+    "p4k_update_stage": m138,
     "p4k_update_start_installation": MessageLookupByLibrary.simpleMessage(
       "開始安裝",
     ),
@@ -1960,13 +2031,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_update_unknown_version": MessageLookupByLibrary.simpleMessage("未知版本"),
     "p4k_update_unnecessary": MessageLookupByLibrary.simpleMessage("不需要"),
     "p4k_update_update_build_manifest_id_failed_continued_as_non_fatal_warning":
-        m136,
+        m139,
     "p4k_update_update_completed": MessageLookupByLibrary.simpleMessage("更新完成"),
-    "p4k_update_update_completed_2": m137,
+    "p4k_update_update_completed_2": m140,
     "p4k_update_update_p4k_entry_metadata":
         MessageLookupByLibrary.simpleMessage("更新 P4K 條目 metadata"),
-    "p4k_update_updated_build_manifest_id_requestedp4changenum": m138,
-    "p4k_update_updating_p4k_entry_metadata": m139,
+    "p4k_update_updated_build_manifest_id_requestedp4changenum": m141,
+    "p4k_update_updating_p4k_entry_metadata": m142,
     "p4k_update_updating_p4k_entry_metadata_2":
         MessageLookupByLibrary.simpleMessage("正在更新 P4K 條目 metadata"),
     "p4k_update_verify_game_files": MessageLookupByLibrary.simpleMessage(
@@ -1978,7 +2049,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "p4k_update_verify_repair_results": MessageLookupByLibrary.simpleMessage(
       "校驗修復結果",
     ),
-    "p4k_update_verifying": m140,
+    "p4k_update_verifying": m143,
     "p4k_update_verifying_game_files": MessageLookupByLibrary.simpleMessage(
       "正在校驗遊戲文件",
     ),
@@ -1990,8 +2061,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "寫入遊戲文件",
     ),
     "p4k_update_write_to_p4k": MessageLookupByLibrary.simpleMessage("寫入 P4K"),
-    "p4k_update_writing": m141,
-    "p4k_update_writing_game_file": m142,
+    "p4k_update_writing": m144,
+    "p4k_update_writing_game_file": m145,
     "party_room_about_verification": MessageLookupByLibrary.simpleMessage(
       "關於帳號驗證",
     ),
@@ -2012,7 +2083,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "在簡介的任意位置添加驗證碼即可，驗證碼30分鐘內有效",
     ),
     "party_room_confirm_dismiss": MessageLookupByLibrary.simpleMessage("確認解散"),
-    "party_room_connect_error": m143,
+    "party_room_connect_error": m146,
     "party_room_connect_failed": MessageLookupByLibrary.simpleMessage("連接失敗"),
     "party_room_connecting": MessageLookupByLibrary.simpleMessage("正在連接伺服器..."),
     "party_room_continue": MessageLookupByLibrary.simpleMessage("繼續"),
@@ -2029,7 +2100,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "party_room_create_new_room": MessageLookupByLibrary.simpleMessage("建立新房間"),
     "party_room_create_room": MessageLookupByLibrary.simpleMessage("建立房間"),
-    "party_room_days_ago": m144,
+    "party_room_days_ago": m147,
     "party_room_disconnected": MessageLookupByLibrary.simpleMessage("連接已斷開"),
     "party_room_dismiss": MessageLookupByLibrary.simpleMessage("解散"),
     "party_room_dismiss_confirm_msg": MessageLookupByLibrary.simpleMessage(
@@ -2054,7 +2125,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "party_room_error": MessageLookupByLibrary.simpleMessage("錯誤"),
     "party_room_exit_room": MessageLookupByLibrary.simpleMessage("退出房間"),
-    "party_room_exit_room_failed": m145,
+    "party_room_exit_room_failed": m148,
     "party_room_game_id_empty": MessageLookupByLibrary.simpleMessage(
       "遊戲ID不能為空",
     ),
@@ -2064,12 +2135,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_game_not_started": MessageLookupByLibrary.simpleMessage(
       "<遊戲未啟動>",
     ),
-    "party_room_get_code_failed": m146,
+    "party_room_get_code_failed": m149,
     "party_room_go_login": MessageLookupByLibrary.simpleMessage("去登入"),
     "party_room_guest_mode_hint": MessageLookupByLibrary.simpleMessage(
       "您正在以訪客身份瀏覽，登入後可建立或加入房間。",
     ),
-    "party_room_hours_ago": m147,
+    "party_room_hours_ago": m150,
     "party_room_info_updated": MessageLookupByLibrary.simpleMessage("房間資訊已更新"),
     "party_room_join": MessageLookupByLibrary.simpleMessage("加入"),
     "party_room_join_failed": MessageLookupByLibrary.simpleMessage("加入失敗"),
@@ -2080,8 +2151,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_just_now": MessageLookupByLibrary.simpleMessage("剛剛"),
     "party_room_kick": MessageLookupByLibrary.simpleMessage("踢出"),
     "party_room_kick_member": MessageLookupByLibrary.simpleMessage("踢出成員"),
-    "party_room_kick_member_confirm": m148,
-    "party_room_kick_member_failed": m149,
+    "party_room_kick_member_confirm": m151,
+    "party_room_kick_member_failed": m152,
     "party_room_kicked": MessageLookupByLibrary.simpleMessage("被踢出房間"),
     "party_room_leave_confirm": MessageLookupByLibrary.simpleMessage(
       "確認離開房間嗎？",
@@ -2092,13 +2163,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_link_format_error": MessageLookupByLibrary.simpleMessage(
       "連結格式錯誤！",
     ),
-    "party_room_load_list_failed": m150,
+    "party_room_load_list_failed": m153,
     "party_room_loading": MessageLookupByLibrary.simpleMessage("載入中..."),
     "party_room_location": MessageLookupByLibrary.simpleMessage("位置"),
     "party_room_login": MessageLookupByLibrary.simpleMessage("登入"),
     "party_room_main_menu": MessageLookupByLibrary.simpleMessage("<主選單>"),
-    "party_room_members_count": m151,
-    "party_room_minutes_ago": m152,
+    "party_room_members_count": m154,
+    "party_room_minutes_ago": m155,
     "party_room_need_login": MessageLookupByLibrary.simpleMessage("需要登入"),
     "party_room_new_owner": MessageLookupByLibrary.simpleMessage("新房主"),
     "party_room_next_step": MessageLookupByLibrary.simpleMessage("下一步"),
@@ -2125,12 +2196,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_player_death": MessageLookupByLibrary.simpleMessage("玩家死亡"),
     "party_room_prev_step": MessageLookupByLibrary.simpleMessage("上一步"),
     "party_room_reconnect": MessageLookupByLibrary.simpleMessage("重新連接"),
-    "party_room_reconnect_failed": m153,
+    "party_room_reconnect_failed": m156,
     "party_room_reconnect_prompt": MessageLookupByLibrary.simpleMessage(
       "與房間伺服器的連接已斷開，是否重新連接？",
     ),
-    "party_room_reconnect_retry": m154,
-    "party_room_register_failed": m155,
+    "party_room_reconnect_retry": m157,
+    "party_room_register_failed": m158,
     "party_room_register_success": MessageLookupByLibrary.simpleMessage(
       "註冊成功！",
     ),
@@ -2199,8 +2270,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "party_room_title": MessageLookupByLibrary.simpleMessage("組隊大廳"),
     "party_room_transfer": MessageLookupByLibrary.simpleMessage("轉移"),
     "party_room_transfer_owner": MessageLookupByLibrary.simpleMessage("轉移房主"),
-    "party_room_transfer_owner_confirm": m156,
-    "party_room_transfer_owner_failed": m157,
+    "party_room_transfer_owner_confirm": m159,
+    "party_room_transfer_owner_failed": m160,
     "party_room_unknown_area": MessageLookupByLibrary.simpleMessage("未知區域"),
     "party_room_unknown_location": MessageLookupByLibrary.simpleMessage("未知位置"),
     "party_room_unknown_user": MessageLookupByLibrary.simpleMessage("未知使用者"),
@@ -2236,7 +2307,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "performance_action_super": MessageLookupByLibrary.simpleMessage("極高"),
     "performance_info_applied": MessageLookupByLibrary.simpleMessage("已套用"),
-    "performance_info_current_status": m158,
+    "performance_info_current_status": m161,
     "performance_info_delete_config_file": MessageLookupByLibrary.simpleMessage(
       "刪除配置檔案...",
     ),
@@ -2250,7 +2321,7 @@ class MessageLookup extends MessageLookupByLibrary {
           "此功能對改善因 GPU 造成的瓶頸，但對於因 CPU 造成瓶頸的裝置可能引發負面效果，如果您 GPU 性能強勁，可以嘗試更改為更高的畫質來獲得更高的 GPU 使用率並改善畫面表現。",
         ),
     "performance_info_graphics": MessageLookupByLibrary.simpleMessage("圖形"),
-    "performance_info_min_max_values": m159,
+    "performance_info_min_max_values": m162,
     "performance_info_not_applied": MessageLookupByLibrary.simpleMessage("未套用"),
     "performance_info_shader_clearing_warning":
         MessageLookupByLibrary.simpleMessage(
@@ -2409,7 +2480,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "performance_json_text_water_info": MessageLookupByLibrary.simpleMessage(
       "各種水的等級",
     ),
-    "performance_title_performance_optimization": m160,
+    "performance_title_performance_optimization": m163,
     "setting_action_clear_translation_file_cache":
         MessageLookupByLibrary.simpleMessage("清理翻譯文件快取"),
     "setting_action_create_desktop_shortcut":
@@ -2422,7 +2493,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "setting_action_info_autofill_data_cleared":
         MessageLookupByLibrary.simpleMessage("已清理自動輸入資料"),
-    "setting_action_info_cache_clearing_info": m161,
+    "setting_action_info_cache_clearing_info": m164,
     "setting_action_info_clear_cache_warning":
         MessageLookupByLibrary.simpleMessage("這不會影響已安裝的社群翻譯。"),
     "setting_action_info_confirm_clear_cache":
@@ -2467,7 +2538,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "setting_action_reset_auto_password_fill":
         MessageLookupByLibrary.simpleMessage("重設自動密碼輸入"),
-    "setting_action_set_core_count": m162,
+    "setting_action_set_core_count": m165,
     "setting_action_set_game_file": MessageLookupByLibrary.simpleMessage(
       "變更遊戲文件 （StarCitizen.exe）",
     ),
@@ -2520,39 +2591,39 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_analytics_done": MessageLookupByLibrary.simpleMessage(
       "✓ AnalyticsApi.touch(\"launch\") 完成",
     ),
-    "splash_analytics_error": m163,
+    "splash_analytics_error": m166,
     "splash_analytics_timeout": MessageLookupByLibrary.simpleMessage(
       "⚠ AnalyticsApi.touch() 超時 (10秒) - 繼續執行",
     ),
     "splash_app_init_done": MessageLookupByLibrary.simpleMessage(
       "✓ appModel.initApp() 完成",
     ),
-    "splash_app_init_error": m164,
+    "splash_app_init_error": m167,
     "splash_app_init_timeout": MessageLookupByLibrary.simpleMessage(
       "✗ appModel.initApp() 超時 (10秒)",
     ),
     "splash_aria2c_done": MessageLookupByLibrary.simpleMessage(
       "✓ aria2cModelProvider 初始化完成",
     ),
-    "splash_aria2c_error": m165,
+    "splash_aria2c_error": m168,
     "splash_check_host_done": MessageLookupByLibrary.simpleMessage(
       "✓ URLConf.checkHost() 完成",
     ),
-    "splash_check_host_error": m166,
+    "splash_check_host_error": m169,
     "splash_check_host_timeout": MessageLookupByLibrary.simpleMessage(
       "⚠ URLConf.checkHost() 超時 (10秒) - 繼續執行",
     ),
     "splash_check_update_done": MessageLookupByLibrary.simpleMessage(
       "✓ appModel.checkUpdate() 完成",
     ),
-    "splash_check_update_error": m167,
+    "splash_check_update_error": m170,
     "splash_check_update_timeout": MessageLookupByLibrary.simpleMessage(
       "⚠ appModel.checkUpdate() 超時 (10秒) - 繼續執行",
     ),
     "splash_check_version": MessageLookupByLibrary.simpleMessage(
       "檢查 splash_alert_info_version...",
     ),
-    "splash_close_hive_failed": m168,
+    "splash_close_hive_failed": m171,
     "splash_context_unmounted": MessageLookupByLibrary.simpleMessage(
       "✗ Context 已卸載",
     ),
@@ -2566,16 +2637,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "✗ Context 已卸載，無法導航",
     ),
     "splash_db_deleted": MessageLookupByLibrary.simpleMessage("[診斷] 資料庫目錄已刪除"),
-    "splash_db_not_exist": m169,
+    "splash_db_not_exist": m172,
     "splash_db_reset_done": MessageLookupByLibrary.simpleMessage(
       "[診斷] 資料庫重置完成，準備退出應用",
     ),
     "splash_db_reset_msg": MessageLookupByLibrary.simpleMessage(
       "資料庫已重置，應用將退出。請重新啟動應用。",
     ),
-    "splash_deleting_db": m170,
-    "splash_diagnostic_log": m171,
-    "splash_diagnostic_mode": m172,
+    "splash_deleting_db": m173,
+    "splash_diagnostic_log": m174,
+    "splash_diagnostic_mode": m175,
     "splash_error": MessageLookupByLibrary.simpleMessage("錯誤"),
     "splash_exec_analytics": MessageLookupByLibrary.simpleMessage(
       "執行 AnalyticsApi.touch(\"launch\")...",
@@ -2598,7 +2669,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_hive_done": MessageLookupByLibrary.simpleMessage(
       "✓ Hive.openBox(\"app_conf\") 完成",
     ),
-    "splash_hive_error": m173,
+    "splash_hive_error": m176,
     "splash_hive_timeout": MessageLookupByLibrary.simpleMessage(
       "✗ Hive.openBox(\"app_conf\") 超時 (10秒)",
     ),
@@ -2608,23 +2679,23 @@ class MessageLookup extends MessageLookupByLibrary {
     "splash_init_task_status": MessageLookupByLibrary.simpleMessage(
       "初始化任務執行情況：",
     ),
-    "splash_log_not_exist": m174,
-    "splash_log_read_done": m175,
+    "splash_log_not_exist": m177,
+    "splash_log_read_done": m178,
     "splash_open_hive_box": MessageLookupByLibrary.simpleMessage(
       "開啟 Hive app_conf box...",
     ),
     "splash_read_full_log": MessageLookupByLibrary.simpleMessage("讀取完整日誌"),
-    "splash_read_log_failed": m176,
+    "splash_read_log_failed": m179,
     "splash_reset_database": MessageLookupByLibrary.simpleMessage("重置資料庫"),
-    "splash_reset_db_failed": m177,
+    "splash_reset_db_failed": m180,
     "splash_show_agreement": MessageLookupByLibrary.simpleMessage(
       "需要顯示使用者協議對話框...",
     ),
     "splash_show_free_software_notice": MessageLookupByLibrary.simpleMessage(
       "需要顯示免費軟體聲明對話框...",
     ),
-    "splash_start_init": m178,
-    "splash_start_read_log": m179,
+    "splash_start_init": m181,
+    "splash_start_read_log": m182,
     "splash_step0_done": MessageLookupByLibrary.simpleMessage(
       "--- Step 0 完成，進入 Step 1 ---",
     ),
@@ -2689,13 +2760,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_cleanup_complete": MessageLookupByLibrary.simpleMessage(
       "清理完畢，請完成一次安裝 / 遊戲啟動 操作。",
     ),
-    "tools_action_info_cleanup_failed": m180,
+    "tools_action_info_cleanup_failed": m183,
     "tools_action_info_config_file_not_exist":
         MessageLookupByLibrary.simpleMessage("配置檔案不存在，請嘗試執行一次遊戲"),
     "tools_action_info_eac_file_removed": MessageLookupByLibrary.simpleMessage(
       "已為您移除 EAC 文件，接下來將為您打開 RSI 啟動器，請點擊主界面版本號旁的齒輪圖標，進入後選擇 VERIFY 重新安裝 EAC。",
     ),
-    "tools_action_info_error_occurred": m181,
+    "tools_action_info_error_occurred": m184,
     "tools_action_info_fix_success_restart":
         MessageLookupByLibrary.simpleMessage(
           "修復成功，請嘗試重新啟動電腦後繼續安裝遊戲！ 若登錄檔修改操作導致其他軟體出現相容問題，請使用 工具 中的 NVME 登錄檔清理。",
@@ -2706,7 +2777,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "將 IP 資訊寫入 Hosts 文件，解決部分地區的 DNS 汙染導致無法登入官網等問題。\n該功能正在進行第一階段測試，遇到問題請及時回饋。",
         ),
-    "tools_action_info_init_failed": m182,
+    "tools_action_info_init_failed": m185,
     "tools_action_info_log_file_not_exist":
         MessageLookupByLibrary.simpleMessage(
           "日誌檔案不存在，請嘗試進行一次遊戲啟動或遊戲安裝，並退出啟動器，若無法解決問題，請嘗試將啟動器更新至最新版本！",
@@ -2719,7 +2790,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_not_installed": MessageLookupByLibrary.simpleMessage(
       "未安裝",
     ),
-    "tools_action_info_nvme_patch_issue": m183,
+    "tools_action_info_nvme_patch_issue": m186,
     "tools_action_info_one_key_close_lens_shake":
         MessageLookupByLibrary.simpleMessage(
           "關閉遊戲內鏡頭晃動效果以便進行攝影。\n\n @拉邦那 Lapernum 提供參數資訊。",
@@ -2728,7 +2799,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("已經有一個p4k下載任務正在進行中，請前往下載管理器查看！"),
     "tools_action_info_p4k_download_repair_deprecation":
         MessageLookupByLibrary.simpleMessage("即將停用：請改用首頁的「遊戲下載器 / 更新器」功能。"),
-    "tools_action_info_p4k_download_repair_tip": m184,
+    "tools_action_info_p4k_download_repair_tip": m187,
     "tools_action_info_p4k_file_description":
         MessageLookupByLibrary.simpleMessage(
           "P4k 是星際公民的核心遊戲文件，高達 100GB+，工具箱提供的離線下載是為了幫助一些p4k文件下載慢到不行的使用者 或用於修復官方啟動器無法修復的 p4k 文件。\n\n接下來會跳出視窗詢問您儲存位置（可以選擇星際公民資料夾也可以選擇別處），下載完成後請確保 P4K 資料夾位於 LIVE 資料夾內，之後使用星際公民啟動器校驗更新即可。",
@@ -2744,7 +2815,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
     "tools_action_info_rsi_launcher_directory_not_found":
         MessageLookupByLibrary.simpleMessage("未找到 RSI 啟動器目錄，請您嘗試手動操作。"),
-    "tools_action_info_rsi_launcher_log_issue": m185,
+    "tools_action_info_rsi_launcher_log_issue": m188,
     "tools_action_info_rsi_launcher_not_found":
         MessageLookupByLibrary.simpleMessage("未找到 RSI 啟動器，請嘗試重新安裝，或在設定中手動新增。"),
     "tools_action_info_rsi_launcher_running_warning":
@@ -2752,12 +2823,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_action_info_run_rsi_as_admin": MessageLookupByLibrary.simpleMessage(
       "以管理員身份執行RSI啟動器，可能會解決一些問題。\n\n若設定了 E-Core 核心忽略參數，也會在此套用。",
     ),
-    "tools_action_info_shader_cache_issue": m186,
+    "tools_action_info_shader_cache_issue": m189,
     "tools_action_info_star_citizen_not_found":
         MessageLookupByLibrary.simpleMessage(
           "未找到星際公民遊戲安裝位置，請至少完成一次遊戲啟動操作 或在設定中手動新增。",
         ),
-    "tools_action_info_system_info_content": m187,
+    "tools_action_info_system_info_content": m190,
     "tools_action_info_system_info_title": MessageLookupByLibrary.simpleMessage(
       "系統資訊",
     ),
@@ -2823,7 +2894,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_info_game_install_location": MessageLookupByLibrary.simpleMessage(
       "遊戲安裝位置：  ",
     ),
-    "tools_info_processing_failed": m190,
+    "tools_info_processing_failed": m193,
     "tools_info_rsi_launcher_location": MessageLookupByLibrary.simpleMessage(
       "RSI啟動器位置：",
     ),
@@ -2843,13 +2914,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error":
         MessageLookupByLibrary.simpleMessage("讀取啟動器資訊失敗！"),
     "tools_rsi_launcher_enhance_msg_error_get_launcher_info_error_with_args":
-        m191,
+        m194,
     "tools_rsi_launcher_enhance_msg_error_launcher_notfound":
         MessageLookupByLibrary.simpleMessage("未找到 RSI 啟動器"),
-    "tools_rsi_launcher_enhance_msg_patch_status": m192,
+    "tools_rsi_launcher_enhance_msg_patch_status": m195,
     "tools_rsi_launcher_enhance_msg_uninstall":
         MessageLookupByLibrary.simpleMessage("* 如需移除增強補丁，請覆蓋安裝 RSI 啟動器。"),
-    "tools_rsi_launcher_enhance_msg_version": m193,
+    "tools_rsi_launcher_enhance_msg_version": m196,
     "tools_rsi_launcher_enhance_note_msg": MessageLookupByLibrary.simpleMessage(
       "RSI 啟動器增強是一項社群功能，它會在您的電腦上解包 \"RSI Launcher\" 並加入額外的增強功能，具體使用哪些功能由您決定。\n\n目前，官方（CIG）僅許可我們進行多語言操作，啟動器下載增強是我們認為有用的額外功能，違反cig使用者協議（https://robertsspaceindustries.com/eula）可能導致帳號被封禁等嚴重後果，是否啟用由您自己決定，我們不對可能產生的後果（遊戲損壞，帳號封禁等）承擔任何責任。\n\n對於啟動器的修改內容，我們開源於：https://github.com/StarCitizenToolBox/RSILauncherEnhance，如有需要，您可自行查閱。\n\n如果您因為任何原因需要取消此增強補丁，請直接覆蓋安裝官方啟動器。",
     ),
@@ -2889,15 +2960,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_after_a_certain_day": MessageLookupByLibrary.simpleMessage(
       "某日之後",
     ),
-    "tools_unp4k_audio_decoding_failed": m199,
-    "tools_unp4k_audio_preview_failed": m200,
+    "tools_unp4k_audio_decoding_failed": m202,
+    "tools_unp4k_audio_preview_failed": m203,
     "tools_unp4k_audio_preview_failed_no_playable_file_found":
         MessageLookupByLibrary.simpleMessage("音訊預覽失敗：未找到可播放文件"),
     "tools_unp4k_batch_export": MessageLookupByLibrary.simpleMessage("批量導出"),
     "tools_unp4k_batch_export_options": MessageLookupByLibrary.simpleMessage(
       "批量匯出選項",
     ),
-    "tools_unp4k_can_only_jump_to_buffered_areas_currently_buffered_s": m201,
+    "tools_unp4k_can_only_jump_to_buffered_areas_currently_buffered_s": m204,
     "tools_unp4k_clear": MessageLookupByLibrary.simpleMessage("清除"),
     "tools_unp4k_common_formats": MessageLookupByLibrary.simpleMessage("常見格式"),
     "tools_unp4k_confirm_return": MessageLookupByLibrary.simpleMessage("確認返回"),
@@ -2922,8 +2993,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "tools_unp4k_do_you_need_to_reload_p4k_after_exiting_are_you_sure_you_want_to":
         MessageLookupByLibrary.simpleMessage("退出後需要重新載入 P4K，確認返回首頁嗎？"),
-    "tools_unp4k_export_completed_successfully_skipped": m203,
-    "tools_unp4k_export_completed_total_files": m204,
+    "tools_unp4k_export_completed_successfully_skipped": m206,
+    "tools_unp4k_export_completed_total_files": m207,
     "tools_unp4k_export_directly_by_file_name_when_single_file_is_selected_the_fi":
         MessageLookupByLibrary.simpleMessage("直接按檔案名稱匯出；單一檔案時將直接選擇儲存檔案。"),
     "tools_unp4k_export_wav": MessageLookupByLibrary.simpleMessage("導出 WAV"),
@@ -2932,7 +3003,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_file_browser": MessageLookupByLibrary.simpleMessage("文件瀏覽器"),
     "tools_unp4k_finish": MessageLookupByLibrary.simpleMessage("完成！"),
     "tools_unp4k_finish_2": MessageLookupByLibrary.simpleMessage("結束"),
-    "tools_unp4k_from_cache": m208,
+    "tools_unp4k_from_cache": m211,
     "tools_unp4k_global_search": MessageLookupByLibrary.simpleMessage("全域搜尋"),
     "tools_unp4k_greater_than": MessageLookupByLibrary.simpleMessage("大於"),
     "tools_unp4k_include_original_path_when_exporting":
@@ -2949,24 +3020,24 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_missing_runtime_info": MessageLookupByLibrary.simpleMessage(
       "使用此功能需安裝 .NET8 運行庫，請點擊下方按鈕下載安裝，安裝成功後重新打開此頁面即可繼續使用。",
     ),
-    "tools_unp4k_more_failed_files_skipped": m209,
+    "tools_unp4k_more_failed_files_skipped": m212,
     "tools_unp4k_msg_init": MessageLookupByLibrary.simpleMessage("初始化中..."),
-    "tools_unp4k_msg_open_file": m210,
-    "tools_unp4k_msg_read_completed": m211,
-    "tools_unp4k_msg_read_file": m212,
+    "tools_unp4k_msg_open_file": m213,
+    "tools_unp4k_msg_read_completed": m214,
+    "tools_unp4k_msg_read_file": m215,
     "tools_unp4k_msg_reading": MessageLookupByLibrary.simpleMessage(
       "正在讀取P4K 文件 ...",
     ),
     "tools_unp4k_msg_reading2": MessageLookupByLibrary.simpleMessage(
       "正在處理文件 ...",
     ),
-    "tools_unp4k_msg_reading3": m213,
-    "tools_unp4k_msg_unknown_file_type": m214,
+    "tools_unp4k_msg_reading3": m216,
+    "tools_unp4k_msg_unknown_file_type": m217,
     "tools_unp4k_music_browser": MessageLookupByLibrary.simpleMessage("音樂瀏覽器"),
     "tools_unp4k_no_limit": MessageLookupByLibrary.simpleMessage("不限"),
     "tools_unp4k_play_automatically_when_switching_music":
         MessageLookupByLibrary.simpleMessage("切換音樂時自動播放"),
-    "tools_unp4k_progress": m215,
+    "tools_unp4k_progress": m218,
     "tools_unp4k_return_to_homepage": MessageLookupByLibrary.simpleMessage(
       "回首頁",
     ),
@@ -2995,11 +3066,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "tools_unp4k_the_audio_stream_has_expired_please_reopen_the_audio":
         MessageLookupByLibrary.simpleMessage("音訊串流已失效，請重新開啟該音訊。"),
     "tools_unp4k_the_current_wem_encoding_is_not_supported_by_the_built_in_decodi":
-        m216,
+        m219,
     "tools_unp4k_there_is_no_convertible_format_in_the_current_selection_and_the":
         MessageLookupByLibrary.simpleMessage("目前選擇中沒有可轉換格式，將按原始文件匯出。"),
     "tools_unp4k_time_range": MessageLookupByLibrary.simpleMessage("時間範圍"),
-    "tools_unp4k_title": m217,
+    "tools_unp4k_title": m220,
     "tools_unp4k_view_file": MessageLookupByLibrary.simpleMessage("單擊文件以預覽"),
     "tools_unp4k_wav_export_failed": MessageLookupByLibrary.simpleMessage(
       "WAV 匯出失敗",
@@ -3026,11 +3097,11 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("每小時僅可刷新一次"),
     "user_log_out": MessageLookupByLibrary.simpleMessage("登出"),
     "user_logged_out": MessageLookupByLibrary.simpleMessage("已登出"),
-    "user_logout_failed": m218,
+    "user_logout_failed": m221,
     "user_refresh_data": MessageLookupByLibrary.simpleMessage("刷新資料"),
-    "user_refresh_failed": m219,
+    "user_refresh_failed": m222,
     "user_refresh_successful": MessageLookupByLibrary.simpleMessage("刷新成功"),
-    "user_registration_time": m220,
+    "user_registration_time": m223,
     "user_the_data_is_refreshed_too_frequently_please_try_again_in_an_hour":
         MessageLookupByLibrary.simpleMessage("資料刷新過於頻繁，請一小時後再試"),
     "webview_localization_finished_invitations":
@@ -3042,7 +3113,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("總邀請數："),
     "webview_localization_unfinished_invitations":
         MessageLookupByLibrary.simpleMessage("未完成的邀請"),
-    "yearly_report_account_count": m221,
+    "yearly_report_account_count": m224,
     "yearly_report_account_expand": MessageLookupByLibrary.simpleMessage(
       "查看全部帳號",
     ),
@@ -3050,12 +3121,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "最常使用的帳號",
     ),
     "yearly_report_account_title": MessageLookupByLibrary.simpleMessage("帳號統計"),
-    "yearly_report_account_total": m222,
+    "yearly_report_account_total": m225,
     "yearly_report_analyzing_logs": MessageLookupByLibrary.simpleMessage(
       "正在分析遊戲日誌數據",
     ),
-    "yearly_report_card_desc": m223,
-    "yearly_report_card_title": m224,
+    "yearly_report_card_desc": m226,
+    "yearly_report_card_title": m227,
     "yearly_report_crash_desc": MessageLookupByLibrary.simpleMessage(
       "今年遊戲不太穩定的時刻",
     ),
@@ -3067,13 +3138,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "運氣不錯！",
     ),
     "yearly_report_crash_title": MessageLookupByLibrary.simpleMessage("遊戲崩潰次數"),
-    "yearly_report_date_range": m225,
+    "yearly_report_date_range": m228,
     "yearly_report_disclaimer": MessageLookupByLibrary.simpleMessage(
       "數據使用您的本地日誌生成，不會發送到任何第三方。因跨版本 Log 改動較大，數據可能不完整，僅供娛樂。",
     ),
-    "yearly_report_duration_hours_minutes": m226,
-    "yearly_report_duration_minutes": m227,
-    "yearly_report_earliest_play_desc": m228,
+    "yearly_report_duration_hours_minutes": m229,
+    "yearly_report_duration_minutes": m230,
+    "yearly_report_earliest_play_desc": m231,
     "yearly_report_earliest_play_title": MessageLookupByLibrary.simpleMessage(
       "最早的一次遊玩",
     ),
@@ -3093,7 +3164,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "yearly_report_kd_suicide": MessageLookupByLibrary.simpleMessage("自殺"),
     "yearly_report_kd_title": MessageLookupByLibrary.simpleMessage("擊殺統計"),
-    "yearly_report_latest_play_desc": m229,
+    "yearly_report_latest_play_desc": m232,
     "yearly_report_latest_play_title": MessageLookupByLibrary.simpleMessage(
       "最晚的一次遊玩",
     ),
@@ -3106,7 +3177,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_launch_count_title": MessageLookupByLibrary.simpleMessage(
       "遊戲啟動次數",
     ),
-    "yearly_report_launch_count_value": m230,
+    "yearly_report_launch_count_value": m233,
     "yearly_report_location_frequent": MessageLookupByLibrary.simpleMessage(
       "常去的地點",
     ),
@@ -3119,11 +3190,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_location_title": MessageLookupByLibrary.simpleMessage(
       "地點統計",
     ),
-    "yearly_report_month_format": m231,
+    "yearly_report_month_format": m234,
     "yearly_report_monthly_least": MessageLookupByLibrary.simpleMessage("遊玩最少"),
-    "yearly_report_monthly_least_count": m232,
+    "yearly_report_monthly_least_count": m235,
     "yearly_report_monthly_most": MessageLookupByLibrary.simpleMessage("遊玩最多"),
-    "yearly_report_monthly_most_count": m233,
+    "yearly_report_monthly_most_count": m236,
     "yearly_report_monthly_title": MessageLookupByLibrary.simpleMessage("月份統計"),
     "yearly_report_nav_next": MessageLookupByLibrary.simpleMessage("繼續查看"),
     "yearly_report_nav_prev": MessageLookupByLibrary.simpleMessage("上一頁"),
@@ -3138,12 +3209,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "遊玩時長",
     ),
     "yearly_report_play_time_unit": MessageLookupByLibrary.simpleMessage("小時"),
-    "yearly_report_play_time_value": m234,
+    "yearly_report_play_time_value": m237,
     "yearly_report_powered_by": MessageLookupByLibrary.simpleMessage(
       "由 SC工具箱為您呈現",
     ),
     "yearly_report_session_average": MessageLookupByLibrary.simpleMessage("平均"),
-    "yearly_report_session_date": m235,
+    "yearly_report_session_date": m238,
     "yearly_report_session_longest": MessageLookupByLibrary.simpleMessage("最長"),
     "yearly_report_session_note": MessageLookupByLibrary.simpleMessage(
       "(最短僅統計超過 5 分鐘的遊戲)",
@@ -3181,13 +3252,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_summary_respawn_count": MessageLookupByLibrary.simpleMessage(
       "重開次數",
     ),
-    "yearly_report_thanks_message": m236,
-    "yearly_report_thanks_next": m237,
+    "yearly_report_thanks_message": m239,
+    "yearly_report_thanks_next": m240,
     "yearly_report_thanks_title": MessageLookupByLibrary.simpleMessage(
       "感謝您的陪伴",
     ),
-    "yearly_report_title": m238,
-    "yearly_report_vehicle_destruction_count": m239,
+    "yearly_report_title": m241,
+    "yearly_report_vehicle_destruction_count": m242,
     "yearly_report_vehicle_destruction_desc":
         MessageLookupByLibrary.simpleMessage("今年您共炸了"),
     "yearly_report_vehicle_destruction_most":
@@ -3198,8 +3269,8 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("艘船"),
     "yearly_report_vehicle_pilot_collapse":
         MessageLookupByLibrary.simpleMessage("收起詳情"),
-    "yearly_report_vehicle_pilot_count": m240,
-    "yearly_report_vehicle_pilot_expand": m241,
+    "yearly_report_vehicle_pilot_count": m243,
+    "yearly_report_vehicle_pilot_expand": m244,
     "yearly_report_vehicle_pilot_most": MessageLookupByLibrary.simpleMessage(
       "最常駕駛的載具",
     ),
@@ -3212,6 +3283,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearly_report_welcome_subtitle": MessageLookupByLibrary.simpleMessage(
       "回顧您在星際公民中的精彩時刻",
     ),
-    "yearly_report_welcome_title": m242,
+    "yearly_report_welcome_title": m245,
   };
 }

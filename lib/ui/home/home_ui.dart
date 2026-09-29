@@ -211,12 +211,15 @@ class HomeUI extends HookConsumerWidget {
               ],
             ],
             const SizedBox(width: 12),
-            Button(
-              onPressed: () =>
-                  _checkAndGoInputMethod(context, homeState, model, ref),
-              child: Padding(
-                padding: const EdgeInsets.all(6),
-                child: Icon(FluentIcons.keyboard_classic),
+            Tooltip(
+              message: S.current.input_method_experimental_input_method,
+              child: Button(
+                onPressed: () =>
+                    _checkAndGoInputMethod(context, homeState, model, ref),
+                child: Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Icon(FluentIcons.keyboard_classic),
+                ),
               ),
             ),
             const SizedBox(width: 12),

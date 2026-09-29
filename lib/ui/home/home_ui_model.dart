@@ -76,7 +76,12 @@ class HomeUIModel extends _$HomeUIModel {
     state = state.copyWith(appPlacardData: null);
   }
 
-  Future<void> reScanPath() async {
+  /// The latest install path scan; [checkLocalizationUpdate] waits for it.
+  Future<void>? _scanPathFuture;
+
+  Future<void> reScanPath() => _scanPathFuture = _reScanPath();
+
+  Future<void> _reScanPath() async {
     state = state.copyWith(
       scInstalledPath: "not_install",
       lastScreenInfo: S.current.home_action_info_scanning,
@@ -345,6 +350,10 @@ class HomeUIModel extends _$HomeUIModel {
 
   Future<void> checkLocalizationUpdate({bool skipReload = false}) async {
     dPrint("_checkLocalizationUpdate");
+    // On startup the path scan and the network requests run in parallel. Checking before the
+    // scan finishes sees "not_install" and never loads the localization data (including the
+    // community input method index).
+    await _scanPathFuture;
     final updates = await (ref.read(
       localizationUIModelProvider.notifier,
     )).checkLangUpdate(skipReload: skipReload).unwrap<List<String>>();

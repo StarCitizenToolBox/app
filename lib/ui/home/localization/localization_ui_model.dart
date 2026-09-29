@@ -548,7 +548,15 @@ class LocalizationUIModel extends _$LocalizationUIModel {
     if (!await iniFile.exists()) {
       return {};
     }
-    final iniStringSplit = (await iniFile.readAsString()).split("\n");
+    return parseCommunityInputMethodSupportData(await iniFile.readAsString());
+  }
+
+  /// Extracts the community input method table (ini key -> character) that
+  /// [installFormString] appended to a `global.ini`. Returns null when the table is absent.
+  static Map<String, String>? parseCommunityInputMethodSupportData(
+    String iniContent,
+  ) {
+    final iniStringSplit = iniContent.split("\n");
     final communityInputMethodSupportData = <String, String>{};
     var b = false;
     for (var i = 0; i < iniStringSplit.length; i++) {

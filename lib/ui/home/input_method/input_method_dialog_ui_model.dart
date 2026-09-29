@@ -16,6 +16,8 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/common/utils/provider.dart';
 import 'package:starcitizen_doctor/provider/download_manager.dart';
 import 'package:starcitizen_doctor/ui/home/localization/localization_ui_model.dart';
+import 'package:starcitizen_doctor/ui/home/input_method/input_method_encoder.dart';
+import 'package:starcitizen_doctor/ui/home/input_method/input_method_hotkey_service.dart';
 import 'package:starcitizen_doctor/common/rust/api/ort_api.dart' as ort;
 
 part 'input_method_dialog_ui_model.g.dart';
@@ -70,47 +72,12 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     state = state.copyWith(enableAutoCopy: value);
   }
 
-  String? onTextChange(String type, String str, {formWeb = false}) {
+  String? onTextChange(String type, String str) {
     if (state.keyMaps == null || state.worldMaps == null) return null;
-    StringBuffer sb = StringBuffer();
-    final r = RegExp(r'^[a-zA-Z0-9\p{P}\p{S}]+$');
-    if (type == "src") {
-      final map = state.worldMaps!;
-      // text to code
-      var leftSafe = true;
-      for (var c in str.characters) {
-        if (r.hasMatch((c))) {
-          if (leftSafe) {
-            sb.write(c);
-          } else {
-            sb.write(" $c");
-          }
-          leftSafe = true;
-          continue;
-        } else {
-          // 特殊字符，开始转码
-          final code = map[c.trim()];
-          // dPrint("c:$c code: $code");
-          if (code != null) {
-            if (leftSafe) {
-              sb.write(" ");
-            }
-            sb.write("@$code");
-          } else {
-            // 不支持转码，用空格代替
-            sb.write(" ");
-          }
-          leftSafe = false;
-        }
-      }
-    }
-    if (sb.toString().trim().isEmpty) {
-      return "";
-    }
-    final text = "[zh] ${sb.toString()}";
-    if (!formWeb) {
-      _handleAutoCopy(text);
-    }
+    if (type != "src") return "";
+    final text = encodeCommunityInputMethod(str, state.worldMaps!).text;
+    if (text.isEmpty) return "";
+    _handleAutoCopy(text);
     return text;
   }
 
@@ -140,17 +107,6 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     _destTextCtrl = destTextCtrl;
   }
 
-  Future<void> onSendText(String text, {bool autoCopy = false, bool autoInput = false}) async {
-    debugPrint("[InputMethodDialogUIState] onSendText: $text");
-    _srcTextCtrl?.text = text;
-    _destTextCtrl?.text = onTextChange("src", text) ?? "";
-    if (_destTextCtrl?.text.isEmpty ?? true) return;
-    checkAutoTranslate(webMessage: true);
-    if (autoCopy && !state.isAutoTranslateWorking) {
-      Clipboard.setData(ClipboardData(text: _destTextCtrl?.text ?? ""));
-    }
-  }
-
   // ignore: duplicate_ignore
   // ignore: avoid_build_context_in_providers
   Future<void> toggleAutoTranslate(bool b, {BuildContext? context}) async {
@@ -158,20 +114,22 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     final appConf = await AppHive.openBox("app_conf");
     await appConf.put("isEnableAutoTranslate_v2", b);
     if (b) {
-      mountOnnxTranslationProvider(_localTranslateModelDir, _localTranslateModelName, context: context);
+      await mountOnnxTranslationProvider(_localTranslateModelDir, _localTranslateModelName, context: context);
     }
+    // The in-game quick input keeps the model loaded (or releases it) with this switch.
+    await ref.read(inputMethodHotkeyServiceProvider.notifier).syncTranslateModel();
   }
 
   Timer? _translateTimer;
 
-  Future<void> checkAutoTranslate({bool webMessage = false}) async {
+  Future<void> checkAutoTranslate() async {
     final sourceText = _srcTextCtrl?.text ?? "";
     final content = _destTextCtrl?.text ?? "";
     if (sourceText.trim().isEmpty) return;
     if (state.isEnableAutoTranslate) {
       if (_translateTimer != null) _translateTimer?.cancel();
       state = state.copyWith(isAutoTranslateWorking: true);
-      _translateTimer = Timer(Duration(milliseconds: webMessage ? 150 : 400), () async {
+      _translateTimer = Timer(Duration(milliseconds: 400), () async {
         try {
           final inputText = sourceText.replaceAll("\n", " ");
           final r = await doTranslateText(inputText);
@@ -183,7 +141,7 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
               resultText = resultText.replaceFirst(firstChar, firstChar.toUpperCase());
             }
             _destTextCtrl?.text = "$content \n[en] $resultText";
-            if (state.enableAutoCopy || webMessage) {
+            if (state.enableAutoCopy) {
               Clipboard.setData(ClipboardData(text: _destTextCtrl?.text ?? ""));
             }
           }
@@ -195,17 +153,12 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     }
   }
 
-  String get _localTranslateModelName => "Opus-MT-StarCitizen-zh-en";
+  String get _localTranslateModelName => inputMethodTranslateModelName;
 
-  String get _localTranslateModelDir => "${appGlobalState.applicationSupportDir}/onnx_models";
-
-  bool get _isEnableOnnxXnnPack {
-    final userBox = Hive.box("app_conf");
-    return userBox.get("isEnableOnnxXnnPack", defaultValue: true);
-  }
+  String get _localTranslateModelDir => inputMethodTranslateModelDir(appGlobalState.applicationSupportDir!);
 
   OnnxTranslationProvider get _localTranslateModelProvider =>
-      onnxTranslationProvider(_localTranslateModelDir, _localTranslateModelName, _isEnableOnnxXnnPack);
+      inputMethodTranslateModelProvider(_localTranslateModelDir);
 
   void _checkAutoTranslateOnInit() {
     // 检查模型文件是否存在，不存在则关闭自动翻译
@@ -218,24 +171,7 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     }
   }
 
-  Future<bool> checkLocalTranslateModelAvailable() async {
-    final fileCheckList = const [
-      "config.json",
-      "tokenizer.json",
-      "vocab.json",
-      "onnx/decoder_model_q4f16.onnx",
-      "onnx/encoder_model_q4f16.onnx",
-    ];
-    var allExist = true;
-    for (var fileName in fileCheckList) {
-      final filePath = "$_localTranslateModelDir/$_localTranslateModelName/$fileName";
-      if (!await File(filePath).exists()) {
-        allExist = false;
-        break;
-      }
-    }
-    return allExist;
-  }
+  Future<bool> checkLocalTranslateModelAvailable() => isInputMethodTranslateModelAvailable(_localTranslateModelDir);
 
   Future<String> doDownloadTranslateModel() async {
     state = state.copyWith(isAutoTranslateWorking: true);
@@ -258,7 +194,10 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
       }
       // get torrent Data
       final data = await RSHttp.get(torrentUrl!);
-      final taskId = await downloadManager.addTorrent(data.data!, outputFolder: "$_localTranslateModelDir/$_localTranslateModelName");
+      final taskId = await downloadManager.addTorrent(
+        data.data!,
+        outputFolder: "$_localTranslateModelDir/$_localTranslateModelName",
+      );
       return taskId.toString();
     } catch (e) {
       dPrint("[InputMethodDialogUIModel] doDownloadTranslateModel error: $e");
@@ -331,6 +270,32 @@ class InputMethodDialogUIModel extends _$InputMethodDialogUIModel {
     final downloadManager = ref.read(downloadManagerProvider.notifier);
     return await downloadManager.isNameInTask(_localTranslateModelName);
   }
+}
+
+/// Local zh -> en model used by the bilingual translation of the input method dialog and the
+/// in-game hotkey popup.
+const inputMethodTranslateModelName = "Opus-MT-StarCitizen-zh-en";
+
+String inputMethodTranslateModelDir(String applicationSupportDir) => "$applicationSupportDir/onnx_models";
+
+OnnxTranslationProvider inputMethodTranslateModelProvider(String modelDir) => onnxTranslationProvider(
+  modelDir,
+  inputMethodTranslateModelName,
+  Hive.box("app_conf").get("isEnableOnnxXnnPack", defaultValue: true),
+);
+
+Future<bool> isInputMethodTranslateModelAvailable(String modelDir) async {
+  const fileCheckList = [
+    "config.json",
+    "tokenizer.json",
+    "vocab.json",
+    "onnx/decoder_model_q4f16.onnx",
+    "onnx/encoder_model_q4f16.onnx",
+  ];
+  for (final fileName in fileCheckList) {
+    if (!await File("$modelDir/$inputMethodTranslateModelName/$fileName").exists()) return false;
+  }
+  return true;
 }
 
 @riverpod

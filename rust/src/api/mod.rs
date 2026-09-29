@@ -6,6 +6,7 @@ pub mod asar_api;
 pub mod audio_api;
 pub mod downloader_api;
 pub mod http_api;
+pub mod ime_hotkey_api;
 pub mod input_capture_api;
 pub mod ort_api;
 pub mod p4k_upgrader_api;

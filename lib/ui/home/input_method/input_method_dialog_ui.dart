@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -5,11 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/ui/home/input_method/input_method_dialog_ui_model.dart';
-import 'package:starcitizen_doctor/ui/home/input_method/server.dart';
+import 'package:starcitizen_doctor/ui/home/input_method/input_method_hotkey_settings.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-import 'server_qr_dialog_ui.dart';
 
 class InputMethodDialogUI extends HookConsumerWidget {
   const InputMethodDialogUI({super.key});
@@ -18,8 +18,6 @@ class InputMethodDialogUI extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(inputMethodDialogUIModelProvider);
     final model = ref.read(inputMethodDialogUIModelProvider.notifier);
-    final serverState = ref.watch(inputMethodServerProvider);
-    final serverModel = ref.read(inputMethodServerProvider.notifier);
     final srcTextCtrl = useTextEditingController();
     final destTextCtrl = useTextEditingController();
 
@@ -102,6 +100,7 @@ class InputMethodDialogUI extends HookConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    if (Platform.isWindows) ...[const InputMethodHotkeyToggle(), SizedBox(width: 24)],
                     Row(
                       children: [
                         Text(S.current.input_method_auto_translate),
@@ -109,25 +108,6 @@ class InputMethodDialogUI extends HookConsumerWidget {
                         ToggleSwitch(
                           checked: state.isEnableAutoTranslate,
                           onChanged: (b) => _onSwitchAutoTranslate(context, model, b),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 24),
-                    Row(
-                      children: [
-                        Text(S.current.input_method_remote_input_service),
-                        SizedBox(width: 6),
-                        if (serverState.isServerStartup)
-                          Button(
-                            onPressed: () {
-                              showDialog(context: context, builder: (BuildContext context) => ServerQrDialogUI());
-                            },
-                            child: Text(serverState.serverAddressText ?? "...", style: TextStyle(fontSize: 14)),
-                          ),
-                        SizedBox(width: 14),
-                        ToggleSwitch(
-                          checked: serverState.isServerStartup,
-                          onChanged: (b) => _onSwitchServer(context, b, serverModel),
                         ),
                       ],
                     ),
@@ -186,24 +166,6 @@ class InputMethodDialogUI extends HookConsumerWidget {
         ),
       ],
     );
-  }
-
-  Future<void> _onSwitchServer(BuildContext context, bool value, InputMethodServer serverModel) async {
-    if (value) {
-      final userOK = await showConfirmDialogs(
-        context,
-        S.current.input_method_confirm_enable_remote_input,
-        Text(S.current.input_method_enable_remote_input_instructions),
-      );
-      if (userOK) {
-        // ignore: use_build_context_synchronously
-        await serverModel.startServer().unwrap(context: context);
-        if (!context.mounted) return;
-        await showDialog(context: context, builder: (BuildContext context) => ServerQrDialogUI());
-      }
-    } else {
-      await serverModel.stopServer().unwrap(context: context);
-    }
   }
 
   void _onSwitchAutoTranslate(BuildContext context, InputMethodDialogUIModel model, bool b) async {

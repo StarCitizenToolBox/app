@@ -8,6 +8,7 @@ import 'api/asar_api.dart';
 import 'api/audio_api.dart';
 import 'api/downloader_api.dart';
 import 'api/http_api.dart';
+import 'api/ime_hotkey_api.dart';
 import 'api/input_capture_api.dart';
 import 'api/ort_api.dart';
 import 'api/p4k_upgrader_api.dart';
@@ -54,6 +55,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  RustStreamSink<ImeHotkeyEvent> dco_decode_StreamSink_ime_hotkey_event_Dco(
+    dynamic raw,
+  );
+
+  @protected
   RustStreamSink<InputCaptureEvent>
   dco_decode_StreamSink_input_capture_event_Dco(dynamic raw);
 
@@ -88,6 +94,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   int dco_decode_box_autoadd_i_32(dynamic raw);
+
+  @protected
+  ImeHotkey dco_decode_box_autoadd_ime_hotkey(dynamic raw);
+
+  @protected
+  ImeHotkeyConfig dco_decode_box_autoadd_ime_hotkey_config(dynamic raw);
 
   @protected
   ModelConvertOptions dco_decode_box_autoadd_model_convert_options(dynamic raw);
@@ -164,6 +176,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   PlatformInt64 dco_decode_i_64(dynamic raw);
+
+  @protected
+  ImeHotkey dco_decode_ime_hotkey(dynamic raw);
+
+  @protected
+  ImeHotkeyConfig dco_decode_ime_hotkey_config(dynamic raw);
+
+  @protected
+  ImeHotkeyEvent dco_decode_ime_hotkey_event(dynamic raw);
+
+  @protected
+  ImeSendFailure dco_decode_ime_send_failure(dynamic raw);
 
   @protected
   InputCaptureEvent dco_decode_input_capture_event(dynamic raw);
@@ -424,6 +448,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  RustStreamSink<ImeHotkeyEvent> sse_decode_StreamSink_ime_hotkey_event_Dco(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   RustStreamSink<InputCaptureEvent>
   sse_decode_StreamSink_input_capture_event_Dco(SseDeserializer deserializer);
 
@@ -464,6 +493,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   int sse_decode_box_autoadd_i_32(SseDeserializer deserializer);
+
+  @protected
+  ImeHotkey sse_decode_box_autoadd_ime_hotkey(SseDeserializer deserializer);
+
+  @protected
+  ImeHotkeyConfig sse_decode_box_autoadd_ime_hotkey_config(
+    SseDeserializer deserializer,
+  );
 
   @protected
   ModelConvertOptions sse_decode_box_autoadd_model_convert_options(
@@ -550,6 +587,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   PlatformInt64 sse_decode_i_64(SseDeserializer deserializer);
+
+  @protected
+  ImeHotkey sse_decode_ime_hotkey(SseDeserializer deserializer);
+
+  @protected
+  ImeHotkeyConfig sse_decode_ime_hotkey_config(SseDeserializer deserializer);
+
+  @protected
+  ImeHotkeyEvent sse_decode_ime_hotkey_event(SseDeserializer deserializer);
+
+  @protected
+  ImeSendFailure sse_decode_ime_send_failure(SseDeserializer deserializer);
 
   @protected
   InputCaptureEvent sse_decode_input_capture_event(
@@ -866,6 +915,22 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   ffi.Pointer<wire_cst_list_prim_u_8_strict>
+  cst_encode_StreamSink_ime_hotkey_event_Dco(
+    RustStreamSink<ImeHotkeyEvent> raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    return cst_encode_String(
+      raw.setupAndSerialize(
+        codec: DcoCodec(
+          decodeSuccessData: dco_decode_ime_hotkey_event,
+          decodeErrorData: dco_decode_AnyhowException,
+        ),
+      ),
+    );
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_list_prim_u_8_strict>
   cst_encode_StreamSink_input_capture_event_Dco(
     RustStreamSink<InputCaptureEvent> raw,
   ) {
@@ -928,6 +993,25 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ffi.Pointer<ffi.Int32> cst_encode_box_autoadd_i_32(int raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return wire.cst_new_box_autoadd_i_32(cst_encode_i_32(raw));
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_ime_hotkey> cst_encode_box_autoadd_ime_hotkey(
+    ImeHotkey raw,
+  ) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_ime_hotkey();
+    cst_api_fill_to_wire_ime_hotkey(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_cst_ime_hotkey_config>
+  cst_encode_box_autoadd_ime_hotkey_config(ImeHotkeyConfig raw) {
+    // Codec=Cst (C-struct based), see doc to use other codecs
+    final ptr = wire.cst_new_box_autoadd_ime_hotkey_config();
+    cst_api_fill_to_wire_ime_hotkey_config(raw, ptr.ref);
+    return ptr;
   }
 
   @protected
@@ -1291,6 +1375,22 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  void cst_api_fill_to_wire_box_autoadd_ime_hotkey(
+    ImeHotkey apiObj,
+    ffi.Pointer<wire_cst_ime_hotkey> wireObj,
+  ) {
+    cst_api_fill_to_wire_ime_hotkey(apiObj, wireObj.ref);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_box_autoadd_ime_hotkey_config(
+    ImeHotkeyConfig apiObj,
+    ffi.Pointer<wire_cst_ime_hotkey_config> wireObj,
+  ) {
+    cst_api_fill_to_wire_ime_hotkey_config(apiObj, wireObj.ref);
+  }
+
+  @protected
   void cst_api_fill_to_wire_box_autoadd_model_convert_options(
     ModelConvertOptions apiObj,
     ffi.Pointer<wire_cst_model_convert_options> wireObj,
@@ -1405,6 +1505,80 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     wireObj.progress = cst_encode_f_64(apiObj.progress);
     wireObj.num_peers = cst_encode_usize(apiObj.numPeers);
     wireObj.output_folder = cst_encode_String(apiObj.outputFolder);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_ime_hotkey(
+    ImeHotkey apiObj,
+    wire_cst_ime_hotkey wireObj,
+  ) {
+    wireObj.vk = cst_encode_u_32(apiObj.vk);
+    wireObj.ctrl = cst_encode_bool(apiObj.ctrl);
+    wireObj.alt = cst_encode_bool(apiObj.alt);
+    wireObj.shift = cst_encode_bool(apiObj.shift);
+    wireObj.win = cst_encode_bool(apiObj.win);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_ime_hotkey_config(
+    ImeHotkeyConfig apiObj,
+    wire_cst_ime_hotkey_config wireObj,
+  ) {
+    cst_api_fill_to_wire_ime_hotkey(apiObj.hotkey, wireObj.hotkey);
+    wireObj.game_only = cst_encode_bool(apiObj.gameOnly);
+    wireObj.key_interval_ms = cst_encode_u_32(apiObj.keyIntervalMs);
+    wireObj.open_chat_before_send = cst_encode_bool(apiObj.openChatBeforeSend);
+    wireObj.auto_send = cst_encode_bool(apiObj.autoSend);
+    wireObj.reopen_chat_after_send = cst_encode_bool(
+      apiObj.reopenChatAfterSend,
+    );
+    wireObj.window_x = cst_encode_opt_box_autoadd_i_32(apiObj.windowX);
+    wireObj.window_y = cst_encode_opt_box_autoadd_i_32(apiObj.windowY);
+    wireObj.hint_text = cst_encode_String(apiObj.hintText);
+    wireObj.sending_text = cst_encode_String(apiObj.sendingText);
+  }
+
+  @protected
+  void cst_api_fill_to_wire_ime_hotkey_event(
+    ImeHotkeyEvent apiObj,
+    wire_cst_ime_hotkey_event wireObj,
+  ) {
+    if (apiObj is ImeHotkeyEvent_Submit) {
+      var pre_id = cst_encode_u_64(apiObj.id);
+      var pre_text = cst_encode_String(apiObj.text);
+      wireObj.tag = 0;
+      wireObj.kind.Submit.id = pre_id;
+      wireObj.kind.Submit.text = pre_text;
+      return;
+    }
+    if (apiObj is ImeHotkeyEvent_Sent) {
+      var pre_id = cst_encode_u_64(apiObj.id);
+      wireObj.tag = 1;
+      wireObj.kind.Sent.id = pre_id;
+      return;
+    }
+    if (apiObj is ImeHotkeyEvent_SendFailed) {
+      var pre_id = cst_encode_u_64(apiObj.id);
+      var pre_reason = cst_encode_ime_send_failure(apiObj.reason);
+      wireObj.tag = 2;
+      wireObj.kind.SendFailed.id = pre_id;
+      wireObj.kind.SendFailed.reason = pre_reason;
+      return;
+    }
+    if (apiObj is ImeHotkeyEvent_WindowMoved) {
+      var pre_x = cst_encode_i_32(apiObj.x);
+      var pre_y = cst_encode_i_32(apiObj.y);
+      wireObj.tag = 3;
+      wireObj.kind.WindowMoved.x = pre_x;
+      wireObj.kind.WindowMoved.y = pre_y;
+      return;
+    }
+    if (apiObj is ImeHotkeyEvent_HotkeyCaptured) {
+      var pre_hotkey = cst_encode_box_autoadd_ime_hotkey(apiObj.hotkey);
+      wireObj.tag = 4;
+      wireObj.kind.HotkeyCaptured.hotkey = pre_hotkey;
+      return;
+    }
   }
 
   @protected
@@ -1724,6 +1898,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int cst_encode_i_32(int raw);
 
   @protected
+  int cst_encode_ime_send_failure(ImeSendFailure raw);
+
+  @protected
   int cst_encode_input_device_kind(InputDeviceKind raw);
 
   @protected
@@ -1774,6 +1951,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_StreamSink_ime_hotkey_event_Dco(
+    RustStreamSink<ImeHotkeyEvent> self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_StreamSink_input_capture_event_Dco(
     RustStreamSink<InputCaptureEvent> self,
     SseSerializer serializer,
@@ -1820,6 +2003,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_box_autoadd_i_32(int self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_ime_hotkey(
+    ImeHotkey self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_box_autoadd_ime_hotkey_config(
+    ImeHotkeyConfig self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_box_autoadd_model_convert_options(
@@ -1922,6 +2117,27 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_i_64(PlatformInt64 self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_ime_hotkey(ImeHotkey self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_ime_hotkey_config(
+    ImeHotkeyConfig self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_ime_hotkey_event(
+    ImeHotkeyEvent self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_ime_send_failure(
+    ImeSendFailure self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_input_capture_event(
@@ -3609,6 +3825,201 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__win32_api__get_system_memory_size_gb =
       _wire__crate__api__win32_api__get_system_memory_size_gbPtr
           .asFunction<void Function(int)>();
+
+  void wire__crate__api__ime_hotkey_api__ime_hotkey_begin_capture(int port_) {
+    return _wire__crate__api__ime_hotkey_api__ime_hotkey_begin_capture(port_);
+  }
+
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_begin_capturePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_begin_capture',
+      );
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_begin_capture =
+      _wire__crate__api__ime_hotkey_api__ime_hotkey_begin_capturePtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__ime_hotkey_api__ime_hotkey_cancel_capture(int port_) {
+    return _wire__crate__api__ime_hotkey_api__ime_hotkey_cancel_capture(port_);
+  }
+
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_cancel_capturePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_cancel_capture',
+      );
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_cancel_capture =
+      _wire__crate__api__ime_hotkey_api__ime_hotkey_cancel_capturePtr
+          .asFunction<void Function(int)>();
+
+  WireSyncRust2DartDco
+  wire__crate__api__ime_hotkey_api__ime_hotkey_display_name(
+    ffi.Pointer<wire_cst_ime_hotkey> hotkey,
+  ) {
+    return _wire__crate__api__ime_hotkey_api__ime_hotkey_display_name(hotkey);
+  }
+
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_display_namePtr =
+      _lookup<
+        ffi.NativeFunction<
+          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_ime_hotkey>)
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_display_name',
+      );
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_display_name =
+      _wire__crate__api__ime_hotkey_api__ime_hotkey_display_namePtr
+          .asFunction<
+            WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_ime_hotkey>)
+          >();
+
+  void wire__crate__api__ime_hotkey_api__ime_hotkey_is_running(int port_) {
+    return _wire__crate__api__ime_hotkey_api__ime_hotkey_is_running(port_);
+  }
+
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_is_runningPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_is_running',
+      );
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_is_running =
+      _wire__crate__api__ime_hotkey_api__ime_hotkey_is_runningPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__ime_hotkey_api__ime_hotkey_send(
+    int port_,
+    int id,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> encoded,
+  ) {
+    return _wire__crate__api__ime_hotkey_api__ime_hotkey_send(
+      port_,
+      id,
+      encoded,
+    );
+  }
+
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_sendPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Uint64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_send',
+      );
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_send =
+      _wire__crate__api__ime_hotkey_api__ime_hotkey_sendPtr
+          .asFunction<
+            void Function(int, int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
+          >();
+
+  void wire__crate__api__ime_hotkey_api__ime_hotkey_show_message(
+    int port_,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> message,
+    bool is_error,
+    bool busy,
+  ) {
+    return _wire__crate__api__ime_hotkey_api__ime_hotkey_show_message(
+      port_,
+      message,
+      is_error,
+      busy,
+    );
+  }
+
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_show_messagePtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            ffi.Bool,
+            ffi.Bool,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_show_message',
+      );
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_show_message =
+      _wire__crate__api__ime_hotkey_api__ime_hotkey_show_messagePtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+              bool,
+              bool,
+            )
+          >();
+
+  void wire__crate__api__ime_hotkey_api__ime_hotkey_start(
+    int port_,
+    ffi.Pointer<wire_cst_ime_hotkey_config> config,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> sink,
+  ) {
+    return _wire__crate__api__ime_hotkey_api__ime_hotkey_start(
+      port_,
+      config,
+      sink,
+    );
+  }
+
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_startPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int64,
+            ffi.Pointer<wire_cst_ime_hotkey_config>,
+            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+          )
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_start',
+      );
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_start =
+      _wire__crate__api__ime_hotkey_api__ime_hotkey_startPtr
+          .asFunction<
+            void Function(
+              int,
+              ffi.Pointer<wire_cst_ime_hotkey_config>,
+              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
+            )
+          >();
+
+  void wire__crate__api__ime_hotkey_api__ime_hotkey_stop(int port_) {
+    return _wire__crate__api__ime_hotkey_api__ime_hotkey_stop(port_);
+  }
+
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_stopPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+        'frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_stop',
+      );
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_stop =
+      _wire__crate__api__ime_hotkey_api__ime_hotkey_stopPtr
+          .asFunction<void Function(int)>();
+
+  void wire__crate__api__ime_hotkey_api__ime_hotkey_update_config(
+    int port_,
+    ffi.Pointer<wire_cst_ime_hotkey_config> config,
+  ) {
+    return _wire__crate__api__ime_hotkey_api__ime_hotkey_update_config(
+      port_,
+      config,
+    );
+  }
+
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_update_configPtr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_cst_ime_hotkey_config>)
+        >
+      >(
+        'frbgen_starcitizen_doctor_wire__crate__api__ime_hotkey_api__ime_hotkey_update_config',
+      );
+  late final _wire__crate__api__ime_hotkey_api__ime_hotkey_update_config =
+      _wire__crate__api__ime_hotkey_api__ime_hotkey_update_configPtr
+          .asFunction<
+            void Function(int, ffi.Pointer<wire_cst_ime_hotkey_config>)
+          >();
 
   void wire__crate__api__input_capture_api__input_capture_start(
     int port_,
@@ -6055,6 +6466,31 @@ class RustLibWire implements BaseWire {
   late final _cst_new_box_autoadd_i_32 = _cst_new_box_autoadd_i_32Ptr
       .asFunction<ffi.Pointer<ffi.Int32> Function(int)>();
 
+  ffi.Pointer<wire_cst_ime_hotkey> cst_new_box_autoadd_ime_hotkey() {
+    return _cst_new_box_autoadd_ime_hotkey();
+  }
+
+  late final _cst_new_box_autoadd_ime_hotkeyPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_cst_ime_hotkey> Function()>>(
+        'frbgen_starcitizen_doctor_cst_new_box_autoadd_ime_hotkey',
+      );
+  late final _cst_new_box_autoadd_ime_hotkey =
+      _cst_new_box_autoadd_ime_hotkeyPtr
+          .asFunction<ffi.Pointer<wire_cst_ime_hotkey> Function()>();
+
+  ffi.Pointer<wire_cst_ime_hotkey_config>
+  cst_new_box_autoadd_ime_hotkey_config() {
+    return _cst_new_box_autoadd_ime_hotkey_config();
+  }
+
+  late final _cst_new_box_autoadd_ime_hotkey_configPtr =
+      _lookup<
+        ffi.NativeFunction<ffi.Pointer<wire_cst_ime_hotkey_config> Function()>
+      >('frbgen_starcitizen_doctor_cst_new_box_autoadd_ime_hotkey_config');
+  late final _cst_new_box_autoadd_ime_hotkey_config =
+      _cst_new_box_autoadd_ime_hotkey_configPtr
+          .asFunction<ffi.Pointer<wire_cst_ime_hotkey_config> Function()>();
+
   ffi.Pointer<wire_cst_model_convert_options>
   cst_new_box_autoadd_model_convert_options() {
     return _cst_new_box_autoadd_model_convert_options();
@@ -6463,6 +6899,50 @@ final class wire_cst_list_record_string_string extends ffi.Struct {
   external int len;
 }
 
+final class wire_cst_ime_hotkey extends ffi.Struct {
+  @ffi.Uint32()
+  external int vk;
+
+  @ffi.Bool()
+  external bool ctrl;
+
+  @ffi.Bool()
+  external bool alt;
+
+  @ffi.Bool()
+  external bool shift;
+
+  @ffi.Bool()
+  external bool win;
+}
+
+final class wire_cst_ime_hotkey_config extends ffi.Struct {
+  external wire_cst_ime_hotkey hotkey;
+
+  @ffi.Bool()
+  external bool game_only;
+
+  @ffi.Uint32()
+  external int key_interval_ms;
+
+  @ffi.Bool()
+  external bool open_chat_before_send;
+
+  @ffi.Bool()
+  external bool auto_send;
+
+  @ffi.Bool()
+  external bool reopen_chat_after_send;
+
+  external ffi.Pointer<ffi.Int32> window_x;
+
+  external ffi.Pointer<ffi.Int32> window_y;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> hint_text;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> sending_text;
+}
+
 final class wire_cst_model_convert_options extends ffi.Struct {
   @ffi.Bool()
   external bool embed_textures;
@@ -6801,6 +7281,57 @@ final class wire_cst_download_global_stat extends ffi.Struct {
 
   @ffi.UintPtr()
   external int num_waiting;
+}
+
+final class wire_cst_ImeHotkeyEvent_Submit extends ffi.Struct {
+  @ffi.Uint64()
+  external int id;
+
+  external ffi.Pointer<wire_cst_list_prim_u_8_strict> text;
+}
+
+final class wire_cst_ImeHotkeyEvent_Sent extends ffi.Struct {
+  @ffi.Uint64()
+  external int id;
+}
+
+final class wire_cst_ImeHotkeyEvent_SendFailed extends ffi.Struct {
+  @ffi.Uint64()
+  external int id;
+
+  @ffi.Int32()
+  external int reason;
+}
+
+final class wire_cst_ImeHotkeyEvent_WindowMoved extends ffi.Struct {
+  @ffi.Int32()
+  external int x;
+
+  @ffi.Int32()
+  external int y;
+}
+
+final class wire_cst_ImeHotkeyEvent_HotkeyCaptured extends ffi.Struct {
+  external ffi.Pointer<wire_cst_ime_hotkey> hotkey;
+}
+
+final class ImeHotkeyEventKind extends ffi.Union {
+  external wire_cst_ImeHotkeyEvent_Submit Submit;
+
+  external wire_cst_ImeHotkeyEvent_Sent Sent;
+
+  external wire_cst_ImeHotkeyEvent_SendFailed SendFailed;
+
+  external wire_cst_ImeHotkeyEvent_WindowMoved WindowMoved;
+
+  external wire_cst_ImeHotkeyEvent_HotkeyCaptured HotkeyCaptured;
+}
+
+final class wire_cst_ime_hotkey_event extends ffi.Struct {
+  @ffi.Int32()
+  external int tag;
+
+  external ImeHotkeyEventKind kind;
 }
 
 final class wire_cst_input_capture_event extends ffi.Struct {

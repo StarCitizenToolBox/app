@@ -5364,16 +5364,6 @@ class S {
     );
   }
 
-  /// `Remote Input Service:`
-  String get input_method_remote_input_service {
-    return Intl.message(
-      'Remote Input Service:',
-      name: 'input_method_remote_input_service',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `*This feature is recommended for use only in non-public channels. If users choose to use this feature in public channels, any consequences (including but not limited to being reported by other players for spam, etc.) are the user's sole responsibility.\n*If this feature is abused, we will disable it.`
   String get input_method_disclaimer {
     return Intl.message(
@@ -5399,86 +5389,6 @@ class S {
     return Intl.message(
       'Auto Copy',
       name: 'input_method_auto_copy',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Confirm enable remote input?`
-  String get input_method_confirm_enable_remote_input {
-    return Intl.message(
-      'Confirm enable remote input?',
-      name: 'input_method_confirm_enable_remote_input',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `After enabling this feature, you can access the remote service address via mobile phone for quick text input, saving the hassle of switching windows and not interrupting game flow.\n\nIf a firewall prompt appears, please expand the dialog, manually check all network types and allow, otherwise you may not be able to access this feature normally.`
-  String get input_method_enable_remote_input_instructions {
-    return Intl.message(
-      'After enabling this feature, you can access the remote service address via mobile phone for quick text input, saving the hassle of switching windows and not interrupting game flow.\n\nIf a firewall prompt appears, please expand the dialog, manually check all network types and allow, otherwise you may not be able to access this feature normally.',
-      name: 'input_method_enable_remote_input_instructions',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Failed to fetch address, please check computer IP manually`
-  String get input_method_address_fetch_failed {
-    return Intl.message(
-      'Failed to fetch address, please check computer IP manually',
-      name: 'input_method_address_fetch_failed',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Text cannot be empty!`
-  String get input_method_text_cannot_be_empty {
-    return Intl.message(
-      'Text cannot be empty!',
-      name: 'input_method_text_cannot_be_empty',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Sent successfully!`
-  String get input_method_send_success {
-    return Intl.message(
-      'Sent successfully!',
-      name: 'input_method_send_success',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `We couldn't find an appropriate IP address to access the service. Please try the following addresses (swipe left/right)`
-  String get input_method_ip_address_not_found {
-    return Intl.message(
-      'We couldn\'t find an appropriate IP address to access the service. Please try the following addresses (swipe left/right)',
-      name: 'input_method_ip_address_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Please scan the QR code below with your mobile device, or manually visit the link`
-  String get input_method_scan_qr_code {
-    return Intl.message(
-      'Please scan the QR code below with your mobile device, or manually visit the link',
-      name: 'input_method_scan_qr_code',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Service QR Code`
-  String get input_method_service_qr_code {
-    return Intl.message(
-      'Service QR Code',
-      name: 'input_method_service_qr_code',
       desc: '',
       args: [],
     );
@@ -14426,6 +14336,366 @@ class S {
     return Intl.message(
       'Found',
       name: 'keybinding_identify_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In-game quick input (experimental)`
+  String get input_method_hotkey_title {
+    return Intl.message(
+      'In-game quick input (experimental)',
+      name: 'input_method_hotkey_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Press a hotkey in game to pop up an input box, type Chinese with your system IME, and press Enter to convert it to community input method codes and type it into the game chat. Nothing is injected into the game, no game files are changed and the clipboard is not used.`
+  String get input_method_hotkey_description {
+    return Intl.message(
+      'Press a hotkey in game to pop up an input box, type Chinese with your system IME, and press Enter to convert it to community input method codes and type it into the game chat. Nothing is injected into the game, no game files are changed and the clipboard is not used.',
+      name: 'input_method_hotkey_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enable in-game quick input?`
+  String get input_method_hotkey_confirm_title {
+    return Intl.message(
+      'Enable in-game quick input?',
+      name: 'input_method_hotkey_confirm_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This feature installs a global keyboard hook to detect the hotkey and types text into the game by simulating key presses. It does not inject into or modify the game, but some security software or anti-cheat may flag this kind of behavior. Use at your own risk.\n\nRun the game in borderless window mode; showing the input box over exclusive fullscreen may minimize the game.`
+  String get input_method_hotkey_confirm_content {
+    return Intl.message(
+      'This feature installs a global keyboard hook to detect the hotkey and types text into the game by simulating key presses. It does not inject into or modify the game, but some security software or anti-cheat may flag this kind of behavior. Use at your own risk.\n\nRun the game in borderless window mode; showing the input box over exclusive fullscreen may minimize the game.',
+      name: 'input_method_hotkey_confirm_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hotkey`
+  String get input_method_hotkey_hotkey {
+    return Intl.message(
+      'Hotkey',
+      name: 'input_method_hotkey_hotkey',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Press the new key combination (Esc to cancel)…`
+  String get input_method_hotkey_press_keys {
+    return Intl.message(
+      'Press the new key combination (Esc to cancel)…',
+      name: 'input_method_hotkey_press_keys',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Only respond in the game window`
+  String get input_method_hotkey_game_only {
+    return Intl.message(
+      'Only respond in the game window',
+      name: 'input_method_hotkey_game_only',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `When off, the hotkey opens the input box over any window (useful for testing in Notepad).`
+  String get input_method_hotkey_game_only_info {
+    return Intl.message(
+      'When off, the hotkey opens the input box over any window (useful for testing in Notepad).',
+      name: 'input_method_hotkey_game_only_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Input preference`
+  String get input_method_hotkey_chat_mode {
+    return Intl.message(
+      'Input preference',
+      name: 'input_method_hotkey_chat_mode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open the chat manually, reopen it after auto-send`
+  String get input_method_hotkey_chat_mode_keep_open {
+    return Intl.message(
+      'Open the chat manually, reopen it after auto-send',
+      name: 'input_method_hotkey_chat_mode_keep_open',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open the chat manually, close it after auto-send`
+  String get input_method_hotkey_chat_mode_close_after_send {
+    return Intl.message(
+      'Open the chat manually, close it after auto-send',
+      name: 'input_method_hotkey_chat_mode_close_after_send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open the chat automatically`
+  String get input_method_hotkey_chat_mode_open_before_send {
+    return Intl.message(
+      'Open the chat automatically',
+      name: 'input_method_hotkey_chat_mode_open_before_send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If the chat box is not open when you press the hotkey, the typed characters are treated as game controls.`
+  String get input_method_hotkey_chat_mode_tips {
+    return Intl.message(
+      'If the chat box is not open when you press the hotkey, the typed characters are treated as game controls.',
+      name: 'input_method_hotkey_chat_mode_tips',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Key interval (ms)`
+  String get input_method_hotkey_key_interval {
+    return Intl.message(
+      'Key interval (ms)',
+      name: 'input_method_hotkey_key_interval',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Increase it if characters get lost in game`
+  String get input_method_hotkey_key_interval_tips {
+    return Intl.message(
+      'Increase it if characters get lost in game',
+      name: 'input_method_hotkey_key_interval_tips',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset input box position`
+  String get input_method_hotkey_reset_position {
+    return Intl.message(
+      'Reset input box position',
+      name: 'input_method_hotkey_reset_position',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Usage: press {v0} in game → type Chinese → Enter to send; Esc to cancel. Drag the empty area of the input box to move it.`
+  String input_method_hotkey_usage(Object v0) {
+    return Intl.message(
+      'Usage: press $v0 in game → type Chinese → Enter to send; Esc to cancel. Drag the empty area of the input box to move it.',
+      name: 'input_method_hotkey_usage',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Failed to start: {v0}`
+  String input_method_hotkey_start_failed(Object v0) {
+    return Intl.message(
+      'Failed to start: $v0',
+      name: 'input_method_hotkey_start_failed',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `Enter to send · Esc to cancel · drag empty area to move`
+  String get input_method_hotkey_popup_hint {
+    return Intl.message(
+      'Enter to send · Esc to cancel · drag empty area to move',
+      name: 'input_method_hotkey_popup_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sending…`
+  String get input_method_hotkey_popup_sending {
+    return Intl.message(
+      'Sending…',
+      name: 'input_method_hotkey_popup_sending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community input method data not found. Reinstall the localization in the toolbox with community input method support enabled.`
+  String get input_method_hotkey_error_no_table {
+    return Intl.message(
+      'Community input method data not found. Reinstall the localization in the toolbox with community input method support enabled.',
+      name: 'input_method_hotkey_error_no_table',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nothing to send`
+  String get input_method_hotkey_error_nothing_to_send {
+    return Intl.message(
+      'Nothing to send',
+      name: 'input_method_hotkey_error_nothing_to_send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `These characters cannot be converted and will become spaces: {v0}  Press Enter again to send anyway`
+  String input_method_hotkey_unsupported_chars(Object v0) {
+    return Intl.message(
+      'These characters cannot be converted and will become spaces: $v0  Press Enter again to send anyway',
+      name: 'input_method_hotkey_unsupported_chars',
+      desc: '',
+      args: [v0],
+    );
+  }
+
+  /// `The game window has been closed`
+  String get input_method_hotkey_error_target_gone {
+    return Intl.message(
+      'The game window has been closed',
+      name: 'input_method_hotkey_error_target_gone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not switch back to the game window, please try again`
+  String get input_method_hotkey_error_focus_failed {
+    return Intl.message(
+      'Could not switch back to the game window, please try again',
+      name: 'input_method_hotkey_error_focus_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Another window came to the front while typing; typing stopped`
+  String get input_method_hotkey_error_focus_lost {
+    return Intl.message(
+      'Another window came to the front while typing; typing stopped',
+      name: 'input_method_hotkey_error_focus_lost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The previous message is still being sent`
+  String get input_method_hotkey_error_busy {
+    return Intl.message(
+      'The previous message is still being sent',
+      name: 'input_method_hotkey_error_busy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In-game quick input:`
+  String get input_method_hotkey_switch {
+    return Intl.message(
+      'In-game quick input:',
+      name: 'input_method_hotkey_switch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quick input settings`
+  String get input_method_hotkey_settings {
+    return Intl.message(
+      'Quick input settings',
+      name: 'input_method_hotkey_settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Input box position`
+  String get input_method_hotkey_window_position {
+    return Intl.message(
+      'Input box position',
+      name: 'input_method_hotkey_window_position',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send automatically`
+  String get input_method_hotkey_auto_send {
+    return Intl.message(
+      'Send automatically',
+      name: 'input_method_hotkey_auto_send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `When off, the text is only typed into the game chat box and you press Enter yourself to send it.`
+  String get input_method_hotkey_auto_send_info {
+    return Intl.message(
+      'When off, the text is only typed into the game chat box and you press Enter yourself to send it.',
+      name: 'input_method_hotkey_auto_send_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter to type · Esc to cancel · drag empty area to move`
+  String get input_method_hotkey_popup_hint_input_only {
+    return Intl.message(
+      'Enter to type · Esc to cancel · drag empty area to move',
+      name: 'input_method_hotkey_popup_hint_input_only',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Translating…`
+  String get input_method_hotkey_translating {
+    return Intl.message(
+      'Translating…',
+      name: 'input_method_hotkey_translating',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Translation failed. Press Enter again to send only the Chinese text`
+  String get input_method_hotkey_translate_failed {
+    return Intl.message(
+      'Translation failed. Press Enter again to send only the Chinese text',
+      name: 'input_method_hotkey_translate_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open the chat manually`
+  String get input_method_hotkey_chat_mode_manual {
+    return Intl.message(
+      'Open the chat manually',
+      name: 'input_method_hotkey_chat_mode_manual',
       desc: '',
       args: [],
     );
