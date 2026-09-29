@@ -131,6 +131,8 @@ windows = { version = "0.62.2", features = [
     "Win32_UI_HiDpi",
     "Win32_Graphics_Gdi",
     "Win32_System_LibraryLoader",
+    "Win32_System_DataExchange",
+    "Win32_System_Memory",
 ] }
 win32job = "2.0.3"
 wmi = "0.18"

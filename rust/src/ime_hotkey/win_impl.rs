@@ -38,6 +38,7 @@ use windows::Win32::UI::Input::KeyboardAndMouse::{
 };
 use windows::Win32::UI::WindowsAndMessaging::*;
 
+use super::clipboard::ClipboardSnapshot;
 use super::logic::*;
 use crate::api::ime_hotkey_api::{ImeHotkeyConfig, ImeHotkeyEvent, ImeSendFailure};
 use crate::frb_generated::StreamSink;
@@ -576,84 +577,39 @@ fn run_send(job: &SendJob) -> std::result::Result<(), ImeSendFailure> {
     }
 
     check()?;
-    let clipboard = ClipboardGuard::replace(&job.text).ok_or(ImeSendFailure::ClipboardFailed)?;
+    let snapshot = ClipboardSnapshot::replace_with_text(load_hwnd(&MAIN_HWND), &job.text)
+        .ok_or(ImeSendFailure::ClipboardFailed)?;
     // Saving the old clipboard (e.g. a large image) can take a moment.
-    check()?;
+    if let Err(e) = check() {
+        snapshot.restore();
+        return Err(e);
+    }
     let hkl = unsafe { GetKeyboardLayout(GetWindowThreadProcessId(job.target, None)) };
     let v_scan = unsafe { MapVirtualKeyExW(0x56, MAPVK_VK_TO_VSC_EX, Some(hkl)) };
     type_scan_keys(&ctrl_v_keys(v_scan));
-    pause(100);
 
-    if job.auto_send {
-        check()?;
-        type_scan_keys(&enter);
-        if job.reopen_chat_after_send {
-            pause(200);
+    // From here on the text is in the chat box (and possibly already sent), so a focus change
+    // is not reported as a failure: keeping the text for a retry would paste / send it twice.
+    let finish = || -> std::result::Result<(), ImeSendFailure> {
+        pause(100);
+        if job.auto_send {
             check()?;
             type_scan_keys(&enter);
+            if job.reopen_chat_after_send {
+                pause(200);
+                check()?;
+                type_scan_keys(&enter);
+            }
         }
+        Ok(())
+    };
+    if finish().is_err() {
+        println!("[ime_hotkey] focus changed after pasting; not sending / reopening");
     }
     // The game reads the clipboard while handling Ctrl+V; give it time before restoring.
     pause(300);
-    drop(clipboard);
+    snapshot.restore();
     Ok(())
-}
-
-/// Puts text on the clipboard and restores the previous content when dropped.
-///
-/// Only text, RTF, HTML, images and file lists are restored; other formats are lost.
-struct ClipboardGuard {
-    saved: Vec<clipboard_rs::ClipboardContent>,
-    /// The clipboard held something before; when none of it could be read back, it is left
-    /// alone rather than cleared.
-    had_content: bool,
-}
-
-impl ClipboardGuard {
-    fn replace(text: &str) -> Option<Self> {
-        use clipboard_rs::{Clipboard, ClipboardContent, ClipboardContext, ContentFormat};
-        let ctx = ClipboardContext::new().ok()?;
-        let had_content = !ctx.available_formats().unwrap_or_default().is_empty();
-        let mut saved = ctx
-            .get(&[
-                ContentFormat::Image,
-                ContentFormat::Text,
-                ContentFormat::Rtf,
-                ContentFormat::Html,
-                ContentFormat::Files,
-            ])
-            .unwrap_or_default();
-        // Setting an image clears the clipboard, so it has to go first.
-        saved.sort_by_key(|c| !matches!(c, ClipboardContent::Image(_)));
-        let no = 0u32.to_le_bytes().to_vec();
-        ctx.set(vec![
-            ClipboardContent::Text(text.to_string()),
-            // Keep the pasted chat line out of clipboard history, cloud clipboard and
-            // clipboard managers.
-            ClipboardContent::Other("ExcludeClipboardContentFromMonitorProcessing".into(), no.clone()),
-            ClipboardContent::Other("CanIncludeInClipboardHistory".into(), no.clone()),
-            ClipboardContent::Other("CanUploadToCloudClipboard".into(), no),
-        ])
-        .ok()?;
-        Some(Self { saved, had_content })
-    }
-}
-
-impl Drop for ClipboardGuard {
-    fn drop(&mut self) {
-        use clipboard_rs::{Clipboard, ClipboardContext};
-        let Ok(ctx) = ClipboardContext::new() else {
-            return;
-        };
-        let saved = std::mem::take(&mut self.saved);
-        let _ = if !saved.is_empty() {
-            ctx.set(saved)
-        } else if !self.had_content {
-            ctx.clear()
-        } else {
-            Ok(())
-        };
-    }
 }
 
 // ---------------------------------------------------------------------------------------
@@ -895,7 +851,9 @@ fn cancel_pending() {
 }
 
 /// Hides the popup and hands the focus back to the window it was opened over.
-fn hide_popup(main: HWND) {
+/// `release_modifiers` is for the cancel paths; when sending, the sender thread releases them
+/// after waiting for the physical keys to go up.
+fn hide_popup(main: HWND, release_modifiers: bool) {
     cancel_pending();
     let target = load_hwnd(&TARGET_HWND);
     unsafe {
@@ -903,7 +861,9 @@ fn hide_popup(main: HWND) {
             force_foreground(target);
             // The game last saw the hotkey's modifiers go down; release them so it does not
             // treat them as held (the key-ups went to the popup).
-            send_scan_keys(&release_modifier_keys());
+            if release_modifiers {
+                send_scan_keys(&release_modifier_keys());
+            }
         }
         let _ = ShowWindow(main, SW_HIDE);
     }
@@ -918,7 +878,7 @@ fn on_hotkey(main: HWND) {
         let fg = GetForegroundWindow();
         if IsWindowVisible(main).as_bool() {
             if fg == main {
-                hide_popup(main);
+                hide_popup(main, true);
             } else {
                 activate_popup(main);
             }
@@ -994,7 +954,7 @@ fn on_send(main: HWND) {
         return;
     }
     SENDING.store(true, Ordering::SeqCst);
-    hide_popup(main);
+    hide_popup(main, false);
     let job = SendJob {
         id,
         generation: GENERATION.load(Ordering::SeqCst),
@@ -1044,7 +1004,7 @@ unsafe extern "system" fn edit_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam
             }
             if vk == VK_ESCAPE && !is_composing(hwnd) {
                 clear_edit();
-                hide_popup(load_hwnd(&MAIN_HWND));
+                hide_popup(load_hwnd(&MAIN_HWND), true);
                 return LRESULT(0);
             }
             if vk == 0x41 && unsafe { GetKeyState(VK_CONTROL as i32) } < 0 {
@@ -1113,9 +1073,14 @@ unsafe extern "system" fn main_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam
             return LRESULT(0);
         }
         WM_APP_CAPTURED => {
+            let pressed = unpack_hotkey(wparam.0 as u64);
+            // The key was swallowed, so releasing Alt / Win would look like a lone tap.
+            if pressed.alt || pressed.win {
+                tap_dummy_key();
+            }
             emit(match lparam.0 {
                 CAPTURE_OK => ImeHotkeyEvent::HotkeyCaptured {
-                    hotkey: Some(unpack_hotkey(wparam.0 as u64)),
+                    hotkey: Some(pressed),
                 },
                 CAPTURE_CANCELLED => ImeHotkeyEvent::HotkeyCaptured { hotkey: None },
                 _ => ImeHotkeyEvent::HotkeyCaptureRejected,
@@ -1194,7 +1159,7 @@ unsafe extern "system" fn main_proc(hwnd: HWND, msg: u32, wparam: WPARAM, lparam
             return LRESULT(0);
         }
         WM_CLOSE => {
-            hide_popup(hwnd);
+            hide_popup(hwnd, true);
             return LRESULT(0);
         }
         _ => {}

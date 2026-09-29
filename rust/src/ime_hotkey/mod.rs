@@ -4,4 +4,6 @@
 #[cfg_attr(not(windows), allow(dead_code))]
 pub(crate) mod logic;
 #[cfg(windows)]
+pub(crate) mod clipboard;
+#[cfg(windows)]
 pub(crate) mod win_impl;
