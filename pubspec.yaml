@@ -38,7 +38,7 @@ dependencies:
   extended_image: ^10.1.0
   animate_do: ^5.1.0
   device_info_plus: ^13.2.0
-  file_picker: ^12.1.2
+  file_picker: ^13.1.0
   file_sizes: ^1.0.6
   flutter_svg: ^2.3.0
   archive: ^4.3.0
@@ -63,7 +63,7 @@ dependencies:
   re_highlight: ^0.0.3
   shelf: ^1.4.2
   qr_flutter: ^4.1.0
-  desktop_multi_window: ^0.3.0
+  desktop_multi_window: ^0.3.1
   watcher: ^1.2.1
   path: ^1.9.1
   crypto: ^3.0.7
