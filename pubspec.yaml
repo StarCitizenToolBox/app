@@ -29,7 +29,7 @@ dependencies:
   flutter_staggered_grid_view: ^0.7.0
   url_launcher: ^6.3.2
   font_awesome_flutter: ^11.0.0
-  cupertino_icons: ^1.0.9
+  cupertino_icons: ^2.0.0
   hive_ce: ^2.20.0
   path_provider: ^2.1.6
   dio: ^5.11.1
