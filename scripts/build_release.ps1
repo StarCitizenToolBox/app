@@ -23,7 +23,19 @@ function Invoke-Step {
 
     Write-Host ""
     Write-Host "==> $Name" -ForegroundColor Cyan
+    $global:LASTEXITCODE = 0
     & $Command
+    Assert-ExitCode $Name
+}
+
+# $ErrorActionPreference does not cover native commands, so a failed
+# flutter/dart/cargo call has to be caught through its exit code.
+function Assert-ExitCode {
+    param([string]$Name)
+
+    if ($LASTEXITCODE -ne 0) {
+        throw "$Name failed with exit code $LASTEXITCODE"
+    }
 }
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
@@ -61,13 +73,15 @@ try {
     }
 
     if (-not $SkipCodegen) {
+        # Must run before build_runner: its own build_runner pass deletes the
+        # other *.g.dart / *.freezed.dart outputs.
+        Invoke-Step "Flutter Rust Bridge generation" {
+            flutter_rust_bridge_codegen generate
+        }
+
         Invoke-Step "Dart code generation" {
             dart run build_runner build --delete-conflicting-outputs
         }
-    }
-
-    Invoke-Step "Flutter Rust Bridge generation" {
-        flutter_rust_bridge_codegen generate
     }
 
     if ($UpdateCargo) {
@@ -84,6 +98,7 @@ try {
     if (-not $SkipIntl) {
         Invoke-Step "Flutter intl generation" {
             flutter pub global activate intl_utils
+            Assert-ExitCode "intl_utils activation"
             flutter pub global run intl_utils:generate
         }
     }
