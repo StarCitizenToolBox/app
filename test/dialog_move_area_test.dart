@@ -78,6 +78,79 @@ void main() {
     },
   );
 
+  testWidgets(
+    'a page pushed from a dialog keeps its title bar back button tappable',
+    (tester) async {
+      // The localization dialog pushes the advanced localization page while
+      // it stays open underneath (#408).
+      late BuildContext homeContext;
+      late BuildContext dialogContext;
+      var backTaps = 0;
+      final router = GoRouter(
+        observers: [DialogRouteObserver.instance],
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (context, _) {
+              homeContext = context;
+              return const Text('home');
+            },
+            routes: [
+              GoRoute(
+                path: 'advanced',
+                builder: (context, _) => Align(
+                  alignment: Alignment.topLeft,
+                  child: IconButton(
+                    icon: const Icon(FluentIcons.back),
+                    onPressed: () {
+                      backTaps++;
+                      context.pop();
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
+      await tester.pumpWidget(
+        FluentApp.router(
+          routerConfig: router,
+          builder: (context, child) =>
+              Stack(children: [child!, const DialogMoveArea()]),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      showDialog<void>(
+        context: homeContext,
+        builder: (context) {
+          dialogContext = context;
+          return const ContentDialog(content: Text('localization'));
+        },
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(DragToMoveArea), findsOneWidget);
+
+      dialogContext.push('/advanced');
+      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(dialogOnTop.value, isFalse);
+      expect(find.byType(DragToMoveArea), findsNothing);
+
+      await tester.tap(find.byType(IconButton));
+      await tester.pumpAndSettle();
+      expect(backTaps, 1);
+      expect(find.text('localization'), findsOneWidget);
+      expect(find.byType(DragToMoveArea), findsOneWidget);
+
+      Navigator.of(dialogContext).pop();
+      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.byType(DragToMoveArea), findsNothing);
+    },
+  );
+
   testWidgets('the strip is only mounted while a dialog is on top', (
     tester,
   ) async {
