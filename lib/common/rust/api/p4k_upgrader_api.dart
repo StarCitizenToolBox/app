@@ -6,9 +6,9 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored because they are not marked as `pub`: `cancelled`, `done`, `elapsed_since_last_emit`, `emit`, `error`, `events_to_emit`, `from_anyhow`, `from_upgrader`, `has_meaningful_delta`, `is_completion`, `is_important`, `is_terminal`, `map_mirror_unavailable`, `new`, `normal_update_error_message`, `pending_differs_from`, `record_emitted`, `report_progress`, `same_progress_position`, `should_discard_pending_before_terminal`, `signed_url_rejection_message`, `to_upgrader_config`
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `ProgressEventCoalescerState`, `ProgressEventCoalescer`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
+// These functions are ignored because they are not marked as `pub`: `acquire`, `cancelled`, `done`, `elapsed_since_last_emit`, `emit`, `error`, `events_to_emit`, `from_anyhow`, `from_upgrader`, `has_meaningful_delta`, `is_completion`, `is_important`, `is_terminal`, `map_mirror_unavailable`, `new`, `normal_update_error_message`, `panic_message`, `pending_differs_from`, `record_emitted`, `report_progress`, `same_progress_position`, `should_discard_pending_before_terminal`, `signed_url_rejection_message`, `to_upgrader_config`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `OperationGuard`, `ProgressEventCoalescerState`, `ProgressEventCoalescer`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_receiver_is_total_eq`, `assert_receiver_is_total_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `drop`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `from`
 // These functions are ignored (category: IgnoreBecauseOwnerTyShouldIgnore): `default`
 
 List<String> p4KUpgraderDefaultObjectPathTemplates() => RustLib.instance.api

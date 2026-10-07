@@ -93,7 +93,7 @@ final class KeybindingModelProvider
   }
 }
 
-String _$keybindingModelHash() => r'aa806d1fd171502dcb336a67c7908d7a7fbdd81a';
+String _$keybindingModelHash() => r'96e395529fa74e62aa1312ac3ba574ba408b8d77';
 
 abstract class _$KeybindingModel extends $Notifier<KeybindingState> {
   KeybindingState build();

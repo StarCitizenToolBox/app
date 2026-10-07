@@ -42,7 +42,7 @@ final class HomeGameDoctorUIModelProvider
 }
 
 String _$homeGameDoctorUIModelHash() =>
-    r'cc1b10a60e88f5631d707167649e646b48d8cbf2';
+    r'90a613df7a995693b1bb631186512a5af0081ada';
 
 abstract class _$HomeGameDoctorUIModel extends $Notifier<HomeGameDoctorState> {
   HomeGameDoctorState build();
