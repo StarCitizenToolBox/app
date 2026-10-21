@@ -3,8 +3,8 @@ pub mod dns;
 use once_cell::sync::Lazy;
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
 use reqwest::{Method, RequestBuilder};
-use scopeguard::defer;
 use std::collections::HashMap;
+use std::net::SocketAddr;
 use std::str::FromStr;
 use std::sync::{Arc, RwLock};
 use std::time::Duration;
@@ -56,6 +56,12 @@ static HTTP_CLIENT_NO_CUSTOM_DNS: Lazy<reqwest::Client> =
     Lazy::new(|| new_http_client(true, false));
 
 fn new_http_client(keep_alive: bool, with_custom_dns: bool) -> reqwest::Client {
+    new_http_client_builder(keep_alive, with_custom_dns)
+        .build()
+        .unwrap()
+}
+
+fn new_http_client_builder(keep_alive: bool, with_custom_dns: bool) -> reqwest::ClientBuilder {
     let mut c = reqwest::Client::builder()
         .use_rustls_tls()
         .connect_timeout(Duration::from_secs(10))
@@ -69,7 +75,7 @@ fn new_http_client(keep_alive: bool, with_custom_dns: bool) -> reqwest::Client {
     } else {
         c = c.tcp_keepalive(Duration::from_secs(120));
     }
-    c.build().unwrap()
+    c
 }
 
 pub fn set_default_header(headers: HashMap<String, String>) {
@@ -91,35 +97,23 @@ pub async fn fetch(
     with_ip_address: Option<String>,
     with_custom_dns: Option<bool>,
 ) -> anyhow::Result<RustHttpResponse> {
-    let address_clone = with_ip_address.clone();
-    let url_clone = url.clone();
-
-    if let Some(ip_address) = address_clone.as_ref() {
+    let mut req = if let Some(ip_address) = with_ip_address {
+        // Pin the host on a client of its own, so the pin cannot leak into
+        // other requests or race with concurrent pins of the same host.
         let addr = std::net::IpAddr::from_str(ip_address.as_str())?;
-        let mut hosts = dns::MY_HOSTS_MAP.write().unwrap();
-        let url_host = Url::from_str(url.as_str())?.host().unwrap().to_string();
-        hosts.insert(url_host, addr);
-    }
-
-    defer! {
-        if address_clone.is_some() {
-            let mut hosts = dns::MY_HOSTS_MAP.write().unwrap();
-            hosts.remove(url.clone().as_str());
-        }
-    }
-
-    let mut req = if address_clone.is_some() {
-        _mix_header(
-            new_http_client(false, with_custom_dns.unwrap_or(false)).request(method, url_clone),
-            headers,
-        )
+        let url_host = Url::from_str(url.as_str())?
+            .host_str()
+            .ok_or_else(|| anyhow::anyhow!("url has no host: {url}"))?
+            .to_string();
+        // Port 0 keeps the port from the URL.
+        let client = new_http_client_builder(false, with_custom_dns.unwrap_or(false))
+            .resolve(&url_host, SocketAddr::new(addr, 0))
+            .build()?;
+        _mix_header(client.request(method, url), headers)
     } else if with_custom_dns.unwrap_or(false) {
-        _mix_header(HTTP_CLIENT.request(method, url_clone), headers)
+        _mix_header(HTTP_CLIENT.request(method, url), headers)
     } else {
-        _mix_header(
-            HTTP_CLIENT_NO_CUSTOM_DNS.request(method, url_clone),
-            headers,
-        )
+        _mix_header(HTTP_CLIENT_NO_CUSTOM_DNS.request(method, url), headers)
     };
     if let Some(input_data) = input_data {
         req = req.body(input_data);
@@ -178,13 +172,22 @@ fn _mix_header(
     mut req: RequestBuilder,
     headers: Option<HashMap<String, String>>,
 ) -> RequestBuilder {
+    // Defaults first, minus any header the request sets itself, so a
+    // per-request value (e.g. User-Agent) wins over the default.
+    let mut defaults = DEFAULT_HEADER.read().unwrap().clone();
+    if let Some(headers) = &headers {
+        for name in headers.keys() {
+            if let Ok(name) = HeaderName::from_str(name) {
+                defaults.remove(name);
+            }
+        }
+    }
+    req = req.headers(defaults);
     if let Some(headers) = headers {
         for x in headers {
             req = req.header(x.0, x.1);
         }
     }
-    let dh = DEFAULT_HEADER.read().unwrap();
-    req = req.headers(dh.clone());
     req
 }
 
@@ -278,7 +281,12 @@ mod tests {
     /// Serves every connection with `status` and forwards each request head
     /// (lower-cased) to the returned receiver.
     fn local_server(status: u16) -> (u16, std_mpsc::Receiver<String>) {
-        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        local_server_at("127.0.0.1", 0, status)
+    }
+
+    /// Like `local_server`, on `ip` at `port` (0 picks a free one).
+    fn local_server_at(ip: &str, port: u16, status: u16) -> (u16, std_mpsc::Receiver<String>) {
+        let listener = TcpListener::bind((ip, port)).unwrap();
         let port = listener.local_addr().unwrap().port();
         let (tx, rx) = std_mpsc::channel();
         std::thread::spawn(move || {
@@ -355,8 +363,8 @@ mod tests {
         );
     }
 
+    /// The hosts booster passes only the IP.
     #[tokio::test]
-    #[ignore = "bug: with_ip_address is only honoured when with_custom_dns is true; the hosts booster passes only the IP"]
     async fn pinned_ip_is_used_without_custom_dns_flag() {
         let (port, _) = local_server(200);
         let resp = fetch(
@@ -372,26 +380,41 @@ mod tests {
         assert_eq!(resp.status_code, 200);
     }
 
+    /// The hosts booster tests several IPs of a host; each request must reach
+    /// the IP it pinned, even when they run at the same time.
     #[tokio::test]
-    #[ignore = "bug: the deferred cleanup removes the full URL instead of the host, so the pin outlives the request"]
-    async fn pinned_ip_is_released_after_the_request() {
-        // An invalid header makes the request fail before any I/O.
-        let mut headers = HashMap::new();
-        headers.insert("bad header".to_string(), "x".to_string());
-        let result = fetch(
-            Method::GET,
-            "http://pin-release.invalid/".to_string(),
-            Some(headers),
-            None,
-            Some("127.0.0.1".to_string()),
-            Some(true),
-        )
-        .await;
-        assert!(result.is_err());
-        assert!(!dns::MY_HOSTS_MAP
-            .read()
-            .unwrap()
-            .contains_key("pin-release.invalid"));
+    async fn concurrent_pins_of_one_host_reach_their_own_ip() {
+        let (port, first) = local_server_at("127.0.0.1", 0, 200);
+        let (_, second) = local_server_at("127.0.0.2", port, 200);
+        let url = format!("http://same-host.invalid:{port}/");
+
+        let (a, b) = tokio::join!(
+            fetch(
+                Method::GET,
+                url.clone(),
+                None,
+                None,
+                Some("127.0.0.1".into()),
+                None
+            ),
+            fetch(
+                Method::GET,
+                url.clone(),
+                None,
+                None,
+                Some("127.0.0.2".into()),
+                None
+            ),
+        );
+        assert_eq!(a.unwrap().status_code, 200);
+        assert_eq!(b.unwrap().status_code, 200);
+        first.try_recv().expect("127.0.0.1 was not reached");
+        second.try_recv().expect("127.0.0.2 was not reached");
+
+        // Nothing is left pinned: without a pin the made-up host does not resolve.
+        assert!(fetch(Method::GET, url, None, None, None, None)
+            .await
+            .is_err());
     }
 
     #[tokio::test]
@@ -407,10 +430,6 @@ mod tests {
         .await
         .unwrap_err();
         assert!(err.to_string().contains("invalid"), "{err}");
-        assert!(!dns::MY_HOSTS_MAP
-            .read()
-            .unwrap()
-            .contains_key("bad-ip.invalid"));
     }
 
     /// DEFAULT_HEADER is a process global.
@@ -444,7 +463,6 @@ mod tests {
     }
 
     #[tokio::test]
-    #[ignore = "bug: default headers are applied after per-request headers and overwrite them (e.g. a custom User-Agent)"]
     async fn per_request_headers_override_default_headers() {
         let _guard = HEADER_LOCK.lock().await;
         let (port, requests) = local_server(200);
@@ -468,5 +486,6 @@ mod tests {
         assert_eq!(resp.unwrap().status_code, 200);
         let head = requests.recv().unwrap();
         assert!(head.contains("x-sct-test-shared: request"), "{head}");
+        assert!(!head.contains("x-sct-test-shared: default"), "{head}");
     }
 }

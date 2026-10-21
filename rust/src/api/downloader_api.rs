@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::num::NonZeroU32;
 use std::path::PathBuf;
+use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Arc;
 
 use anyhow::{bail, Context, Result};
@@ -29,9 +30,18 @@ static TORRENT_HANDLES: once_cell::sync::Lazy<RwLock<HashMap<usize, ManagedTorre
     once_cell::sync::Lazy::new(|| RwLock::new(HashMap::new()));
 
 // Store completed tasks info (in-memory cache, cleared on restart)
-// Task IDs in cache are >= 10000 and are assigned sequentially (10000 + cache_index)
+// Each cached task keeps the ID (>= 10000) it was given when cached, so removing
+// one never changes the IDs of the others.
 static COMPLETED_TASKS_CACHE: once_cell::sync::Lazy<RwLock<Vec<DownloadTaskInfo>>> =
     once_cell::sync::Lazy::new(|| RwLock::new(Vec::new()));
+
+const COMPLETED_TASK_ID_BASE: usize = 10000;
+static NEXT_COMPLETED_TASK_ID: AtomicUsize = AtomicUsize::new(COMPLETED_TASK_ID_BASE);
+
+fn cache_completed_task(mut task: DownloadTaskInfo) {
+    task.id = NEXT_COMPLETED_TASK_ID.fetch_add(1, Ordering::Relaxed);
+    COMPLETED_TASKS_CACHE.write().push(task);
+}
 
 /// Download task status
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -386,13 +396,10 @@ pub async fn downloader_resume(task_id: usize) -> Result<()> {
 /// Handles both active tasks (task_id < 10000) and cached completed tasks (task_id >= 10000)
 pub async fn downloader_remove(task_id: usize, delete_files: bool) -> Result<()> {
     // Check if this is a cached completed task (ID >= 10000)
-    if task_id >= 10000 {
-        // Remove from completed tasks cache by index (10000 + index)
-        let cache_index = task_id - 10000;
-        let mut cache = COMPLETED_TASKS_CACHE.write();
-        if cache_index < cache.len() {
-            cache.remove(cache_index);
-        }
+    if task_id >= COMPLETED_TASK_ID_BASE {
+        COMPLETED_TASKS_CACHE
+            .write()
+            .retain(|task| task.id != task_id);
         return Ok(());
     }
 
@@ -550,16 +557,9 @@ pub async fn downloader_get_all_tasks() -> Result<Vec<DownloadTaskInfo>> {
         }
     });
 
-    // Merge cached completed tasks with IDs based on cache index (10000 + index)
+    // Merge cached completed tasks, which carry their own IDs
     let mut result = tasks.into_inner();
-    let completed_tasks_cache = COMPLETED_TASKS_CACHE.read();
-
-    for (cache_index, task) in completed_tasks_cache.iter().enumerate() {
-        let mut task_with_id = task.clone();
-        // Assign ID based on cache index: 10000, 10001, 10002, etc.
-        task_with_id.id = 10000 + cache_index;
-        result.push(task_with_id);
-    }
+    result.extend(COMPLETED_TASKS_CACHE.read().iter().cloned());
 
     Ok(result)
 }
@@ -700,7 +700,7 @@ pub async fn downloader_remove_completed_tasks() -> Result<u32> {
     for task in tasks {
         if task.status == DownloadTaskStatus::Finished {
             // Only process active tasks (id < 10000)
-            if task.id < 10000 {
+            if task.id < COMPLETED_TASK_ID_BASE {
                 let has_handle = TORRENT_HANDLES.read().contains_key(&task.id);
                 if has_handle {
                     // Use TorrentIdOrHash::Id for deletion
@@ -709,8 +709,7 @@ pub async fn downloader_remove_completed_tasks() -> Result<u32> {
                         .await
                         .is_ok()
                     {
-                        // Cache the task - it will get ID based on cache length
-                        COMPLETED_TASKS_CACHE.write().push(task.clone());
+                        cache_completed_task(task.clone());
                         TORRENT_HANDLES.write().remove(&task.id);
                         removed_count += 1;
                     }
@@ -834,27 +833,37 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn completed_cache_ids_follow_cache_position() {
+    async fn completed_cache_ids_stay_stable_across_removals() {
         let _guard = CACHE_LOCK.lock().unwrap_or_else(|e| e.into_inner());
         assert!(!downloader_is_initialized());
         downloader_clear_completed_tasks_cache();
-        COMPLETED_TASKS_CACHE.write().extend([
-            cached_task("a.zip", DownloadTaskStatus::Finished),
-            cached_task("b.zip", DownloadTaskStatus::Finished),
-            cached_task("c.zip", DownloadTaskStatus::Finished),
-        ]);
+        for name in ["a.zip", "b.zip", "c.zip"] {
+            cache_completed_task(cached_task(name, DownloadTaskStatus::Finished));
+        }
 
-        // Removing 10001 drops the second cached entry; later entries shift down.
-        downloader_remove(10001, false).await.unwrap();
+        let tasks = downloader_get_all_tasks().await.unwrap();
+        let ids: Vec<_> = tasks.iter().map(|t| t.id).collect();
+        assert!(
+            ids.iter().all(|&id| id >= COMPLETED_TASK_ID_BASE),
+            "{ids:?}"
+        );
+
+        // The "clear completed" action removes every ID from one snapshot in turn.
+        downloader_remove(ids[1], false).await.unwrap();
         let names: Vec<_> = downloader_get_completed_tasks_cache()
             .into_iter()
             .map(|t| t.name)
             .collect();
         assert_eq!(names, ["a.zip", "c.zip"]);
+        for id in [ids[0], ids[2]] {
+            downloader_remove(id, false).await.unwrap();
+        }
+        assert!(downloader_get_completed_tasks_cache().is_empty());
 
-        // Out-of-range cache IDs are ignored rather than touching the session.
-        downloader_remove(10005, true).await.unwrap();
-        assert_eq!(downloader_get_completed_tasks_cache().len(), 2);
+        // Unknown cache IDs are ignored rather than touching the session.
+        cache_completed_task(cached_task("d.zip", DownloadTaskStatus::Finished));
+        downloader_remove(ids[1], true).await.unwrap();
+        assert_eq!(downloader_get_completed_tasks_cache().len(), 1);
 
         downloader_clear_completed_tasks_cache();
     }
@@ -863,7 +872,7 @@ mod tests {
     async fn name_lookup_skips_finished_tasks_unless_asked() {
         let _guard = CACHE_LOCK.lock().unwrap_or_else(|e| e.into_inner());
         downloader_clear_completed_tasks_cache();
-        COMPLETED_TASKS_CACHE.write().push(cached_task(
+        cache_completed_task(cached_task(
             "StarCitizen_4.2_Data.p4k",
             DownloadTaskStatus::Finished,
         ));

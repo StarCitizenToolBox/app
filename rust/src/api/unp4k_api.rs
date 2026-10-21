@@ -1291,10 +1291,9 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "bug: bucket = len / points truncates, so samples past points*bucket never reach the waveform"]
     fn waveform_covers_the_end_of_the_clip() {
-        // 15 samples into 10 points: bucket = 1, so only the first 10 samples
-        // are drawn and the loud ending is dropped.
+        // 15 samples into 10 points does not divide evenly; the loud last
+        // sample must still land in the last point.
         let mut pcm = vec![0i16; 15];
         pcm[14] = i16::MAX;
         let waveform = compute_waveform_from_pcm(&pcm, 10);
@@ -1843,12 +1842,16 @@ fn compute_waveform_from_pcm(pcm: &[i16], points: usize) -> Vec<f64> {
         return vec![0.0; points.max(1)];
     }
 
-    let bucket = (pcm.len() / points).max(1);
+    // Split proportionally so the samples left over by an uneven division are
+    // spread across buckets instead of dropped from the end. A clip shorter
+    // than `points` gets one sample per bucket and is padded with silence.
+    let buckets = points.min(pcm.len());
     let mut result = Vec::with_capacity(points);
-    for i in (0..pcm.len()).step_by(bucket) {
-        let end = (i + bucket).min(pcm.len());
+    for i in 0..buckets {
+        let start = i * pcm.len() / buckets;
+        let end = (i + 1) * pcm.len() / buckets;
         let mut peak = 0.0f64;
-        for &sample in pcm.iter().take(end).skip(i) {
+        for &sample in &pcm[start..end] {
             let sample = (sample as f64).abs() / 32768.0;
             if sample > peak {
                 peak = sample;
