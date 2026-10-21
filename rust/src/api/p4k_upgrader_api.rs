@@ -1096,6 +1096,15 @@ mod tests {
                 .len(),
             1
         );
+
+        // Control: at the same moment a jump under 64 MiB (and under 1%) is
+        // held back, so it is the byte threshold that emitted above.
+        let mut state = ProgressEventCoalescerState::default();
+        state.events_to_emit(progress_event("downloading", 0, total), start);
+        let small = progress_event("downloading", 60 * 1024 * 1024, total);
+        assert!(state
+            .events_to_emit(small, start + PROGRESS_MEANINGFUL_DELTA_INTERVAL)
+            .is_empty());
     }
 
     #[test]

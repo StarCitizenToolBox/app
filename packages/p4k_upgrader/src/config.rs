@@ -607,6 +607,17 @@ mod tests {
         assert!(events.lock().unwrap().is_empty());
 
         config.record_network_download_bytes(1000, 2, 8);
+        assert_ne!(
+            config
+                .network_progress_last_report_ms
+                .load(Ordering::Relaxed),
+            0
+        );
+        // Move the last report ahead of the clock so the second sample is
+        // inside the window however long the test is paused between calls.
+        config
+            .network_progress_last_report_ms
+            .store(current_time_millis() + 60_000, Ordering::Relaxed);
         config.record_network_download_bytes(500, 2, 8);
         {
             let events = events.lock().unwrap();
