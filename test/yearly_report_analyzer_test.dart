@@ -239,6 +239,23 @@ void main() {
     expect(report.topLocations, isEmpty);
   });
 
+  test('handles with a hyphen or underscore are kept whole', () async {
+    await write('LIVE/Game.log', [
+      _line(DateTime(2025, 6, 1, 9), '[Notice] <Init> Game started'),
+      _login(DateTime(2025, 6, 1, 9, 1), 'Test-Pilot'),
+      _login(DateTime(2025, 6, 1, 9, 2), 'Wing_Man'),
+      _login(DateTime(2025, 6, 1, 9, 3), r'C:\not-a-handle'),
+      _death(DateTime(2025, 6, 1, 9, 30), 'Wing_Man'),
+      _line(DateTime(2025, 6, 1, 10), '[Notice] <Shutdown> bye'),
+    ]);
+
+    final report = await YearlyReportAnalyzer.generateReport(['${sandbox.path}/LIVE'], 2025);
+
+    // The path is rejected as a handle, so Wing_Man stays the current player for the death.
+    expect(report.accountSessionDetails, {'Test-Pilot': 1, 'Wing_Man': 1});
+    expect(report.yearlyDeathCount, 1);
+  });
+
   test('a log without timestamps counts as a launch but not a session', () async {
     await write('LIVE/Game.log', ['Log started on Sun Jun 01 09:00:00 2025', 'garbage']);
 

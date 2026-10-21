@@ -30,7 +30,5 @@ void main() {
       expect(textToByte('k'), 0);
       expect(textToByte('m'), 0);
     },
-    skip: 'Known bug: "k"/"m" pass the dialog\'s input filter but int.parse("") throws, so '
-        'choosing "restart now" fails with an uncaught FormatException.',
   );
 }

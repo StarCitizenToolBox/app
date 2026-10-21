@@ -117,16 +117,16 @@ class SCLoggerHelper {
         String pattern;
         if (Platform.isWindows) {
           // Windows: Match paths like C:\...\StarCitizen\LIVE
-          // Path segments can only contain: letters, numbers, space, dot, underscore, hyphen, parentheses
+          // Path segments can only contain: letters (any script), numbers, space, dot, underscore, hyphen, parentheses
           // Handles both single backslash, forward slash, and JSON-escaped double backslash
           pattern =
-              r'([a-zA-Z]:(?:[/\\]|\\\\)(?:[a-zA-Z0-9 ._()-]+(?:[/\\]|\\\\))*StarCitizen(?:[/\\]|\\\\)' + v + r')';
+              r'([a-zA-Z]:(?:[/\\]|\\\\)(?:[\p{L}\p{M}\p{N} ._()-]+(?:[/\\]|\\\\))*StarCitizen(?:[/\\]|\\\\)' + v + r')';
         } else {
           // Unix (Wine): Match paths like /home/user/.../StarCitizen/LIVE
-          pattern = r'(/(?:[a-zA-Z0-9 ._()-]+/)*StarCitizen/' + v + r')';
+          pattern = r'(/(?:[\p{L}\p{M}\p{N} ._()-]+/)*StarCitizen/' + v + r')';
         }
-        RegExp regExp = RegExp(pattern, caseSensitive: false);
-        for (var i = listData.length - 1; i > 0; i--) {
+        RegExp regExp = RegExp(pattern, caseSensitive: false, unicode: true);
+        for (var i = listData.length - 1; i >= 0; i--) {
           final line = listData[i];
           final matches = regExp.allMatches(line);
           for (var match in matches) {
@@ -180,7 +180,7 @@ class SCLoggerHelper {
   }
 
   static MapEntry<String, String>? getGameRunningLogInfo(List<String> logs) {
-    for (var i = logs.length - 1; i > 0; i--) {
+    for (var i = logs.length - 1; i >= 0; i--) {
       final line = logs[i];
       final r = _checkRunningLine(line);
       if (r != null) {

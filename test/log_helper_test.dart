@@ -110,7 +110,6 @@ void main() {
         final live = await install('LIVE');
         expect(await SCLoggerHelper.getGameInstallPath([_launcherLine(live)]), [live]);
       },
-      skip: 'Known bug: the scan loop runs `i > 0`, so the first line of the launcher log is never read.',
     );
 
     test(
@@ -123,8 +122,6 @@ void main() {
         );
         expect(paths, [live]);
       },
-      skip: 'Known limitation: path segments are matched with [a-zA-Z0-9 ._()-], so installs under '
-          'folders with CJK (or any non-ASCII) names are never detected from the launcher log.',
     );
   });
 

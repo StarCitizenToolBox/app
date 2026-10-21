@@ -287,20 +287,15 @@ void main() {
     expect(stats.deathCount, 2);
   });
 
-  test(
-    'handles with a hyphen are matched in full',
-    () async {
-      final (_, stats) = await analyze([
-        _login.replaceAll('TestPilot', 'Test-Pilot'),
-        _ownDeath.replaceAll('TestPilot', 'Test-Pilot'),
-      ]);
+  test('handles with a hyphen are matched in full', () async {
+    final (_, stats) = await analyze([
+      _login.replaceAll('TestPilot', 'Test-Pilot'),
+      _ownDeath.replaceAll('TestPilot', 'Test-Pilot'),
+    ]);
 
-      expect(stats.playerName, 'Test-Pilot');
-      expect(stats.deathCount, 1);
-    },
-    skip: 'Known bug: the name pattern `name\\s+([^-]+)` stops at the first "-", so RSI handles '
-        'containing a hyphen are truncated and their deaths are never counted.',
-  );
+    expect(stats.playerName, 'Test-Pilot');
+    expect(stats.deathCount, 1);
+  });
 
   test('removeVehicleId strips only the trailing entity id', () {
     expect(GameLogAnalyzer.removeVehicleId('ANVL_Hornet_F7A_Mk2_3467069517923'), 'ANVL_Hornet_F7A_Mk2');
