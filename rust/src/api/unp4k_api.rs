@@ -750,7 +750,12 @@ pub async fn p4k_debug_dds_parts(file_path: String) -> Result<DdsDebugInfo> {
 
 #[cfg(test)]
 mod tests {
-    use super::{decode_image_for_preview, has_dds_signature, reconstruct_dds_stream};
+    use super::{
+        build_preview_candidates, compute_dds_mip_sizes, compute_waveform_from_pcm, dds_base_path,
+        dds_block_bytes, dds_block_bytes_dxgi, dds_payload_layout, decode_image_for_preview,
+        decode_uncompressed_dds, extract_masked_component, has_dds_signature, normalize_p4k_path,
+        reconstruct_dds_stream, sanitize_dcb_export_file_name,
+    };
     use crate::audio::wwise::decode_wem_vorbis_to_ogg;
     use anyhow::{anyhow, Result};
     use image::ImageFormat;
@@ -1009,6 +1014,305 @@ mod tests {
             return Err(anyhow!("wem decode failed:\n{}", failed.join("\n")));
         }
         Ok(())
+    }
+
+    fn dds_header(width: u32, height: u32, mip_count: u32, fourcc: &[u8; 4]) -> Vec<u8> {
+        let mut dds = vec![0u8; 128];
+        dds[0..4].copy_from_slice(b"DDS ");
+        dds[4..8].copy_from_slice(&124u32.to_le_bytes());
+        dds[8..12].copy_from_slice(&0x000A1007u32.to_le_bytes()); // caps|h|w|pf|mipcount|linearsize
+        dds[12..16].copy_from_slice(&height.to_le_bytes());
+        dds[16..20].copy_from_slice(&width.to_le_bytes());
+        dds[28..32].copy_from_slice(&mip_count.to_le_bytes());
+        dds[76..80].copy_from_slice(&32u32.to_le_bytes());
+        dds[80..84].copy_from_slice(&0x4u32.to_le_bytes()); // DDPF_FOURCC
+        dds[84..88].copy_from_slice(fourcc);
+        dds[108..112].copy_from_slice(&0x401008u32.to_le_bytes()); // texture|mipmap|complex
+        dds
+    }
+
+    fn dx10_header(width: u32, height: u32, mip_count: u32, dxgi_format: u32) -> Vec<u8> {
+        let mut dds = dds_header(width, height, mip_count, b"DX10");
+        let mut dx10 = [0u8; 20];
+        dx10[0..4].copy_from_slice(&dxgi_format.to_le_bytes());
+        dx10[4..8].copy_from_slice(&3u32.to_le_bytes()); // TEXTURE2D
+        dx10[12..16].copy_from_slice(&1u32.to_le_bytes()); // array size
+        dds.extend_from_slice(&dx10);
+        dds
+    }
+
+    /// One DXT1 block where every texel is `color` (RGB565).
+    fn solid_dxt1_block(color: u16) -> [u8; 8] {
+        let c = color.to_le_bytes();
+        [c[0], c[1], c[0], c[1], 0, 0, 0, 0]
+    }
+
+    fn solid_dxt1_mip(color: u16, blocks: usize) -> Vec<u8> {
+        solid_dxt1_block(color).repeat(blocks)
+    }
+
+    fn uncompressed_header(width: u32, height: u32, pitch: u32, bit_count: u32) -> Vec<u8> {
+        let mut dds = vec![0u8; 128];
+        dds[0..4].copy_from_slice(b"DDS ");
+        dds[4..8].copy_from_slice(&124u32.to_le_bytes());
+        dds[12..16].copy_from_slice(&height.to_le_bytes());
+        dds[16..20].copy_from_slice(&width.to_le_bytes());
+        dds[20..24].copy_from_slice(&pitch.to_le_bytes());
+        dds[76..80].copy_from_slice(&32u32.to_le_bytes());
+        dds[80..84].copy_from_slice(&0x40u32.to_le_bytes()); // DDPF_RGB, no alpha
+        dds[88..92].copy_from_slice(&bit_count.to_le_bytes());
+        dds[92..96].copy_from_slice(&0x00FF0000u32.to_le_bytes());
+        dds[96..100].copy_from_slice(&0x0000FF00u32.to_le_bytes());
+        dds[100..104].copy_from_slice(&0x000000FFu32.to_le_bytes());
+        dds
+    }
+
+    #[test]
+    fn p4k_paths_are_normalized_to_rooted_lowercase_backslash_form() {
+        assert_eq!(
+            normalize_p4k_path("Data/Objects/Ships/AEGS_Idris.cgf"),
+            r"\data\objects\ships\aegs_idris.cgf"
+        );
+        assert_eq!(normalize_p4k_path(r"\Data\A.dds"), r"\data\a.dds");
+        // Only ASCII is folded, matching find_entry's case-insensitive lookup.
+        assert_eq!(normalize_p4k_path("Data/Ä.xml"), r"\data\Ä.xml");
+    }
+
+    #[test]
+    fn dds_preview_candidates_cover_split_mips_and_base_header() {
+        let candidates = build_preview_candidates(r"\data\tex.dds");
+        assert_eq!(candidates.len(), 17);
+        assert_eq!(candidates[0], r"\data\tex.dds");
+        assert_eq!(candidates[1], r"\data\tex.dds.0");
+        assert_eq!(candidates[16], r"\data\tex.dds.15");
+
+        // Opening a split mip still reads the base header first.
+        assert_eq!(
+            build_preview_candidates(r"\data\tex.dds.3"),
+            vec![r"\data\tex.dds".to_string(), r"\data\tex.dds.3".to_string()]
+        );
+        assert_eq!(
+            build_preview_candidates(r"\data\icon.png"),
+            vec![r"\data\icon.png".to_string()]
+        );
+
+        assert_eq!(
+            dds_base_path(r"\data\tex.dds"),
+            Some(r"\data\tex.dds".into())
+        );
+        assert_eq!(
+            dds_base_path(r"\data\tex.dds.7"),
+            Some(r"\data\tex.dds".into())
+        );
+        assert_eq!(dds_base_path(r"\data\tex.ddsa"), None);
+        assert_eq!(dds_base_path(r"\data\icon.png"), None);
+    }
+
+    #[test]
+    fn block_compressed_mip_sizes_round_up_to_whole_blocks() {
+        assert_eq!(compute_dds_mip_sizes(16, 16, 3, 8), vec![128, 32, 8]);
+        // 5x3 still needs a 2x1 block grid; every tail mip is at least one block.
+        assert_eq!(compute_dds_mip_sizes(5, 3, 3, 8), vec![16, 8, 8]);
+        assert_eq!(compute_dds_mip_sizes(8, 8, 4, 16), vec![64, 16, 16, 16]);
+        // A missing mip count means a single level.
+        assert_eq!(compute_dds_mip_sizes(16, 16, 0, 16), vec![256]);
+    }
+
+    #[test]
+    fn block_sizes_match_bc_formats() {
+        for fourcc in [b"DXT1", b"ATI1", b"BC4U", b"BC4S"] {
+            assert_eq!(dds_block_bytes(fourcc), Some(8), "{:?}", fourcc);
+        }
+        for fourcc in [
+            b"DXT3", b"DXT5", b"ATI2", b"BC5U", b"BC5S", b"BC7 ", b"BC6H",
+        ] {
+            assert_eq!(dds_block_bytes(fourcc), Some(16), "{:?}", fourcc);
+        }
+        assert_eq!(dds_block_bytes(b"\0\0\0\0"), None);
+
+        // DXGI: BC1 and BC4 are 8 bytes per block, BC2/3/5/6H/7 are 16.
+        for format in [70, 71, 72, 79, 80, 81] {
+            assert_eq!(dds_block_bytes_dxgi(format), Some(8), "dxgi {format}");
+        }
+        for format in [73, 74, 75, 76, 77, 78, 82, 83, 84, 94, 95, 96, 97, 98, 99] {
+            assert_eq!(dds_block_bytes_dxgi(format), Some(16), "dxgi {format}");
+        }
+        assert_eq!(dds_block_bytes_dxgi(28), None); // R8G8B8A8_UNORM
+    }
+
+    #[test]
+    fn payload_layout_accounts_for_dx10_header_and_full_mip_chain() {
+        assert_eq!(
+            dds_payload_layout(&dds_header(16, 16, 3, b"DXT1")),
+            Some((128, Some(168)))
+        );
+        // BC7 via DX10: 8x8 + 4x4 = 4 + 1 blocks of 16 bytes.
+        assert_eq!(
+            dds_payload_layout(&dx10_header(8, 8, 2, 98)),
+            Some((148, Some(80)))
+        );
+        // Unknown formats keep the header size but cannot predict the payload.
+        assert_eq!(
+            dds_payload_layout(&dds_header(16, 16, 1, b"ABCD")),
+            Some((128, None))
+        );
+        // A DX10 header cut short, or data that is not a DDS, has no layout.
+        assert_eq!(dds_payload_layout(&dds_header(8, 8, 1, b"DX10")), None);
+        assert_eq!(dds_payload_layout(&[0u8; 200]), None);
+    }
+
+    #[test]
+    fn split_dds_is_rebuilt_largest_mip_first_then_base_tail() {
+        let mut base = dds_header(16, 16, 3, b"DXT1");
+        base.extend_from_slice(&[0xC0; 8]); // mip2 lives in the base file
+        let parts = vec![(1, vec![0xB1; 32]), (2, vec![0xA2; 128])];
+
+        let merged = reconstruct_dds_stream(&base, &parts).unwrap();
+        assert_eq!(merged.len(), 128 + 168);
+        assert_eq!(&merged[..128], &base[..128]);
+        assert!(merged[128..256].iter().all(|&b| b == 0xA2));
+        assert!(merged[256..288].iter().all(|&b| b == 0xB1));
+        assert!(merged[288..].iter().all(|&b| b == 0xC0));
+    }
+
+    #[test]
+    fn split_dds_rebuild_trims_extra_bytes_and_rejects_missing_mips() {
+        let mut base = dds_header(16, 16, 3, b"DXT1");
+        base.extend_from_slice(&[0xC0; 8]);
+        base.extend_from_slice(&[0xEE; 4]); // trailing padding after the last mip
+        let parts = vec![(1, vec![0xB1; 32]), (2, vec![0xA2; 128])];
+        let merged = reconstruct_dds_stream(&base, &parts).unwrap();
+        assert_eq!(merged.len(), 128 + 168);
+        assert!(!merged.contains(&0xEE));
+
+        // Without the largest mip the chain is incomplete.
+        assert!(reconstruct_dds_stream(&base, &parts[..1]).is_none());
+
+        // For formats with unknown block size everything is kept as-is.
+        let mut unknown = dds_header(16, 16, 1, b"ABCD");
+        unknown.extend_from_slice(&[1, 2, 3]);
+        let merged = reconstruct_dds_stream(&unknown, &[(1, vec![9, 9])]).unwrap();
+        assert_eq!(&merged[128..], &[9, 9, 1, 2, 3]);
+
+        assert!(reconstruct_dds_stream(b"not a dds", &parts).is_none());
+    }
+
+    #[test]
+    fn split_dxt1_texture_decodes_to_the_largest_mip() -> Result<()> {
+        const RED: u16 = 0xF800;
+        const GREEN: u16 = 0x07E0;
+        const BLUE: u16 = 0x001F;
+        let mut base = dds_header(16, 16, 3, b"DXT1");
+        base.extend_from_slice(&solid_dxt1_mip(BLUE, 1)); // 4x4
+        let parts = vec![
+            (1, solid_dxt1_mip(GREEN, 4)), // 8x8
+            (2, solid_dxt1_mip(RED, 16)),  // 16x16
+        ];
+
+        let merged = reconstruct_dds_stream(&base, &parts).ok_or_else(|| anyhow!("rebuild"))?;
+        let img = decode_image_for_preview(r"\data\tex.dds", &merged)?.to_rgba8();
+        assert_eq!((img.width(), img.height()), (16, 16));
+        for (x, y) in [(0, 0), (15, 0), (0, 15), (15, 15)] {
+            let [r, g, b, a] = img.get_pixel(x, y).0;
+            assert!(
+                r > 240 && g < 16 && b < 16 && a == 255,
+                "({x},{y}) = {:?}",
+                [r, g, b, a]
+            );
+        }
+        Ok(())
+    }
+
+    #[test]
+    fn masked_components_are_scaled_to_eight_bits() {
+        assert_eq!(extract_masked_component(0x00AB0000, 0x00FF0000, 0), 0xAB);
+        // RGB565: 5- and 6-bit channels expand to the full 0..=255 range.
+        assert_eq!(extract_masked_component(0xF800, 0xF800, 0), 255);
+        assert_eq!(extract_masked_component(0x8000, 0xF800, 0), 132);
+        assert_eq!(extract_masked_component(0x07E0, 0x07E0, 0), 255);
+        assert_eq!(extract_masked_component(0x0000, 0x07E0, 0), 0);
+        // No mask: the channel is absent and takes the fallback.
+        assert_eq!(extract_masked_component(0xFFFFFFFF, 0, 255), 255);
+    }
+
+    #[test]
+    fn uncompressed_24bit_dds_honours_row_pitch_padding() -> Result<()> {
+        let mut dds = uncompressed_header(2, 2, 8, 24);
+        // BGR texels; each 6-byte row is padded to the 8-byte pitch.
+        dds.extend_from_slice(&[1, 2, 3, 4, 5, 6, 0xEE, 0xEE]);
+        dds.extend_from_slice(&[7, 8, 9, 10, 11, 12, 0xEE, 0xEE]);
+
+        let img = decode_uncompressed_dds(&dds)?.to_rgba8();
+        assert_eq!(img.get_pixel(0, 0).0, [3, 2, 1, 255]);
+        assert_eq!(img.get_pixel(1, 0).0, [6, 5, 4, 255]);
+        assert_eq!(img.get_pixel(0, 1).0, [9, 8, 7, 255]);
+        assert_eq!(img.get_pixel(1, 1).0, [12, 11, 10, 255]);
+        Ok(())
+    }
+
+    #[test]
+    fn uncompressed_dds_rejects_truncated_or_compressed_data() {
+        let mut short = uncompressed_header(2, 2, 8, 32);
+        short.extend_from_slice(&[0; 8]); // needs 16 bytes of texels
+        let err = decode_uncompressed_dds(&short).unwrap_err().to_string();
+        assert!(err.contains("too short"), "{err}");
+
+        let mut wrong_depth = uncompressed_header(1, 1, 2, 16);
+        wrong_depth.extend_from_slice(&[0; 2]);
+        let err = decode_uncompressed_dds(&wrong_depth)
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("bit count"), "{err}");
+
+        let compressed = dds_header(4, 4, 1, b"DXT1");
+        let err = decode_uncompressed_dds(&compressed)
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("compressed"), "{err}");
+
+        let mut empty = uncompressed_header(0, 4, 0, 32);
+        empty.extend_from_slice(&[0; 16]);
+        assert!(decode_uncompressed_dds(&empty).is_err());
+    }
+
+    #[test]
+    fn waveform_reports_normalized_peak_per_bucket() {
+        let pcm = [0, 100, -16384, 0, i16::MIN, 5, 0, 0];
+        let waveform = compute_waveform_from_pcm(&pcm, 4);
+        assert_eq!(waveform.len(), 4);
+        assert!((waveform[0] - 100.0 / 32768.0).abs() < 1e-9);
+        assert_eq!(waveform[1], 0.5);
+        assert_eq!(waveform[2], 1.0);
+        assert_eq!(waveform[3], 0.0);
+
+        // Fewer samples than points pads with silence.
+        assert_eq!(compute_waveform_from_pcm(&[16384], 3), vec![0.5, 0.0, 0.0]);
+        assert_eq!(compute_waveform_from_pcm(&[], 3), vec![0.0; 3]);
+    }
+
+    #[test]
+    #[ignore = "bug: bucket = len / points truncates, so samples past points*bucket never reach the waveform"]
+    fn waveform_covers_the_end_of_the_clip() {
+        // 15 samples into 10 points: bucket = 1, so only the first 10 samples
+        // are drawn and the loud ending is dropped.
+        let mut pcm = vec![0i16; 15];
+        pcm[14] = i16::MAX;
+        let waveform = compute_waveform_from_pcm(&pcm, 10);
+        assert_eq!(waveform.len(), 10);
+        assert!(waveform[9] > 0.9, "{waveform:?}");
+    }
+
+    #[test]
+    fn dcb_export_file_names_are_safe_on_windows() {
+        assert_eq!(
+            sanitize_dcb_export_file_name("000012_libs/foundry/records/a.xml::Rec<1>"),
+            "000012_libs_foundry_records_a.xml__Rec_1_"
+        );
+        assert_eq!(
+            sanitize_dcb_export_file_name("a\\b|c?d*e\"f\u{7}g"),
+            "a_b_c_d_e_f_g"
+        );
+        assert_eq!(sanitize_dcb_export_file_name("飞船_记录"), "飞船_记录");
     }
 }
 

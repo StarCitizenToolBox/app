@@ -954,6 +954,189 @@ mod tests {
         assert_eq!(emitted[0].phase, "error");
     }
 
+    #[test]
+    fn official_config_requires_a_manifest_source() {
+        let mut input = bridge_config(false);
+        input.manifest_source = "   ".to_string();
+        let err = to_upgrader_config(input).unwrap_err();
+        assert!(
+            err.to_string().contains("manifest_source is empty"),
+            "{err}"
+        );
+    }
+
+    #[test]
+    fn bridge_config_derives_p4k_paths_from_game_dir() {
+        let mut input = bridge_config(false);
+        input.game_dir = r"D:\RSI\StarCitizen\LIVE".to_string();
+        input.cache_dir = r"D:\cache".to_string();
+        let config = to_upgrader_config(input).unwrap();
+        let game_dir = PathBuf::from(r"D:\RSI\StarCitizen\LIVE");
+        assert_eq!(config.existing_p4k, game_dir.join("Data.p4k"));
+        assert_eq!(config.output_p4k, game_dir.join("Data.p4k.tmp"));
+        assert_eq!(config.loose_root, game_dir);
+        assert_eq!(config.cache_dir, PathBuf::from(r"D:\cache"));
+        assert!(!config.verify_crc32_for_loose);
+    }
+
+    #[test]
+    fn object_path_templates_only_override_when_provided() {
+        let defaults = to_upgrader_config(bridge_config(false)).unwrap();
+        assert!(!defaults.object_path_templates.is_empty());
+
+        let mut input = bridge_config(false);
+        input.object_path_templates = vec!["{sha2}/{sha256}".to_string()];
+        let config = to_upgrader_config(input).unwrap();
+        assert_eq!(
+            config.object_path_templates,
+            vec!["{sha2}/{sha256}".to_string()]
+        );
+    }
+
+    #[test]
+    fn panic_payloads_become_readable_errors() {
+        let from_str = std::panic::catch_unwind(|| panic!("index out of range")).unwrap_err();
+        assert_eq!(
+            panic_message(from_str.as_ref()),
+            "P4K updater crashed: index out of range"
+        );
+        let from_string = std::panic::catch_unwind(|| panic!("{} bytes", 42)).unwrap_err();
+        assert_eq!(
+            panic_message(from_string.as_ref()),
+            "P4K updater crashed: 42 bytes"
+        );
+        let other = std::panic::catch_unwind(|| std::panic::panic_any(7u8)).unwrap_err();
+        assert_eq!(
+            panic_message(other.as_ref()),
+            "P4K updater crashed: unknown panic"
+        );
+    }
+
+    #[test]
+    fn mirror_unavailable_estimate_has_no_error_message() {
+        let outcome = P4kUpgraderEstimateOutcome::from_upgrader(Error::MirrorUnavailable(
+            p4k_upgrader::MirrorUnavailable {
+                reason: MirrorUnavailableReason::NotMirrored,
+                object_sha256: None,
+                compressed_size: None,
+                message: "not mirrored yet".into(),
+            },
+        ));
+        assert!(outcome.error_message.is_none());
+        assert!(!outcome.signed_url_rejected);
+        assert_eq!(
+            outcome.mirror_unavailable.unwrap().reason,
+            P4kMirrorUnavailableReason::NotMirrored
+        );
+    }
+
+    #[test]
+    fn progress_coalescer_always_emits_completion() {
+        let mut state = ProgressEventCoalescerState::default();
+        let start = Instant::now();
+        state.events_to_emit(progress_event("downloading", 1, 100), start);
+        let emitted = state.events_to_emit(
+            progress_event("downloading", 100, 100),
+            start + Duration::from_millis(5),
+        );
+        assert_eq!(emitted.len(), 1);
+        assert_eq!(emitted[0].downloaded_bytes, 100);
+    }
+
+    #[test]
+    fn progress_coalescer_counts_items_when_bytes_are_unknown() {
+        let mut state = ProgressEventCoalescerState::default();
+        let start = Instant::now();
+        let item = |current, total| {
+            let mut event = progress_event("verifying", 0, 0);
+            event.current = current;
+            event.total = total;
+            event
+        };
+        state.events_to_emit(item(1, 10), start);
+        assert!(state
+            .events_to_emit(item(2, 10), start + Duration::from_millis(5))
+            .is_empty());
+        assert_eq!(
+            state
+                .events_to_emit(item(10, 10), start + Duration::from_millis(10))
+                .len(),
+            1
+        );
+    }
+
+    #[test]
+    fn network_speed_samples_are_never_completion() {
+        let mut event = progress_event("network_speed", 5, 1);
+        event.total = 0;
+        assert!(!event.is_completion());
+        let mut state = ProgressEventCoalescerState::default();
+        let start = Instant::now();
+        state.events_to_emit(event.clone(), start);
+        assert!(state
+            .events_to_emit(event, start + Duration::from_millis(5))
+            .is_empty());
+    }
+
+    #[test]
+    fn progress_coalescer_emits_large_byte_jumps_before_throttle_window() {
+        let mut state = ProgressEventCoalescerState::default();
+        let start = Instant::now();
+        let total = 10 * 1024 * 1024 * 1024u64;
+        state.events_to_emit(progress_event("downloading", 0, total), start);
+
+        // 70 MiB is under 1% of the file but past the 64 MiB byte threshold.
+        let jump = progress_event("downloading", 70 * 1024 * 1024, total);
+        assert!(state
+            .events_to_emit(jump.clone(), start + Duration::from_millis(50))
+            .is_empty());
+        assert_eq!(
+            state
+                .events_to_emit(jump, start + PROGRESS_MEANINGFUL_DELTA_INTERVAL)
+                .len(),
+            1
+        );
+    }
+
+    #[test]
+    fn done_flushes_the_last_pending_progress_first() {
+        let mut state = ProgressEventCoalescerState::default();
+        let start = Instant::now();
+        state.events_to_emit(progress_event("downloading", 1, 100), start);
+        state.events_to_emit(
+            progress_event("downloading", 50, 100),
+            start + Duration::from_millis(5),
+        );
+
+        let emitted = state.events_to_emit(
+            P4kUpgraderProgressEvent::done("ok".into()),
+            start + Duration::from_millis(10),
+        );
+        let phases: Vec<_> = emitted.iter().map(|e| e.phase.as_str()).collect();
+        assert_eq!(phases, ["downloading", "done"]);
+        assert_eq!(emitted[0].downloaded_bytes, 50);
+    }
+
+    #[test]
+    fn cancel_drops_pending_progress() {
+        let mut state = ProgressEventCoalescerState::default();
+        let start = Instant::now();
+        state.events_to_emit(progress_event("downloading", 1, 100), start);
+        state.events_to_emit(
+            progress_event("downloading", 50, 100),
+            start + Duration::from_millis(5),
+        );
+
+        let emitted = state.events_to_emit(
+            P4kUpgraderProgressEvent::cancelled("stopped".into()),
+            start + Duration::from_millis(10),
+        );
+        assert_eq!(emitted.len(), 1);
+        assert_eq!(emitted[0].phase, "cancelled");
+        // Nothing stale is replayed afterwards either.
+        assert!(state.pending.is_none());
+    }
+
     fn progress_event(
         phase: impl Into<String>,
         downloaded_bytes: u64,

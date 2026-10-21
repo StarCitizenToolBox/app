@@ -267,3 +267,206 @@ pub async fn get_faster_url(
 
     Ok(None)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::io::{BufRead, BufReader, Write};
+    use std::net::TcpListener;
+    use std::sync::mpsc as std_mpsc;
+
+    /// Serves every connection with `status` and forwards each request head
+    /// (lower-cased) to the returned receiver.
+    fn local_server(status: u16) -> (u16, std_mpsc::Receiver<String>) {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let port = listener.local_addr().unwrap().port();
+        let (tx, rx) = std_mpsc::channel();
+        std::thread::spawn(move || {
+            for stream in listener.incoming() {
+                let Ok(mut stream) = stream else { continue };
+                let mut reader = BufReader::new(stream.try_clone().unwrap());
+                let mut head = String::new();
+                loop {
+                    let mut line = String::new();
+                    if reader.read_line(&mut line).unwrap_or(0) == 0 || line == "\r\n" {
+                        break;
+                    }
+                    head.push_str(&line.to_ascii_lowercase());
+                }
+                let _ = tx.send(head);
+                let _ = write!(
+                    stream,
+                    "HTTP/1.1 {status} X\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
+                );
+            }
+        });
+        (port, rx)
+    }
+
+    #[tokio::test]
+    async fn faster_url_returns_the_base_url_that_answered_200() {
+        let (bad, _) = local_server(404);
+        let (good, good_requests) = local_server(200);
+        let bad_url = format!("http://127.0.0.1:{bad}");
+        let good_url = format!("http://127.0.0.1:{good}");
+
+        let fastest = get_faster_url(
+            vec![bad_url, good_url.clone()],
+            Some("/api/version".to_string()),
+        )
+        .await
+        .unwrap();
+
+        assert_eq!(fastest, Some(good_url));
+        let head = good_requests.recv().unwrap();
+        assert!(head.starts_with("head /api/version http/1.1"), "{head}");
+    }
+
+    #[tokio::test]
+    async fn faster_url_is_none_when_nothing_answers_200() {
+        let (a, _) = local_server(404);
+        let (b, _) = local_server(503);
+        let urls = vec![
+            format!("http://127.0.0.1:{a}"),
+            format!("http://127.0.0.1:{b}"),
+        ];
+        assert_eq!(get_faster_url(urls, None).await.unwrap(), None);
+        assert_eq!(get_faster_url(Vec::new(), None).await.unwrap(), None);
+    }
+
+    #[tokio::test]
+    async fn pinned_ip_is_used_with_custom_dns() {
+        let (port, requests) = local_server(200);
+        let resp = fetch(
+            Method::GET,
+            format!("http://pinned-custom-dns.invalid:{port}/ping"),
+            None,
+            None,
+            Some("127.0.0.1".to_string()),
+            Some(true),
+        )
+        .await
+        .unwrap();
+        assert_eq!(resp.status_code, 200);
+        let head = requests.recv().unwrap();
+        assert!(
+            head.contains(&format!("host: pinned-custom-dns.invalid:{port}")),
+            "{head}"
+        );
+    }
+
+    #[tokio::test]
+    #[ignore = "bug: with_ip_address is only honoured when with_custom_dns is true; the hosts booster passes only the IP"]
+    async fn pinned_ip_is_used_without_custom_dns_flag() {
+        let (port, _) = local_server(200);
+        let resp = fetch(
+            Method::HEAD,
+            format!("http://pinned-default.invalid:{port}/"),
+            None,
+            None,
+            Some("127.0.0.1".to_string()),
+            None,
+        )
+        .await
+        .unwrap();
+        assert_eq!(resp.status_code, 200);
+    }
+
+    #[tokio::test]
+    #[ignore = "bug: the deferred cleanup removes the full URL instead of the host, so the pin outlives the request"]
+    async fn pinned_ip_is_released_after_the_request() {
+        // An invalid header makes the request fail before any I/O.
+        let mut headers = HashMap::new();
+        headers.insert("bad header".to_string(), "x".to_string());
+        let result = fetch(
+            Method::GET,
+            "http://pin-release.invalid/".to_string(),
+            Some(headers),
+            None,
+            Some("127.0.0.1".to_string()),
+            Some(true),
+        )
+        .await;
+        assert!(result.is_err());
+        assert!(!dns::MY_HOSTS_MAP
+            .read()
+            .unwrap()
+            .contains_key("pin-release.invalid"));
+    }
+
+    #[tokio::test]
+    async fn invalid_pinned_ip_is_rejected_before_sending() {
+        let err = fetch(
+            Method::GET,
+            "http://bad-ip.invalid/".to_string(),
+            None,
+            None,
+            Some("999.1.1.1".to_string()),
+            Some(true),
+        )
+        .await
+        .unwrap_err();
+        assert!(err.to_string().contains("invalid"), "{err}");
+        assert!(!dns::MY_HOSTS_MAP
+            .read()
+            .unwrap()
+            .contains_key("bad-ip.invalid"));
+    }
+
+    /// DEFAULT_HEADER is a process global.
+    static HEADER_LOCK: tokio::sync::Mutex<()> = tokio::sync::Mutex::const_new(());
+
+    #[tokio::test]
+    async fn default_headers_are_sent_alongside_request_headers() {
+        let _guard = HEADER_LOCK.lock().await;
+        let (port, requests) = local_server(200);
+        set_default_header(HashMap::from([(
+            "x-sct-test-default".to_string(),
+            "d".to_string(),
+        )]));
+        let resp = fetch(
+            Method::GET,
+            format!("http://127.0.0.1:{port}/"),
+            Some(HashMap::from([(
+                "x-sct-test-request".to_string(),
+                "r".to_string(),
+            )])),
+            None,
+            None,
+            None,
+        )
+        .await;
+        set_default_header(HashMap::new());
+        assert_eq!(resp.unwrap().status_code, 200);
+        let head = requests.recv().unwrap();
+        assert!(head.contains("x-sct-test-default: d"), "{head}");
+        assert!(head.contains("x-sct-test-request: r"), "{head}");
+    }
+
+    #[tokio::test]
+    #[ignore = "bug: default headers are applied after per-request headers and overwrite them (e.g. a custom User-Agent)"]
+    async fn per_request_headers_override_default_headers() {
+        let _guard = HEADER_LOCK.lock().await;
+        let (port, requests) = local_server(200);
+        set_default_header(HashMap::from([(
+            "x-sct-test-shared".to_string(),
+            "default".to_string(),
+        )]));
+        let resp = fetch(
+            Method::GET,
+            format!("http://127.0.0.1:{port}/"),
+            Some(HashMap::from([(
+                "x-sct-test-shared".to_string(),
+                "request".to_string(),
+            )])),
+            None,
+            None,
+            None,
+        )
+        .await;
+        set_default_header(HashMap::new());
+        assert_eq!(resp.unwrap().status_code, 200);
+        let head = requests.recv().unwrap();
+        assert!(head.contains("x-sct-test-shared: request"), "{head}");
+    }
+}

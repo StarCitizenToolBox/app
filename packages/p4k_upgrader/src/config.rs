@@ -392,3 +392,243 @@ fn current_time_millis() -> u64 {
 pub(crate) fn is_url(value: &str) -> bool {
     value.starts_with("http://") || value.starts_with("https://")
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::sync::Mutex;
+
+    /// Thread limits and the pause/cancel flag are process globals.
+    static GLOBALS: Mutex<()> = Mutex::new(());
+
+    fn write_config(dir: &Path, json: &str) -> PathBuf {
+        let path = dir.join("config.json");
+        std::fs::write(&path, json).unwrap();
+        path
+    }
+
+    fn error_text<T: fmt::Debug>(result: Result<T>) -> String {
+        result.unwrap_err().to_string()
+    }
+
+    #[test]
+    fn missing_config_writes_an_editable_template() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("config.json");
+
+        let err = error_text(Config::from_file(&path, true));
+        assert!(err.contains("created config template"), "{err}");
+
+        let template: Config =
+            serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap();
+        assert_eq!(
+            template.object_path_templates,
+            Config::default().object_path_templates
+        );
+        assert_eq!(template.p4k_sector_size, 4096);
+        // The template is not runnable until a manifest is filled in.
+        let err = error_text(Config::from_file(&path, true));
+        assert!(err.contains("manifest_source is empty"), "{err}");
+    }
+
+    #[test]
+    fn relative_paths_resolve_against_the_config_directory() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = write_config(
+            dir.path(),
+            "\u{feff}{\"manifest_source\": \"manifests/live.json\", \"cache_dir\": \"objects\"}",
+        );
+        let config = Config::from_file(&path, true).unwrap();
+        assert_eq!(config.cache_dir, dir.path().join("objects"));
+        assert_eq!(
+            PathBuf::from(&config.manifest_source),
+            dir.path().join("manifests/live.json")
+        );
+        // Unspecified fields keep their defaults.
+        assert_eq!(config.download_retry_count, 10);
+        assert_eq!(config.download_source, DownloadSource::Official);
+    }
+
+    #[test]
+    fn urls_and_absolute_paths_are_left_alone() {
+        let dir = tempfile::tempdir().unwrap();
+        let absolute_cache = dir.path().join("abs-cache");
+        let json = serde_json::json!({
+            "manifest_source": "https://example.invalid/manifest.json?sig=1",
+            "cache_dir": absolute_cache,
+            "download_source": "chinese_wiki_r2",
+        });
+        let path = write_config(dir.path(), &json.to_string());
+        let config = Config::from_file(&path, true).unwrap();
+        assert_eq!(
+            config.manifest_source,
+            "https://example.invalid/manifest.json?sig=1"
+        );
+        assert_eq!(config.cache_dir, absolute_cache);
+        assert_eq!(config.download_source, DownloadSource::ChineseWikiR2);
+    }
+
+    #[test]
+    fn invalid_sizes_are_rejected() {
+        let dir = tempfile::tempdir().unwrap();
+        let cases = [
+            (r#"{"manifest_source": " "}"#, "manifest_source is empty"),
+            (
+                r#"{"manifest_source": "m.json", "chunk_size": 0}"#,
+                "chunk_size",
+            ),
+            (
+                r#"{"manifest_source": "m.json", "p4k_sector_size": 0}"#,
+                "power of two",
+            ),
+            (
+                r#"{"manifest_source": "m.json", "p4k_sector_size": 1}"#,
+                "power of two",
+            ),
+            (
+                r#"{"manifest_source": "m.json", "p4k_sector_size": 3000}"#,
+                "power of two",
+            ),
+        ];
+        for (json, expected) in cases {
+            let path = write_config(dir.path(), json);
+            let err = error_text(Config::from_file(&path, true));
+            assert!(err.contains(expected), "{json}: {err}");
+        }
+        let path = write_config(
+            dir.path(),
+            r#"{"manifest_source": "m.json", "p4k_sector_size": 512}"#,
+        );
+        assert!(Config::from_file(&path, true).is_ok());
+
+        let path = write_config(dir.path(), "{ not json");
+        assert!(matches!(
+            Config::from_file(&path, true),
+            Err(crate::error::Error::Json(_))
+        ));
+    }
+
+    #[test]
+    fn mirror_config_places_temp_p4k_next_to_the_game() {
+        let game = Path::new("D:/RSI/StarCitizen/LIVE");
+        let config = Config::chinese_wiki_r2(game.join("Data.p4k"), "D:/cache");
+        assert_eq!(config.download_source, DownloadSource::ChineseWikiR2);
+        assert_eq!(config.output_p4k, game.join("Data.p4k.tmp"));
+        assert_eq!(config.loose_root, game);
+        assert_eq!(config.cache_dir, PathBuf::from("D:/cache"));
+        assert!(config.object_path_templates.is_empty());
+        // Everything else matches the official defaults.
+        assert!(config.update_p4k && config.verify_cig_structure);
+    }
+
+    #[test]
+    fn thread_limits_are_clamped() {
+        let _guard = GLOBALS.lock().unwrap_or_else(|e| e.into_inner());
+        set_download_thread_limit(0);
+        assert_eq!(download_thread_limit(), 1);
+        set_download_thread_limit(500);
+        assert_eq!(download_thread_limit(), 96);
+        set_download_thread_limit(32);
+        assert_eq!(download_thread_limit(), 32);
+
+        set_base_download_thread_limit(0);
+        assert_eq!(base_download_thread_limit(), 1);
+        set_base_download_thread_limit(100);
+        assert_eq!(base_download_thread_limit(), 32);
+        set_base_download_thread_limit(8);
+    }
+
+    #[test]
+    fn cancel_stops_waiting_workers_and_resume_releases_paused_ones() {
+        let _guard = GLOBALS.lock().unwrap_or_else(|e| e.into_inner());
+        reset_update_control();
+        assert!(wait_if_paused_or_cancelled().is_ok());
+
+        cancel_update();
+        let err = error_text(wait_if_paused_or_cancelled());
+        assert!(err.contains("cancelled"), "{err}");
+        let config = Config {
+            download_retry_delay_ms: 10_000,
+            ..Config::default()
+        };
+        // A retry back-off is cut short by a cancel instead of sleeping it out.
+        let start = std::time::Instant::now();
+        assert!(wait_before_download_retry(&config).is_err());
+        assert!(start.elapsed() < Duration::from_secs(2));
+
+        pause_update();
+        let waiter = std::thread::spawn(wait_if_paused_or_cancelled);
+        std::thread::sleep(Duration::from_millis(100));
+        assert!(!waiter.is_finished());
+        resume_update();
+        assert!(waiter.join().unwrap().is_ok());
+        reset_update_control();
+    }
+
+    #[test]
+    fn signed_url_rejections_are_recognised() {
+        assert!(is_signed_url_rejection(
+            "HTTP status error: code=403 raw=Google-Edge-Cache: Invalid Signed Request"
+        ));
+        assert!(is_signed_url_rejection(
+            "code=403 url=https://sc-prod.MCDN.robertsspaceindustries.com/a?<redacted>"
+        ));
+        assert!(!is_signed_url_rejection(
+            "code=404 url=https://sc-prod.mcdn.robertsspaceindustries.com/a"
+        ));
+        assert!(!is_signed_url_rejection(
+            "code=403 url=https://example.invalid/a"
+        ));
+        assert_eq!(update_signed_urls(&["https://a".into()]), 0);
+    }
+
+    #[test]
+    fn url_queries_are_redacted_from_logs() {
+        assert_eq!(
+            redact_url_query("https://cdn.invalid/obj?Expires=1&Signature=abc"),
+            "https://cdn.invalid/obj?<redacted>"
+        );
+        assert_eq!(
+            redact_url_query("https://cdn.invalid/obj"),
+            "https://cdn.invalid/obj"
+        );
+    }
+
+    #[test]
+    fn network_progress_accumulates_and_throttles_reports() {
+        let events = Arc::new(Mutex::new(Vec::new()));
+        let sink = events.clone();
+        let config = Config {
+            progress: ProgressReporter::new(move |event| sink.lock().unwrap().push(event)),
+            ..Config::default()
+        };
+
+        config.record_network_download_bytes(0, 1, 8);
+        assert!(events.lock().unwrap().is_empty());
+
+        config.record_network_download_bytes(1000, 2, 8);
+        config.record_network_download_bytes(500, 2, 8);
+        {
+            let events = events.lock().unwrap();
+            assert_eq!(
+                events.len(),
+                1,
+                "second sample falls inside the 250 ms window"
+            );
+            assert_eq!(events[0].phase, "network_speed");
+            assert_eq!(events[0].downloaded_bytes, 1000);
+            assert_eq!(events[0].active_downloads, 2);
+            assert_eq!(events[0].thread_limit, 8);
+        }
+        assert_eq!(
+            config.network_downloaded_bytes.load(Ordering::Relaxed),
+            1500
+        );
+
+        config.reset_network_download_progress();
+        config.record_network_download_bytes(7, 1, 8);
+        let events = events.lock().unwrap();
+        assert_eq!(events.len(), 2);
+        assert_eq!(events[1].downloaded_bytes, 7);
+    }
+}

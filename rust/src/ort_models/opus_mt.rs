@@ -409,4 +409,113 @@ mod tests {
         let result = model.translate("北极星要炸了，快撤！").unwrap();
         println!("Translation: {}", result);
     }
+
+    struct TempDir(std::path::PathBuf);
+
+    impl TempDir {
+        fn new() -> Self {
+            let dir =
+                std::env::temp_dir().join(format!("sctoolbox-opus-test-{}", uuid::Uuid::new_v4()));
+            std::fs::create_dir_all(&dir).unwrap();
+            Self(dir)
+        }
+    }
+
+    impl Drop for TempDir {
+        fn drop(&mut self) {
+            let _ = std::fs::remove_dir_all(&self.0);
+        }
+    }
+
+    fn write_tokenizer(dir: &TempDir, normalizer: serde_json::Value) -> std::path::PathBuf {
+        let json = serde_json::json!({
+            "version": "1.0",
+            "truncation": null,
+            "padding": null,
+            "added_tokens": [],
+            "normalizer": normalizer,
+            "pre_tokenizer": { "type": "WhitespaceSplit" },
+            "post_processor": null,
+            "decoder": null,
+            "model": {
+                "type": "WordLevel",
+                "vocab": { "<unk>": 0, "hello": 1, "world": 2 },
+                "unk_token": "<unk>"
+            }
+        });
+        let path = dir.0.join("tokenizer.json");
+        std::fs::write(&path, json.to_string()).unwrap();
+        path
+    }
+
+    fn ids(tokenizer: &Tokenizer, text: &str) -> Vec<u32> {
+        tokenizer.encode(text, false).unwrap().get_ids().to_vec()
+    }
+
+    #[test]
+    fn tokenizer_with_broken_precompiled_normalizer_still_loads() {
+        // HF exports of Marian models ship a Precompiled normalizer without a
+        // charsmap, which the tokenizers crate refuses to deserialize.
+        for normalizer in [
+            serde_json::json!({ "type": "Precompiled", "precompiled_charsmap": null }),
+            serde_json::json!({ "type": "Precompiled" }),
+            serde_json::Value::Null,
+        ] {
+            let dir = TempDir::new();
+            let path = write_tokenizer(&dir, normalizer.clone());
+            let tokenizer =
+                OpusMtModel::load_tokenizer(&path).unwrap_or_else(|e| panic!("{normalizer}: {e}"));
+            assert_eq!(ids(&tokenizer, "hello world"), vec![1, 2]);
+        }
+    }
+
+    #[test]
+    fn tokenizer_keeps_a_working_normalizer() {
+        let dir = TempDir::new();
+        let path = write_tokenizer(&dir, serde_json::json!({ "type": "Lowercase" }));
+        let tokenizer = OpusMtModel::load_tokenizer(&path).unwrap();
+        assert_eq!(ids(&tokenizer, "HELLO World"), vec![1, 2]);
+    }
+
+    #[test]
+    fn tokenizer_load_reports_missing_or_invalid_files() {
+        let dir = TempDir::new();
+        let missing = OpusMtModel::load_tokenizer(&dir.0.join("tokenizer.json")).unwrap_err();
+        assert!(
+            missing.to_string().contains("read tokenizer.json"),
+            "{missing}"
+        );
+
+        let path = dir.0.join("tokenizer.json");
+        std::fs::write(&path, "{ not json").unwrap();
+        let invalid = OpusMtModel::load_tokenizer(&path).unwrap_err();
+        assert!(
+            invalid.to_string().contains("parse tokenizer.json"),
+            "{invalid}"
+        );
+    }
+
+    #[test]
+    fn model_config_reads_generation_ids_and_falls_back_per_field() {
+        let dir = TempDir::new();
+        let defaults = OpusMtModel::load_config(&dir.0).unwrap();
+        assert_eq!(defaults.max_length, 512);
+        assert_eq!(defaults.num_beams, 1);
+
+        std::fs::write(
+            dir.0.join("config.json"),
+            r#"{"max_length": 256, "decoder_start_token_id": 65000,
+                "eos_token_id": 0, "pad_token_id": 65000}"#,
+        )
+        .unwrap();
+        let config = OpusMtModel::load_config(&dir.0).unwrap();
+        assert_eq!(config.max_length, 256);
+        assert_eq!(config.num_beams, 1);
+        assert_eq!(config.decoder_start_token_id, 65000);
+        assert_eq!(config.pad_token_id, 65000);
+        assert_eq!(config.eos_token_id, 0);
+
+        std::fs::write(dir.0.join("config.json"), "{").unwrap();
+        assert!(OpusMtModel::load_config(&dir.0).is_err());
+    }
 }

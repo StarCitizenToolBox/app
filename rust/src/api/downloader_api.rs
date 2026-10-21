@@ -735,3 +735,160 @@ pub async fn downloader_has_active_tasks() -> bool {
     }
     false
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Tests below share COMPLETED_TASKS_CACHE, a process global.
+    static CACHE_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
+    fn temp_working_dir(session_json: Option<&str>) -> PathBuf {
+        let dir = std::env::temp_dir().join(format!("sctoolbox-dl-test-{}", uuid::Uuid::new_v4()));
+        let session_dir = dir.join("rqbit-session");
+        std::fs::create_dir_all(&session_dir).unwrap();
+        if let Some(content) = session_json {
+            std::fs::write(session_dir.join("session.json"), content).unwrap();
+        }
+        dir
+    }
+
+    fn has_pending(session_json: Option<&str>) -> bool {
+        let dir = temp_working_dir(session_json);
+        let result = downloader_has_pending_session_tasks(dir.to_string_lossy().into_owned());
+        let _ = std::fs::remove_dir_all(&dir);
+        result
+    }
+
+    fn stats(state: TorrentStatsState, finished: bool, error: Option<&str>) -> TorrentStats {
+        TorrentStats {
+            state,
+            file_progress: Vec::new(),
+            error: error.map(str::to_string),
+            progress_bytes: 0,
+            uploaded_bytes: 0,
+            total_bytes: 0,
+            finished,
+            live: None,
+        }
+    }
+
+    fn cached_task(name: &str, status: DownloadTaskStatus) -> DownloadTaskInfo {
+        DownloadTaskInfo {
+            id: 3,
+            name: name.to_string(),
+            status,
+            total_bytes: 100,
+            downloaded_bytes: 100,
+            uploaded_bytes: 0,
+            download_speed: 0,
+            upload_speed: 0,
+            progress: 1.0,
+            num_peers: 0,
+            output_folder: String::new(),
+        }
+    }
+
+    #[test]
+    fn pending_session_tasks_require_a_non_empty_torrent_map() {
+        assert!(!has_pending(None));
+        assert!(!has_pending(Some(r#"{"torrents":{}}"#)));
+        assert!(has_pending(Some(
+            r#"{"torrents":{"0":{"info_hash":"aa"}}}"#
+        )));
+        // Corrupt or unexpected session files never block startup.
+        assert!(!has_pending(Some("{\"torrents\":")));
+        assert!(!has_pending(Some(r#"{"torrents":[{"id":0}]}"#)));
+        assert!(!has_pending(Some(r#"{"other":{"0":{}}}"#)));
+    }
+
+    #[test]
+    fn task_status_prefers_error_then_finished_over_session_state() {
+        use TorrentStatsState::*;
+        assert_eq!(
+            get_task_status(&stats(Live, true, Some("disk full"))),
+            DownloadTaskStatus::Error
+        );
+        // A finished torrent that rqbit reports as paused is still finished,
+        // so remove_completed_tasks and has_active_tasks treat it as done.
+        assert_eq!(
+            get_task_status(&stats(Paused, true, None)),
+            DownloadTaskStatus::Finished
+        );
+        assert_eq!(
+            get_task_status(&stats(Initializing, false, None)),
+            DownloadTaskStatus::Checking
+        );
+        assert_eq!(
+            get_task_status(&stats(Live, false, None)),
+            DownloadTaskStatus::Live
+        );
+        assert_eq!(
+            get_task_status(&stats(Paused, false, None)),
+            DownloadTaskStatus::Paused
+        );
+        assert_eq!(
+            get_task_status(&stats(Error, false, None)),
+            DownloadTaskStatus::Error
+        );
+    }
+
+    #[tokio::test]
+    async fn completed_cache_ids_follow_cache_position() {
+        let _guard = CACHE_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        assert!(!downloader_is_initialized());
+        downloader_clear_completed_tasks_cache();
+        COMPLETED_TASKS_CACHE.write().extend([
+            cached_task("a.zip", DownloadTaskStatus::Finished),
+            cached_task("b.zip", DownloadTaskStatus::Finished),
+            cached_task("c.zip", DownloadTaskStatus::Finished),
+        ]);
+
+        // Removing 10001 drops the second cached entry; later entries shift down.
+        downloader_remove(10001, false).await.unwrap();
+        let names: Vec<_> = downloader_get_completed_tasks_cache()
+            .into_iter()
+            .map(|t| t.name)
+            .collect();
+        assert_eq!(names, ["a.zip", "c.zip"]);
+
+        // Out-of-range cache IDs are ignored rather than touching the session.
+        downloader_remove(10005, true).await.unwrap();
+        assert_eq!(downloader_get_completed_tasks_cache().len(), 2);
+
+        downloader_clear_completed_tasks_cache();
+    }
+
+    #[tokio::test]
+    async fn name_lookup_skips_finished_tasks_unless_asked() {
+        let _guard = CACHE_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        downloader_clear_completed_tasks_cache();
+        COMPLETED_TASKS_CACHE.write().push(cached_task(
+            "StarCitizen_4.2_Data.p4k",
+            DownloadTaskStatus::Finished,
+        ));
+
+        assert!(!downloader_is_name_in_task("4.2_Data".into(), None).await);
+        assert!(!downloader_is_name_in_task("4.2_Data".into(), Some(true)).await);
+        assert!(downloader_is_name_in_task("4.2_Data".into(), Some(false)).await);
+        assert!(!downloader_is_name_in_task("4.3".into(), Some(false)).await);
+        assert!(!downloader_has_active_tasks().await);
+
+        downloader_clear_completed_tasks_cache();
+    }
+
+    #[tokio::test]
+    async fn torrent_operations_fail_cleanly_before_init() {
+        assert!(!downloader_is_initialized());
+        let err = downloader_add_magnet("magnet:?xt=urn:btih:00".into(), None, None)
+            .await
+            .unwrap_err();
+        assert!(err.to_string().contains("not initialized"), "{err}");
+        let err = downloader_add_url("ftp://example.invalid/a.torrent".into(), None, None)
+            .await
+            .unwrap_err();
+        assert!(err.to_string().contains("not supported"), "{err}");
+        assert!(downloader_pause(1).await.is_err());
+        assert!(downloader_remove(1, false).await.is_err());
+    }
+}

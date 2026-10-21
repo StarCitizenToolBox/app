@@ -66,3 +66,48 @@ pub fn sha256_bytes(data: &[u8]) -> String {
     let digest = Sha256::digest(data);
     digest.iter().map(|byte| format!("{byte:02x}")).collect()
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn p4k_name_prefers_target_and_uses_zip_separators() {
+        let mut entry = ManifestEntry {
+            file_name: r"\Data\Objects\a.cgf".to_string(),
+            ..ManifestEntry::default()
+        };
+        assert_eq!(entry.p4k_name(), "Data/Objects/a.cgf");
+        entry.target = "/Data/Objects/b.cgf".to_string();
+        assert_eq!(entry.p4k_name(), "Data/Objects/b.cgf");
+        assert_eq!(normalize_zip_name("//Data\\x"), "Data/x");
+    }
+
+    #[test]
+    fn manifest_entries_default_optional_fields() {
+        let entry: ManifestEntry = serde_json::from_str(
+            r#"{"file_name":"Data/a.xml","sha256":"00","crc32":1,
+                "compression_method":8,"compressed_size":2,"uncompressed_size":3}"#,
+        )
+        .unwrap();
+        assert!(!entry.loose_file);
+        assert!(entry.target.is_empty());
+        assert!(entry.source_urls.is_empty());
+        assert_eq!(entry.compression_method, 8);
+        // Required fields stay required.
+        assert!(serde_json::from_str::<ManifestEntry>(r#"{"file_name":"Data/a.xml"}"#).is_err());
+    }
+
+    #[test]
+    fn sha256_is_lowercase_hex() {
+        assert_eq!(
+            sha256_bytes(b"abc"),
+            "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        );
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("blob");
+        std::fs::write(&path, b"abc").unwrap();
+        assert_eq!(sha256_file(&path).unwrap(), sha256_bytes(b"abc"));
+        assert!(sha256_file(dir.path().join("missing")).is_err());
+    }
+}

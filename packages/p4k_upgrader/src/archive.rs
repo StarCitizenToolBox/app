@@ -131,3 +131,44 @@ where
 pub fn entry_storage_size(entry: &ManifestEntry) -> u64 {
     entry.compressed_size
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::error::UNAVAILABLE_MESSAGE;
+
+    fn entry(name: &str, sha256: &str) -> ManifestEntry {
+        ManifestEntry {
+            file_name: name.to_string(),
+            sha256: sha256.to_string(),
+            ..ManifestEntry::default()
+        }
+    }
+
+    #[test]
+    fn dedupe_keeps_the_first_entry_per_object() {
+        let deduped = dedupe_entries_by_sha([
+            entry("a", "11"),
+            entry("b", "22"),
+            entry("c", "11"),
+            entry("d", "33"),
+        ]);
+        let names: Vec<_> = deduped.iter().map(|e| e.file_name.as_str()).collect();
+        assert_eq!(names, ["a", "b", "d"]);
+    }
+
+    #[test]
+    fn community_build_reports_unavailable_instead_of_touching_files() {
+        let config = Config::default();
+        let entries = [entry("a", "11")];
+        let unavailable = |result: Result<()>| {
+            assert_eq!(result.unwrap_err().to_string(), UNAVAILABLE_MESSAGE);
+        };
+        unavailable(verify_p4k_cig_structure("Data.p4k"));
+        unavailable(verify_p4k_against_manifest("Data.p4k", &entries, None));
+        unavailable(update_p4k_in_place(&config, &entries).map(|_| ()));
+        unavailable(crate::pipeline::run_update(&config).map(|_| ()));
+        unavailable(crate::pipeline::estimate_update_size(&config).map(|_| ()));
+        unavailable(crate::manifest::cache_manifest(&config).map(|_| ()));
+    }
+}
