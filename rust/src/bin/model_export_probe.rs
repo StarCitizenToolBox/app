@@ -77,6 +77,7 @@ fn export_glb_bytes(p4k_path: &str, model_path: &str) -> Result<Vec<u8>> {
         apply_default_animation_pose: true,
         default_animation_tags: vec!["landing_gear_extend".to_string()],
         decomposed_package_subdir: None,
+        ..Default::default()
     };
     starbreaker_3d::api::export_geometry_glb(
         &p4k,

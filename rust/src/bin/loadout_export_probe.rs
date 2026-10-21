@@ -144,6 +144,7 @@ fn starbreaker_options() -> starbreaker_3d::ExportOptions {
         apply_default_animation_pose: true,
         default_animation_tags: vec!["landing_gear_extend".to_string()],
         decomposed_package_subdir: None,
+        ..Default::default()
     }
 }
 
