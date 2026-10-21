@@ -1291,9 +1291,9 @@ fn create_popup() -> Result<HWND> {
         store_hwnd(&EDIT_HWND, edit);
         store_hwnd(&STATUS_HWND, status);
         #[cfg(target_pointer_width = "64")]
-        let prev = SetWindowLongPtrW(edit, GWLP_WNDPROC, edit_proc as usize as isize);
+        let prev = SetWindowLongPtrW(edit, GWLP_WNDPROC, edit_proc as *const () as isize);
         #[cfg(target_pointer_width = "32")]
-        let prev = SetWindowLongW(edit, GWLP_WNDPROC, edit_proc as usize as i32) as isize;
+        let prev = SetWindowLongW(edit, GWLP_WNDPROC, edit_proc as *const () as i32) as isize;
         EDIT_PROC.store(prev, Ordering::SeqCst);
         apply_dpi(96);
         Ok(main)
