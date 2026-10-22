@@ -85,7 +85,7 @@ librqbit = { git = "https://github.com/StarCitizenToolBox/rqbit", rev = "fcd9fc2
 bytes = "1.12.1"
 gltf-json = "1.4.1"
 gltf = { version = "1.4.1", features = ["import", "utils"] }
-image = { version = "0.25.10", default-features = false, features = ["png", "jpeg", "gif", "webp", "bmp", "tga", "tiff", "dds", "ico"] }
+image = { version = "0.25.10", default-features = false, features = ["png", "jpeg", "gif", "webp", "bmp", "tga", "tiff", "dds", "ico", "qoi", "exr", "hdr", "pnm", "ff"] }
 image_dds = "0.7"
 bytemuck = { version = "1.22", features = ["derive"] }
 pollster = "1.0"
