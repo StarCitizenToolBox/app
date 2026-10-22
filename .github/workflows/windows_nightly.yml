@@ -36,6 +36,8 @@ jobs:
               uses: Swatinem/rust-cache@v2
               with:
                 workspaces: "rust"
+                # rust_test.yml restores this cache by the same shared-key.
+                shared-key: "nightly"
                 cache-all-crates: true
 
             - name: Set up LLVM

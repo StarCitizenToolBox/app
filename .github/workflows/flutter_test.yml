@@ -1,0 +1,51 @@
+name: "Flutter Test"
+on:
+    push:
+        branches: [main]
+        paths-ignore:
+            - "**.md"
+            - "docs/**"
+            - "rust/**"
+            - "packages/p4k_upgrader/**"
+    pull_request:
+        paths-ignore:
+            - "**.md"
+            - "docs/**"
+            - "rust/**"
+            - "packages/p4k_upgrader/**"
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+    test:
+        runs-on: windows-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+
+            # Same cache settings as windows_nightly.yml, so the Flutter SDK and
+            # pub cache saved by the nightly build on main are restored here.
+            - name: Set up Flutter
+              uses: subosito/flutter-action@v2
+              with:
+                channel: 'stable'
+                cache: true
+                cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+                cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
+
+            - run: flutter --version
+
+            # Generated code (build_runner, flutter_rust_bridge, intl) is committed,
+            # and the tests do not load the Rust library, so no codegen or native
+            # build is needed.
+            - name: Flutter pub get
+              run: flutter pub get
+
+            - name: Flutter test
+              run: flutter test --reporter github

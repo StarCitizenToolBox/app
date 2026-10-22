@@ -643,3 +643,98 @@ pub fn p4k_model_session_release(session_id: String) -> bool {
 pub fn p4k_model_session_exists(session_id: String) -> bool {
     model_render::session_exists(&session_id)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn options(embed_textures: bool, max_texture_size: Option<u32>) -> Option<ModelConvertOptions> {
+        Some(ModelConvertOptions {
+            embed_textures,
+            overwrite: false,
+            max_texture_size,
+        })
+    }
+
+    #[test]
+    fn texture_size_limit_selects_mip_level() {
+        let mip = |size| starbreaker_export_options(options(true, size)).texture_mip;
+        assert_eq!(mip(None), 0);
+        assert_eq!(mip(Some(512)), 2);
+        assert_eq!(mip(Some(1024)), 2);
+        assert_eq!(mip(Some(1025)), 1);
+        assert_eq!(mip(Some(2048)), 1);
+        assert_eq!(mip(Some(2049)), 0);
+        assert_eq!(mip(Some(8192)), 0);
+    }
+
+    #[test]
+    fn default_export_is_a_bundled_textured_glb_at_full_resolution() {
+        let opts = starbreaker_export_options(None);
+        assert_eq!(opts.kind, starbreaker_3d::ExportKind::Bundled);
+        assert_eq!(opts.format, starbreaker_3d::ExportFormat::Glb);
+        assert_eq!(opts.material_mode, starbreaker_3d::MaterialMode::Textures);
+        assert_eq!(opts.texture_mip, 0);
+        assert_eq!(opts.lod_level, 0);
+        assert!(!opts.include_interior && !opts.include_attachments);
+
+        let colors_only = starbreaker_export_options(options(false, Some(4096)));
+        assert_eq!(
+            colors_only.material_mode,
+            starbreaker_3d::MaterialMode::Colors
+        );
+    }
+
+    #[test]
+    fn model_paths_are_relative_with_backslashes() {
+        assert_eq!(
+            normalized_model_path("/Data/Objects/Ships/AEGS/aegs_gladius.cga"),
+            r"Data\Objects\Ships\AEGS\aegs_gladius.cga"
+        );
+        assert_eq!(normalized_model_path(r"\\Data\a.cgf"), r"Data\a.cgf");
+        assert_eq!(normalized_model_path(r"Data\a.skin"), r"Data\a.skin");
+    }
+
+    #[test]
+    fn supported_geometry_is_detected_by_extension() {
+        for path in [
+            r"Data\a.cgf",
+            r"Data\a.CGA",
+            "Data/a.skin",
+            "a.chr",
+            "a.cdf",
+        ] {
+            assert!(p4k_model_is_supported(path.to_string()), "{path}");
+        }
+        for path in [r"Data\a.cgfm", r"Data\a.dds", r"Data\a.mtl", "cgf"] {
+            assert!(!p4k_model_is_supported(path.to_string()), "{path}");
+        }
+    }
+
+    #[test]
+    fn conversion_errors_map_to_ui_error_codes() {
+        assert_eq!(
+            model_error_code("UnsupportedFormat(\"cdf\")"),
+            "ERR_UNSUPPORTED_FORMAT"
+        );
+        assert_eq!(
+            model_error_code("chunk version unsupported"),
+            "ERR_UNSUPPORTED_FORMAT"
+        );
+        assert_eq!(
+            model_error_code("skinning not supported"),
+            "ERR_UNSUPPORTED_FORMAT"
+        );
+        assert_eq!(model_error_code("unexpected EOF"), "ERR_MODEL_PARSE_FAILED");
+    }
+
+    #[test]
+    fn background_color_requires_exactly_four_channels() {
+        assert_eq!(
+            session_bg_color(Some(vec![0.1, 0.2, 0.3, 1.0])),
+            Some([0.1, 0.2, 0.3, 1.0])
+        );
+        assert_eq!(session_bg_color(Some(vec![0.1, 0.2, 0.3])), None);
+        assert_eq!(session_bg_color(None), None);
+    }
+}

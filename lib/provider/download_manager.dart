@@ -255,11 +255,12 @@ class DownloadManager extends _$DownloadManager {
     if (int.tryParse(trimmed) != null) {
       return int.parse(trimmed);
     }
+    // A bare "k"/"m" passes the input filter; treat it as no limit.
     if (trimmed.endsWith("k")) {
-      return int.parse(trimmed.substring(0, trimmed.length - 1)) * 1024;
+      return (int.tryParse(trimmed.substring(0, trimmed.length - 1)) ?? 0) * 1024;
     }
     if (trimmed.endsWith("m")) {
-      return int.parse(trimmed.substring(0, trimmed.length - 1)) * 1024 * 1024;
+      return (int.tryParse(trimmed.substring(0, trimmed.length - 1)) ?? 0) * 1024 * 1024;
     }
     return 0;
   }

@@ -403,3 +403,132 @@ pub fn unregister_applinks(scheme: String) -> anyhow::Result<ApplinksRegistratio
         was_modified: false,
     })
 }
+
+#[cfg(all(test, target_os = "windows"))]
+mod tests {
+    use super::*;
+
+    /// Registers a throwaway scheme under HKCU and always removes it again.
+    #[test]
+    fn registration_round_trip_is_idempotent() {
+        let scheme = format!("sctoolbox-test-{}", uuid::Uuid::new_v4().simple());
+        let _cleanup = scopeguard::guard(scheme.clone(), |scheme| {
+            let _ = unregister_applinks(scheme);
+        });
+
+        let before = check_applinks_registration(scheme.clone()).unwrap();
+        assert!(!before.success);
+        assert!(
+            before.message.contains("not registered"),
+            "{}",
+            before.message
+        );
+
+        let registered = register_applinks(scheme.clone(), Some("SCToolBox Test".into())).unwrap();
+        assert!(
+            registered.success && registered.was_modified,
+            "{}",
+            registered.message
+        );
+        let exe = env::current_exe().unwrap().to_string_lossy().to_string();
+        assert!(
+            registered.message.contains(&format!("\"{exe}\" \"%1\"")),
+            "{}",
+            registered.message
+        );
+
+        // The stored command is read back and matches this executable.
+        let checked = check_applinks_registration(scheme.clone()).unwrap();
+        assert!(
+            checked.success && !checked.was_modified,
+            "{}",
+            checked.message
+        );
+
+        // Registering again is a no-op.
+        let again = register_applinks(scheme.clone(), None).unwrap();
+        assert!(again.success && !again.was_modified, "{}", again.message);
+
+        let removed = unregister_applinks(scheme.clone()).unwrap();
+        assert!(
+            removed.success && removed.was_modified,
+            "{}",
+            removed.message
+        );
+        assert!(!check_applinks_registration(scheme.clone()).unwrap().success);
+
+        // Removing a scheme that is not registered is not an error.
+        let missing = unregister_applinks(scheme.clone()).unwrap();
+        assert!(
+            missing.success && !missing.was_modified,
+            "{}",
+            missing.message
+        );
+    }
+
+    #[test]
+    fn registration_pointing_at_another_executable_is_reported_and_repaired() {
+        use windows::core::{HSTRING, PCWSTR};
+        use windows::Win32::System::Registry::{
+            RegCloseKey, RegCreateKeyExW, RegSetValueExW, HKEY_CURRENT_USER, KEY_WRITE,
+            REG_OPTION_NON_VOLATILE, REG_SZ,
+        };
+
+        let scheme = format!("sctoolbox-test-{}", uuid::Uuid::new_v4().simple());
+        let _cleanup = scopeguard::guard(scheme.clone(), |scheme| {
+            let _ = unregister_applinks(scheme);
+        });
+        register_applinks(scheme.clone(), None).unwrap();
+
+        // Simulate an older install location.
+        let stale = r#""C:\Old\SCToolBox.exe" "%1""#;
+        unsafe {
+            let path = HSTRING::from(format!(r"Software\Classes\{scheme}\shell\open\command"));
+            let mut key = std::mem::zeroed();
+            RegCreateKeyExW(
+                HKEY_CURRENT_USER,
+                PCWSTR(path.as_ptr()),
+                Some(0),
+                PCWSTR::null(),
+                REG_OPTION_NON_VOLATILE,
+                KEY_WRITE,
+                None,
+                &mut key,
+                None,
+            )
+            .ok()
+            .unwrap();
+            let bytes: Vec<u8> = stale
+                .encode_utf16()
+                .chain(std::iter::once(0))
+                .flat_map(|c| c.to_le_bytes())
+                .collect();
+            let empty = HSTRING::from("");
+            RegSetValueExW(key, PCWSTR(empty.as_ptr()), Some(0), REG_SZ, Some(&bytes))
+                .ok()
+                .unwrap();
+            let _ = RegCloseKey(key);
+        }
+
+        let checked = check_applinks_registration(scheme.clone()).unwrap();
+        assert!(!checked.success);
+        assert!(
+            checked.message.contains("different path"),
+            "{}",
+            checked.message
+        );
+        assert!(
+            checked.message.contains(r"C:\Old\SCToolBox.exe"),
+            "{}",
+            checked.message
+        );
+
+        let repaired = register_applinks(scheme.clone(), None).unwrap();
+        assert!(
+            repaired.success && repaired.was_modified,
+            "{}",
+            repaired.message
+        );
+        assert!(check_applinks_registration(scheme).unwrap().success);
+    }
+}

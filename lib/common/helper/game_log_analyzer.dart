@@ -99,7 +99,7 @@ class GameLogAnalyzer {
   );
 
   // 角色名称解析
-  static final _characterNamePattern = RegExp(r"name\s+([^-]+)");
+  static final _characterNamePattern = RegExp(r"name\s+(\S+)");
 
   // 本地库存请求解析
   static final _requestLocationInventoryPattern = RegExp(r"Player\[([^\]]+)\].*?Location\[([^\]]+)\]");

@@ -2,16 +2,12 @@ use hickory_resolver::config::{ConnectionConfig, NameServerConfig, ResolverConfi
 use hickory_resolver::net::runtime::TokioRuntimeProvider;
 use hickory_resolver::proto::rr::RData;
 use hickory_resolver::TokioResolver;
-use once_cell::sync::{Lazy, OnceCell};
+use once_cell::sync::OnceCell;
 use reqwest::dns::{Addrs, Name, Resolve, Resolving};
-use std::collections::HashMap;
 use std::io;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
-use std::sync::{Arc, RwLock};
+use std::sync::Arc;
 use std::vec::IntoIter;
-
-pub static MY_HOSTS_MAP: Lazy<RwLock<HashMap<String, IpAddr>>> =
-    Lazy::new(|| RwLock::from(HashMap::new()));
 
 /// Wrapper around an `AsyncResolver`, which implements the `Resolve` trait.
 #[derive(Debug, Default, Clone)]
@@ -28,14 +24,6 @@ struct SocketAddrs {
 
 impl Resolve for MyHickoryDnsResolver {
     fn resolve(&self, name: Name) -> Resolving {
-        let my_hosts = MY_HOSTS_MAP.read().unwrap();
-        let name_str = name.as_str();
-        if let Some(ip) = my_hosts.get(name_str) {
-            let addrs: Addrs = Box::new(std::iter::once(SocketAddr::new(*ip, 0)));
-            println!("using host map === {:?}", name_str);
-            return Box::pin(async move { Ok(addrs) });
-        }
-
         let resolver = self.clone();
         Box::pin(async move {
             let resolver = resolver.state.get_or_try_init(new_resolver)?;

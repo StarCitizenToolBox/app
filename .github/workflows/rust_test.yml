@@ -1,0 +1,69 @@
+name: "Rust Test"
+on:
+    push:
+        branches: [main]
+        paths:
+            - "rust/**"
+            - "packages/p4k_upgrader/**"
+            - ".github/workflows/rust_test.yml"
+    pull_request:
+        paths:
+            - "rust/**"
+            - "packages/p4k_upgrader/**"
+            - ".github/workflows/rust_test.yml"
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+    test:
+        runs-on: windows-latest
+        env:
+            # Not used by cargo test. rust-cache hashes every CARGO* variable
+            # into its key, so this has to match windows_nightly.yml for the
+            # nightly cache to be restored.
+            CARGOKIT_CARGO_PROFILE: dist
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+
+            - name: Set up Rust
+              uses: dtolnay/rust-toolchain@stable
+
+            - name: Rust Version
+              run: |
+                    rustup --version
+                    cargo --version
+
+            # Restores the cache saved by windows_nightly.yml (same shared-key,
+            # OS, toolchain and env). Read-only, so test builds never take the
+            # nightly's key and leave it without its cargo-installed tools.
+            - name: Rust Cache
+              uses: Swatinem/rust-cache@v2
+              with:
+                workspaces: "rust"
+                shared-key: "nightly"
+                cache-all-crates: true
+                save-if: false
+
+            - name: Set up LLVM
+              uses: KyleMayes/install-llvm-action@v2
+              with:
+               version: "18"
+            - name: Set up NASM
+              uses: ilammy/setup-nasm@v1
+
+            - name: Cargo test
+              run: cargo test --locked
+              working-directory: rust
+
+            # Separate workspace: cargo test in rust/ does not run tests of path
+            # dependencies. CI has no closed module, so the stub build is tested.
+            - name: Cargo test (p4k_upgrader)
+              run: cargo test --locked
+              working-directory: packages/p4k_upgrader

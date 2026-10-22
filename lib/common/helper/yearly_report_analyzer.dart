@@ -259,7 +259,7 @@ class _SessionInfo {
 
 /// 年度报告分析器
 class YearlyReportAnalyzer {
-  static final _characterNamePattern = RegExp(r'name\s+([^-]+)');
+  static final _characterNamePattern = RegExp(r'name\s+(\S+)');
   static final _vehicleDestructionPattern = RegExp(
     r"Vehicle\s+'([^']+)'.*?" // 载具型号
     r"in zone\s+'([^']+)'.*?" // Zone
@@ -322,7 +322,7 @@ class YearlyReportAnalyzer {
                 playerName.isNotEmpty &&
                 !playerName.contains(' ') &&
                 !playerName.contains('/') &&
-                !playerName.contains(r'\\') &&
+                !playerName.contains(r'\') &&
                 !playerName.contains('.')) {
               stats.currentPlayerName = playerName;
               // 去重添加到玩家列表 (忽略大小写)
