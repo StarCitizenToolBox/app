@@ -115,11 +115,12 @@ void main() {
     test(
       'a path with non-ASCII folder names is found',
       () async {
-        const live = r'D:\游戏\Roberts Space Industries\StarCitizen\LIVE';
-        final paths = await SCLoggerHelper.getGameInstallPath(
-          ['header', _launcherLine(live)],
-          checkExists: false,
-        );
+        // Each platform has its own path regex; exercise the one in use.
+        final live = Platform.isWindows
+            ? r'D:\游戏\Roberts Space Industries\StarCitizen\LIVE'
+            : '/home/玩家/游戏/drive_c/Program Files/Roberts Space Industries/StarCitizen/LIVE';
+        final line = Platform.isWindows ? _launcherLine(live) : 'Launching from (Z:$live)';
+        final paths = await SCLoggerHelper.getGameInstallPath(['header', line], checkExists: false);
         expect(paths, [live]);
       },
     );
