@@ -8,6 +8,16 @@ StarCitizenToolBox ("SC汉化盒子") — Flutter + Rust desktop app for Star Ci
 
 Package name: `starcitizen_doctor` (v3.1.1+81). Published on Microsoft Store via MSIX packaging.
 
+## Nix (Linux)
+
+`flake.nix` provides the dev shell: Flutter, rustup (Cargokit needs it), `flutter_rust_bridge_codegen` 2.13.0, cargo-expand, protoc, and the GTK/WebKitGTK/ALSA/Vulkan libraries.
+```bash
+nix develop           # enter the shell
+sct-codegen           # build_runner + flutter_rust_bridge + intl_utils
+sct-check             # flutter analyze/test + cargo clippy/test
+flutter build linux
+```
+
 ## Build Commands
 
 **Quick validation (5-10 min):**
