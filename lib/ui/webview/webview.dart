@@ -17,7 +17,6 @@ import 'package:starcitizen_doctor/common/utils/log.dart';
 import 'package:starcitizen_doctor/data/app_version_data.dart';
 import 'package:starcitizen_doctor/data/app_web_localization_versions_data.dart';
 
-typedef RsiLoginCallback = void Function(Map? data, bool success);
 typedef OnWebMessageReceivedCallback = void Function(String message);
 
 class WebViewModel {
@@ -28,12 +27,7 @@ class WebViewModel {
 
   bool get isClosed => _isClosed;
 
-  WebViewModel(
-    this.context, {
-    this.loginMode = false,
-    this.loginCallback,
-    this.loginChannel = "LIVE",
-  });
+  WebViewModel(this.context);
 
   String url = "";
   bool canGoBack = false;
@@ -49,13 +43,6 @@ class WebViewModel {
   Map<String, String>? _curReplaceWords;
 
   Map<String, String>? get curReplaceWords => _curReplaceWords;
-
-  final bool loginMode;
-  final String loginChannel;
-
-  bool _loginModeSuccess = false;
-
-  final RsiLoginCallback? loginCallback;
 
   late AppVersionData _appVersionData;
 
@@ -74,8 +61,8 @@ class WebViewModel {
 
       webview = await RustWebViewController.create(
         title: Platform.isMacOS ? "" : title,
-        width: loginMode ? 960 : 1920,
-        height: loginMode ? 720 : 1080,
+        width: 1920,
+        height: 1080,
         userDataFolder: "$applicationSupportDir/webview_data",
         enableDevtools: kDebugMode,
         userAgent:
@@ -87,61 +74,9 @@ class WebViewModel {
 
       // 添加关闭回调
       webview.addOnCloseCallback(dispose);
-
-      if (loginMode) {
-        webview.addOnWebMessageCallback((messageString) {
-          try {
-            final message = json.decode(messageString);
-            if (message["action"] == "webview_rsi_login_show_window") {
-              webview.setVisible(true);
-            } else if (message["action"] == "webview_rsi_login_success") {
-              final data = message["data"];
-              if (data is Map) {
-                data["webViewCookies"] = _getRsiCookiesFromWebView();
-              }
-              _loginModeSuccess = true;
-              loginCallback?.call(message, true);
-              webview.close();
-            }
-          } catch (e) {
-            dPrint("Error parsing login message: $e");
-          }
-        });
-      }
     } catch (e) {
       showToast(context, S.current.app_init_failed_with_reason(e));
     }
-  }
-
-  String _getRsiCookiesFromWebView() {
-    final cookies = <String>[];
-    for (final url in [
-      "https://robertsspaceindustries.com/",
-      "https://prod.mcdn.robertsspaceindustries.com/",
-    ]) {
-      try {
-        final cookie = webview.getCookiesForUrl(url).trim();
-        if (cookie.isNotEmpty) cookies.add(cookie);
-      } catch (e) {
-        dPrint("Failed to get WebView cookies for $url: $e");
-      }
-    }
-    return _mergeCookieHeaders(cookies);
-  }
-
-  String _mergeCookieHeaders(List<String> headers) {
-    final values = <String, String>{};
-    for (final header in headers) {
-      for (final part in header.split(';')) {
-        final trimmed = part.trim();
-        final eq = trimmed.indexOf('=');
-        if (eq <= 0) continue;
-        values[trimmed.substring(0, eq)] = trimmed.substring(eq + 1);
-      }
-    }
-    return values.entries
-        .map((entry) => "${entry.key}=${entry.value}")
-        .join('; ');
   }
 
   Future<void> _onNavigationCompleted(String newUrl) async {
@@ -223,15 +158,6 @@ class WebViewModel {
       await Future.delayed(const Duration(milliseconds: 100));
       dPrint("update replaceWords");
       webview.updateReplaceWords(replaceWords, enableCapture);
-
-      /// loginMode
-      if (loginMode) {
-        dPrint(
-          "--- do rsi login ---\n run === getRSILauncherToken(\"$loginChannel\");",
-        );
-        await Future.delayed(const Duration(milliseconds: 200));
-        webview.executeRsiLogin(loginChannel);
-      }
     } else if (await _isSiteUrl(url, const [
       "https://erkul.games",
       "https://www.erkul.games",
@@ -389,9 +315,6 @@ class WebViewModel {
 
   FutureOr<void> dispose() {
     webview.removeOnNavigationCompletedCallback(_onNavigationCompleted);
-    if (loginMode && !_loginModeSuccess) {
-      loginCallback?.call(null, false);
-    }
     _isClosed = true;
     webview.dispose();
   }

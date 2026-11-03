@@ -6,7 +6,7 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored because they are not marked as `pub`: `get_session`, `get_task_status`
+// These functions are ignored because they are not marked as `pub`: `cache_completed_task`, `get_session`, `get_task_status`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `eq`, `fmt`, `fmt`, `fmt`
 
 /// Initialize the download manager session with persistence enabled

@@ -7,18 +7,14 @@ import 'package:starcitizen_doctor/app.dart';
 import 'package:starcitizen_doctor/common/conf/conf.dart';
 import 'package:starcitizen_doctor/provider/download_manager.dart';
 import 'package:starcitizen_doctor/ui/home/home_ui_model.dart';
-import 'package:starcitizen_doctor/ui/party_room/party_room_ui.dart';
 import 'package:starcitizen_doctor/ui/settings/settings_ui_model.dart';
 import 'package:starcitizen_doctor/widgets/widgets.dart';
 import 'package:window_manager/window_manager.dart';
 import 'about/about_ui.dart';
 import 'home/home_ui.dart';
 import 'nav/nav_ui.dart';
-import 'party_room/party_room_ui_model.dart';
 import 'settings/settings_ui.dart';
 import 'tools/tools_ui.dart';
-import 'index_ui_widgets/user_avatar_widget.dart';
-import 'package:starcitizen_doctor/common/utils/url_scheme_handler.dart';
 
 class IndexUI extends HookConsumerWidget {
   const IndexUI({super.key});
@@ -30,7 +26,6 @@ class IndexUI extends HookConsumerWidget {
 
     ref.watch(homeUIModelProvider.select((value) => null));
     ref.watch(settingsUIModelProvider.select((value) => null));
-    ref.watch(partyRoomUIModelProvider.select((value) => null));
     // keeps the in-game input method hotkey alive for the whole session
     ref.watch(inputMethodHotkeyServiceProvider.select((value) => null));
 
@@ -44,14 +39,8 @@ class IndexUI extends HookConsumerWidget {
       lastIndex.value = curIndex.value;
     }
 
-    // Initialize URL scheme handler
-    useEffect(() {
-      UrlSchemeHandler().initialize(context);
-      return () => UrlSchemeHandler().dispose();
-    }, const []);
-
     return NavigationView(
-      titleBar: _makeTitleBar(context, curIndex),
+      titleBar: _makeTitleBar(context),
       content: Row(
         children: [
           _makeNavigationBar(curIndex, previousIndex.value),
@@ -69,7 +58,7 @@ class IndexUI extends HookConsumerWidget {
     );
   }
 
-  Widget _makeTitleBar(BuildContext context, ValueNotifier<int> curIndex) {
+  Widget _makeTitleBar(BuildContext context) {
     return SizedBox(
       height: 50,
       child: Row(
@@ -99,10 +88,6 @@ class IndexUI extends HookConsumerWidget {
               ),
             ),
           ),
-          UserAvatarWidget(
-            onTapNavigateToPartyRoom: () => _navigateToPartyRoom(curIndex),
-          ),
-          const SizedBox(width: 12),
           IconButton(
             icon: Stack(
               children: [
@@ -282,7 +267,6 @@ class IndexUI extends HookConsumerWidget {
 
   Map<IconData, (String, Widget)> get pageMenus => {
     FluentIcons.home: (S.current.app_index_menu_home, const HomeUI()),
-    FluentIcons.game: (S.current.app_index_menu_lobby, const PartyRoomUI()),
     FluentIcons.toolbox: (S.current.app_index_menu_tools, const ToolsUI()),
     FluentIcons.power_apps: ((S.current.nav_title), const NavUI()),
     FluentIcons.settings: (
@@ -325,16 +309,6 @@ class IndexUI extends HookConsumerWidget {
 
   void _goDownloader(BuildContext context) {
     context.push('/index/downloader');
-  }
-
-  void _navigateToPartyRoom(ValueNotifier<int> curIndexState) {
-    // 查找 PartyRoomUI 在菜单中的索引
-    final partyRoomIndex = pageMenus.values.toList().indexWhere(
-      (element) => element.$2 is PartyRoomUI,
-    );
-    if (partyRoomIndex >= 0) {
-      curIndexState.value = partyRoomIndex;
-    }
   }
 }
 

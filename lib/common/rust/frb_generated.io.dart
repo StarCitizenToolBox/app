@@ -3,7 +3,6 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
-import 'api/applinks_api.dart';
 import 'api/asar_api.dart';
 import 'api/audio_api.dart';
 import 'api/downloader_api.dart';
@@ -11,7 +10,6 @@ import 'api/http_api.dart';
 import 'api/ime_hotkey_api.dart';
 import 'api/input_capture_api.dart';
 import 'api/ort_api.dart';
-import 'api/p4k_upgrader_api.dart';
 import 'api/rs_process.dart';
 import 'api/unp4k_api.dart';
 import 'api/unp4k_model_api.dart';
@@ -64,10 +62,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   dco_decode_StreamSink_input_capture_event_Dco(dynamic raw);
 
   @protected
-  RustStreamSink<P4kUpgraderProgressEvent>
-  dco_decode_StreamSink_p_4_k_upgrader_progress_event_Dco(dynamic raw);
-
-  @protected
   RustStreamSink<RsProcessStreamData>
   dco_decode_StreamSink_rs_process_stream_data_Dco(dynamic raw);
 
@@ -77,11 +71,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String dco_decode_String(dynamic raw);
-
-  @protected
-  ApplinksRegistrationResult dco_decode_applinks_registration_result(
-    dynamic raw,
-  );
 
   @protected
   AudioPlaybackState dco_decode_audio_playback_state(dynamic raw);
@@ -105,18 +94,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ModelConvertOptions dco_decode_box_autoadd_model_convert_options(dynamic raw);
 
   @protected
-  P4kMirrorUnavailable dco_decode_box_autoadd_p_4_k_mirror_unavailable(
-    dynamic raw,
-  );
-
-  @protected
-  P4kUpgraderConfig dco_decode_box_autoadd_p_4_k_upgrader_config(dynamic raw);
-
-  @protected
-  P4kUpgraderEstimateReport
-  dco_decode_box_autoadd_p_4_k_upgrader_estimate_report(dynamic raw);
-
-  @protected
   RsiLauncherAsarData dco_decode_box_autoadd_rsi_launcher_asar_data(
     dynamic raw,
   );
@@ -126,9 +103,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   BigInt dco_decode_box_autoadd_u_64(dynamic raw);
-
-  @protected
-  BigInt dco_decode_box_autoadd_usize(dynamic raw);
 
   @protected
   WebViewConfiguration dco_decode_box_autoadd_web_view_configuration(
@@ -220,11 +194,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<InputDeviceInfo> dco_decode_list_input_device_info(dynamic raw);
 
   @protected
-  List<P4kUpgraderEstimateEntry> dco_decode_list_p_4_k_upgrader_estimate_entry(
-    dynamic raw,
-  );
-
-  @protected
   Float32List dco_decode_list_prim_f_32_strict(dynamic raw);
 
   @protected
@@ -296,22 +265,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  P4kMirrorUnavailable? dco_decode_opt_box_autoadd_p_4_k_mirror_unavailable(
-    dynamic raw,
-  );
-
-  @protected
-  P4kUpgraderEstimateReport?
-  dco_decode_opt_box_autoadd_p_4_k_upgrader_estimate_report(dynamic raw);
-
-  @protected
   int? dco_decode_opt_box_autoadd_u_32(dynamic raw);
 
   @protected
   BigInt? dco_decode_opt_box_autoadd_u_64(dynamic raw);
-
-  @protected
-  BigInt? dco_decode_opt_box_autoadd_usize(dynamic raw);
 
   @protected
   List<String>? dco_decode_opt_list_String(dynamic raw);
@@ -329,41 +286,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List? dco_decode_opt_list_prim_u_8_strict(dynamic raw);
 
   @protected
-  P4kDownloadSource dco_decode_p_4_k_download_source(dynamic raw);
-
-  @protected
   P4kFileIndex dco_decode_p_4_k_file_index(dynamic raw);
-
-  @protected
-  P4kMirrorUnavailable dco_decode_p_4_k_mirror_unavailable(dynamic raw);
-
-  @protected
-  P4kMirrorUnavailableReason dco_decode_p_4_k_mirror_unavailable_reason(
-    dynamic raw,
-  );
-
-  @protected
-  P4kUpgraderConfig dco_decode_p_4_k_upgrader_config(dynamic raw);
-
-  @protected
-  P4kUpgraderEstimateEntry dco_decode_p_4_k_upgrader_estimate_entry(
-    dynamic raw,
-  );
-
-  @protected
-  P4kUpgraderEstimateOutcome dco_decode_p_4_k_upgrader_estimate_outcome(
-    dynamic raw,
-  );
-
-  @protected
-  P4kUpgraderEstimateReport dco_decode_p_4_k_upgrader_estimate_report(
-    dynamic raw,
-  );
-
-  @protected
-  P4kUpgraderProgressEvent dco_decode_p_4_k_upgrader_progress_event(
-    dynamic raw,
-  );
 
   @protected
   ProcessInfo dco_decode_process_info(dynamic raw);
@@ -460,12 +383,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   sse_decode_StreamSink_input_capture_event_Dco(SseDeserializer deserializer);
 
   @protected
-  RustStreamSink<P4kUpgraderProgressEvent>
-  sse_decode_StreamSink_p_4_k_upgrader_progress_event_Dco(
-    SseDeserializer deserializer,
-  );
-
-  @protected
   RustStreamSink<RsProcessStreamData>
   sse_decode_StreamSink_rs_process_stream_data_Dco(
     SseDeserializer deserializer,
@@ -477,11 +394,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   String sse_decode_String(SseDeserializer deserializer);
-
-  @protected
-  ApplinksRegistrationResult sse_decode_applinks_registration_result(
-    SseDeserializer deserializer,
-  );
 
   @protected
   AudioPlaybackState sse_decode_audio_playback_state(
@@ -511,22 +423,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  P4kMirrorUnavailable sse_decode_box_autoadd_p_4_k_mirror_unavailable(
-    SseDeserializer deserializer,
-  );
-
-  @protected
-  P4kUpgraderConfig sse_decode_box_autoadd_p_4_k_upgrader_config(
-    SseDeserializer deserializer,
-  );
-
-  @protected
-  P4kUpgraderEstimateReport
-  sse_decode_box_autoadd_p_4_k_upgrader_estimate_report(
-    SseDeserializer deserializer,
-  );
-
-  @protected
   RsiLauncherAsarData sse_decode_box_autoadd_rsi_launcher_asar_data(
     SseDeserializer deserializer,
   );
@@ -536,9 +432,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   BigInt sse_decode_box_autoadd_u_64(SseDeserializer deserializer);
-
-  @protected
-  BigInt sse_decode_box_autoadd_usize(SseDeserializer deserializer);
 
   @protected
   WebViewConfiguration sse_decode_box_autoadd_web_view_configuration(
@@ -646,11 +539,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  List<P4kUpgraderEstimateEntry> sse_decode_list_p_4_k_upgrader_estimate_entry(
-    SseDeserializer deserializer,
-  );
-
-  @protected
   Float32List sse_decode_list_prim_f_32_strict(SseDeserializer deserializer);
 
   @protected
@@ -738,24 +626,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  P4kMirrorUnavailable? sse_decode_opt_box_autoadd_p_4_k_mirror_unavailable(
-    SseDeserializer deserializer,
-  );
-
-  @protected
-  P4kUpgraderEstimateReport?
-  sse_decode_opt_box_autoadd_p_4_k_upgrader_estimate_report(
-    SseDeserializer deserializer,
-  );
-
-  @protected
   int? sse_decode_opt_box_autoadd_u_32(SseDeserializer deserializer);
 
   @protected
   BigInt? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer);
-
-  @protected
-  BigInt? sse_decode_opt_box_autoadd_usize(SseDeserializer deserializer);
 
   @protected
   List<String>? sse_decode_opt_list_String(SseDeserializer deserializer);
@@ -777,47 +651,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List? sse_decode_opt_list_prim_u_8_strict(SseDeserializer deserializer);
 
   @protected
-  P4kDownloadSource sse_decode_p_4_k_download_source(
-    SseDeserializer deserializer,
-  );
-
-  @protected
   P4kFileIndex sse_decode_p_4_k_file_index(SseDeserializer deserializer);
-
-  @protected
-  P4kMirrorUnavailable sse_decode_p_4_k_mirror_unavailable(
-    SseDeserializer deserializer,
-  );
-
-  @protected
-  P4kMirrorUnavailableReason sse_decode_p_4_k_mirror_unavailable_reason(
-    SseDeserializer deserializer,
-  );
-
-  @protected
-  P4kUpgraderConfig sse_decode_p_4_k_upgrader_config(
-    SseDeserializer deserializer,
-  );
-
-  @protected
-  P4kUpgraderEstimateEntry sse_decode_p_4_k_upgrader_estimate_entry(
-    SseDeserializer deserializer,
-  );
-
-  @protected
-  P4kUpgraderEstimateOutcome sse_decode_p_4_k_upgrader_estimate_outcome(
-    SseDeserializer deserializer,
-  );
-
-  @protected
-  P4kUpgraderEstimateReport sse_decode_p_4_k_upgrader_estimate_report(
-    SseDeserializer deserializer,
-  );
-
-  @protected
-  P4kUpgraderProgressEvent sse_decode_p_4_k_upgrader_progress_event(
-    SseDeserializer deserializer,
-  );
 
   @protected
   ProcessInfo sse_decode_process_info(SseDeserializer deserializer);
@@ -1363,16 +1197,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int cst_encode_usize(BigInt raw) {
     // Codec=Cst (C-struct based), see doc to use other codecs
     return raw.toSigned(64).toInt();
-  }
-
-  @protected
-  void cst_api_fill_to_wire_applinks_registration_result(
-    ApplinksRegistrationResult apiObj,
-    wire_cst_applinks_registration_result wireObj,
-  ) {
-    wireObj.success = cst_encode_bool(apiObj.success);
-    wireObj.message = cst_encode_String(apiObj.message);
-    wireObj.was_modified = cst_encode_bool(apiObj.wasModified);
   }
 
   @protected
@@ -1982,12 +1806,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  void sse_encode_StreamSink_p_4_k_upgrader_progress_event_Dco(
-    RustStreamSink<P4kUpgraderProgressEvent> self,
-    SseSerializer serializer,
-  );
-
-  @protected
   void sse_encode_StreamSink_rs_process_stream_data_Dco(
     RustStreamSink<RsProcessStreamData> self,
     SseSerializer serializer,
@@ -2001,12 +1819,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_String(String self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_applinks_registration_result(
-    ApplinksRegistrationResult self,
-    SseSerializer serializer,
-  );
 
   @protected
   void sse_encode_audio_playback_state(
@@ -2042,24 +1854,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  void sse_encode_box_autoadd_p_4_k_mirror_unavailable(
-    P4kMirrorUnavailable self,
-    SseSerializer serializer,
-  );
-
-  @protected
-  void sse_encode_box_autoadd_p_4_k_upgrader_config(
-    P4kUpgraderConfig self,
-    SseSerializer serializer,
-  );
-
-  @protected
-  void sse_encode_box_autoadd_p_4_k_upgrader_estimate_report(
-    P4kUpgraderEstimateReport self,
-    SseSerializer serializer,
-  );
-
-  @protected
   void sse_encode_box_autoadd_rsi_launcher_asar_data(
     RsiLauncherAsarData self,
     SseSerializer serializer,
@@ -2070,9 +1864,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_box_autoadd_u_64(BigInt self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_box_autoadd_usize(BigInt self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_web_view_configuration(
@@ -2216,12 +2007,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  void sse_encode_list_p_4_k_upgrader_estimate_entry(
-    List<P4kUpgraderEstimateEntry> self,
-    SseSerializer serializer,
-  );
-
-  @protected
   void sse_encode_list_prim_f_32_strict(
     Float32List self,
     SseSerializer serializer,
@@ -2342,25 +2127,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  void sse_encode_opt_box_autoadd_p_4_k_mirror_unavailable(
-    P4kMirrorUnavailable? self,
-    SseSerializer serializer,
-  );
-
-  @protected
-  void sse_encode_opt_box_autoadd_p_4_k_upgrader_estimate_report(
-    P4kUpgraderEstimateReport? self,
-    SseSerializer serializer,
-  );
-
-  @protected
   void sse_encode_opt_box_autoadd_u_32(int? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_u_64(BigInt? self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_opt_box_autoadd_usize(BigInt? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_list_String(List<String>? self, SseSerializer serializer);
@@ -2390,55 +2160,7 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  void sse_encode_p_4_k_download_source(
-    P4kDownloadSource self,
-    SseSerializer serializer,
-  );
-
-  @protected
   void sse_encode_p_4_k_file_index(P4kFileIndex self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_p_4_k_mirror_unavailable(
-    P4kMirrorUnavailable self,
-    SseSerializer serializer,
-  );
-
-  @protected
-  void sse_encode_p_4_k_mirror_unavailable_reason(
-    P4kMirrorUnavailableReason self,
-    SseSerializer serializer,
-  );
-
-  @protected
-  void sse_encode_p_4_k_upgrader_config(
-    P4kUpgraderConfig self,
-    SseSerializer serializer,
-  );
-
-  @protected
-  void sse_encode_p_4_k_upgrader_estimate_entry(
-    P4kUpgraderEstimateEntry self,
-    SseSerializer serializer,
-  );
-
-  @protected
-  void sse_encode_p_4_k_upgrader_estimate_outcome(
-    P4kUpgraderEstimateOutcome self,
-    SseSerializer serializer,
-  );
-
-  @protected
-  void sse_encode_p_4_k_upgrader_estimate_report(
-    P4kUpgraderEstimateReport self,
-    SseSerializer serializer,
-  );
-
-  @protected
-  void sse_encode_p_4_k_upgrader_progress_event(
-    P4kUpgraderProgressEvent self,
-    SseSerializer serializer,
-  );
 
   @protected
   void sse_encode_process_info(ProcessInfo self, SseSerializer serializer);
@@ -2803,33 +2525,6 @@ class RustLibWire implements BaseWire {
   late final _wire__crate__api__audio_api__audio_stop_stream =
       _wire__crate__api__audio_api__audio_stop_streamPtr
           .asFunction<void Function(int)>();
-
-  void wire__crate__api__applinks_api__check_applinks_registration(
-    int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> scheme,
-  ) {
-    return _wire__crate__api__applinks_api__check_applinks_registration(
-      port_,
-      scheme,
-    );
-  }
-
-  late final _wire__crate__api__applinks_api__check_applinks_registrationPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(
-            ffi.Int64,
-            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-          )
-        >
-      >(
-        'frbgen_starcitizen_doctor_wire__crate__api__applinks_api__check_applinks_registration',
-      );
-  late final _wire__crate__api__applinks_api__check_applinks_registration =
-      _wire__crate__api__applinks_api__check_applinks_registrationPtr
-          .asFunction<
-            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
-          >();
 
   void wire__crate__api__win32_api__check_nvme_patch_status(int port_) {
     return _wire__crate__api__win32_api__check_nvme_patch_status(port_);
@@ -5252,269 +4947,6 @@ class RustLibWire implements BaseWire {
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
 
-  WireSyncRust2DartDco
-  wire__crate__api__p4k_upgrader_api__p4k_upgrader_cancel() {
-    return _wire__crate__api__p4k_upgrader_api__p4k_upgrader_cancel();
-  }
-
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_cancelPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
-        'frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_cancel',
-      );
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_cancel =
-      _wire__crate__api__p4k_upgrader_api__p4k_upgrader_cancelPtr
-          .asFunction<WireSyncRust2DartDco Function()>();
-
-  WireSyncRust2DartDco
-  wire__crate__api__p4k_upgrader_api__p4k_upgrader_clear_manifest_cache() {
-    return _wire__crate__api__p4k_upgrader_api__p4k_upgrader_clear_manifest_cache();
-  }
-
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_clear_manifest_cachePtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
-        'frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_clear_manifest_cache',
-      );
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_clear_manifest_cache =
-      _wire__crate__api__p4k_upgrader_api__p4k_upgrader_clear_manifest_cachePtr
-          .asFunction<WireSyncRust2DartDco Function()>();
-
-  WireSyncRust2DartDco
-  wire__crate__api__p4k_upgrader_api__p4k_upgrader_default_object_path_templates() {
-    return _wire__crate__api__p4k_upgrader_api__p4k_upgrader_default_object_path_templates();
-  }
-
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_default_object_path_templatesPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
-        'frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_default_object_path_templates',
-      );
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_default_object_path_templates =
-      _wire__crate__api__p4k_upgrader_api__p4k_upgrader_default_object_path_templatesPtr
-          .asFunction<WireSyncRust2DartDco Function()>();
-
-  void wire__crate__api__p4k_upgrader_api__p4k_upgrader_estimate(
-    int port_,
-    ffi.Pointer<ffi.Uint8> ptr_,
-    int rust_vec_len_,
-    int data_len_,
-  ) {
-    return _wire__crate__api__p4k_upgrader_api__p4k_upgrader_estimate(
-      port_,
-      ptr_,
-      rust_vec_len_,
-      data_len_,
-    );
-  }
-
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_estimatePtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(
-            ffi.Int64,
-            ffi.Pointer<ffi.Uint8>,
-            ffi.Int32,
-            ffi.Int32,
-          )
-        >
-      >(
-        'frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_estimate',
-      );
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_estimate =
-      _wire__crate__api__p4k_upgrader_api__p4k_upgrader_estimatePtr
-          .asFunction<void Function(int, ffi.Pointer<ffi.Uint8>, int, int)>();
-
-  WireSyncRust2DartDco
-  wire__crate__api__p4k_upgrader_api__p4k_upgrader_pause() {
-    return _wire__crate__api__p4k_upgrader_api__p4k_upgrader_pause();
-  }
-
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_pausePtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
-        'frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_pause',
-      );
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_pause =
-      _wire__crate__api__p4k_upgrader_api__p4k_upgrader_pausePtr
-          .asFunction<WireSyncRust2DartDco Function()>();
-
-  WireSyncRust2DartDco
-  wire__crate__api__p4k_upgrader_api__p4k_upgrader_resume() {
-    return _wire__crate__api__p4k_upgrader_api__p4k_upgrader_resume();
-  }
-
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_resumePtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function()>>(
-        'frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_resume',
-      );
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_resume =
-      _wire__crate__api__p4k_upgrader_api__p4k_upgrader_resumePtr
-          .asFunction<WireSyncRust2DartDco Function()>();
-
-  WireSyncRust2DartDco
-  wire__crate__api__p4k_upgrader_api__p4k_upgrader_set_download_threads(
-    int threads,
-  ) {
-    return _wire__crate__api__p4k_upgrader_api__p4k_upgrader_set_download_threads(
-      threads,
-    );
-  }
-
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_set_download_threadsPtr =
-      _lookup<ffi.NativeFunction<WireSyncRust2DartDco Function(ffi.UintPtr)>>(
-        'frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_set_download_threads',
-      );
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_set_download_threads =
-      _wire__crate__api__p4k_upgrader_api__p4k_upgrader_set_download_threadsPtr
-          .asFunction<WireSyncRust2DartDco Function(int)>();
-
-  void wire__crate__api__p4k_upgrader_api__p4k_upgrader_update(
-    int port_,
-    ffi.Pointer<ffi.Uint8> ptr_,
-    int rust_vec_len_,
-    int data_len_,
-  ) {
-    return _wire__crate__api__p4k_upgrader_api__p4k_upgrader_update(
-      port_,
-      ptr_,
-      rust_vec_len_,
-      data_len_,
-    );
-  }
-
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_updatePtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(
-            ffi.Int64,
-            ffi.Pointer<ffi.Uint8>,
-            ffi.Int32,
-            ffi.Int32,
-          )
-        >
-      >(
-        'frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_update',
-      );
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_update =
-      _wire__crate__api__p4k_upgrader_api__p4k_upgrader_updatePtr
-          .asFunction<void Function(int, ffi.Pointer<ffi.Uint8>, int, int)>();
-
-  WireSyncRust2DartDco
-  wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urls(
-    ffi.Pointer<wire_cst_list_String> urls,
-  ) {
-    return _wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urls(
-      urls,
-    );
-  }
-
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urlsPtr =
-      _lookup<
-        ffi.NativeFunction<
-          WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_String>)
-        >
-      >(
-        'frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urls',
-      );
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urls =
-      _wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_signed_urlsPtr
-          .asFunction<
-            WireSyncRust2DartDco Function(ffi.Pointer<wire_cst_list_String>)
-          >();
-
-  void wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_with_progress(
-    int port_,
-    ffi.Pointer<ffi.Uint8> ptr_,
-    int rust_vec_len_,
-    int data_len_,
-  ) {
-    return _wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_with_progress(
-      port_,
-      ptr_,
-      rust_vec_len_,
-      data_len_,
-    );
-  }
-
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_with_progressPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(
-            ffi.Int64,
-            ffi.Pointer<ffi.Uint8>,
-            ffi.Int32,
-            ffi.Int32,
-          )
-        >
-      >(
-        'frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_with_progress',
-      );
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_with_progress =
-      _wire__crate__api__p4k_upgrader_api__p4k_upgrader_update_with_progressPtr
-          .asFunction<void Function(int, ffi.Pointer<ffi.Uint8>, int, int)>();
-
-  void wire__crate__api__p4k_upgrader_api__p4k_upgrader_verify(
-    int port_,
-    ffi.Pointer<ffi.Uint8> ptr_,
-    int rust_vec_len_,
-    int data_len_,
-  ) {
-    return _wire__crate__api__p4k_upgrader_api__p4k_upgrader_verify(
-      port_,
-      ptr_,
-      rust_vec_len_,
-      data_len_,
-    );
-  }
-
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_verifyPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(
-            ffi.Int64,
-            ffi.Pointer<ffi.Uint8>,
-            ffi.Int32,
-            ffi.Int32,
-          )
-        >
-      >(
-        'frbgen_starcitizen_doctor_wire__crate__api__p4k_upgrader_api__p4k_upgrader_verify',
-      );
-  late final _wire__crate__api__p4k_upgrader_api__p4k_upgrader_verify =
-      _wire__crate__api__p4k_upgrader_api__p4k_upgrader_verifyPtr
-          .asFunction<void Function(int, ffi.Pointer<ffi.Uint8>, int, int)>();
-
-  void wire__crate__api__applinks_api__register_applinks(
-    int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> scheme,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> app_name,
-  ) {
-    return _wire__crate__api__applinks_api__register_applinks(
-      port_,
-      scheme,
-      app_name,
-    );
-  }
-
-  late final _wire__crate__api__applinks_api__register_applinksPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(
-            ffi.Int64,
-            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-          )
-        >
-      >(
-        'frbgen_starcitizen_doctor_wire__crate__api__applinks_api__register_applinks',
-      );
-  late final _wire__crate__api__applinks_api__register_applinks =
-      _wire__crate__api__applinks_api__register_applinksPtr
-          .asFunction<
-            void Function(
-              int,
-              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-            )
-          >();
-
   void wire__crate__api__win32_api__remove_nvme_patch(int port_) {
     return _wire__crate__api__win32_api__remove_nvme_patch(port_);
   }
@@ -5529,9 +4961,9 @@ class RustLibWire implements BaseWire {
 
   void wire__crate__api__win32_api__resolve_shortcut(
     int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> lnk_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> _lnk_path,
   ) {
-    return _wire__crate__api__win32_api__resolve_shortcut(port_, lnk_path);
+    return _wire__crate__api__win32_api__resolve_shortcut(port_, _lnk_path);
   }
 
   late final _wire__crate__api__win32_api__resolve_shortcutPtr =
@@ -5617,13 +5049,13 @@ class RustLibWire implements BaseWire {
     int port_,
     ffi.Pointer<wire_cst_list_prim_u_8_strict> program,
     ffi.Pointer<wire_cst_list_String> args,
-    int timeout_ms,
+    int _timeout_ms,
   ) {
     return _wire__crate__api__win32_api__run_as_admin_and_wait(
       port_,
       program,
       args,
-      timeout_ms,
+      _timeout_ms,
     );
   }
 
@@ -5717,15 +5149,15 @@ class RustLibWire implements BaseWire {
 
   void wire__crate__api__win32_api__set_current_user_registry_dword(
     int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> key_path,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> value_name,
-    int value,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> _key_path,
+    ffi.Pointer<wire_cst_list_prim_u_8_strict> _value_name,
+    int _value,
   ) {
     return _wire__crate__api__win32_api__set_current_user_registry_dword(
       port_,
-      key_path,
-      value_name,
-      value,
+      _key_path,
+      _value_name,
+      _value,
     );
   }
 
@@ -5961,30 +5393,6 @@ class RustLibWire implements BaseWire {
             void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
           >();
 
-  void wire__crate__api__applinks_api__unregister_applinks(
-    int port_,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> scheme,
-  ) {
-    return _wire__crate__api__applinks_api__unregister_applinks(port_, scheme);
-  }
-
-  late final _wire__crate__api__applinks_api__unregister_applinksPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(
-            ffi.Int64,
-            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-          )
-        >
-      >(
-        'frbgen_starcitizen_doctor_wire__crate__api__applinks_api__unregister_applinks',
-      );
-  late final _wire__crate__api__applinks_api__unregister_applinks =
-      _wire__crate__api__applinks_api__unregister_applinksPtr
-          .asFunction<
-            void Function(int, ffi.Pointer<wire_cst_list_prim_u_8_strict>)
-          >();
-
   void wire__crate__api__webview_api__web_view_configuration_default(
     int port_,
   ) {
@@ -6085,34 +5493,6 @@ class RustLibWire implements BaseWire {
       );
   late final _wire__crate__api__webview_api__webview_execute_script =
       _wire__crate__api__webview_api__webview_execute_scriptPtr
-          .asFunction<
-            WireSyncRust2DartDco Function(
-              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-              ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-            )
-          >();
-
-  WireSyncRust2DartDco
-  wire__crate__api__webview_api__webview_get_cookies_for_url(
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> id,
-    ffi.Pointer<wire_cst_list_prim_u_8_strict> url,
-  ) {
-    return _wire__crate__api__webview_api__webview_get_cookies_for_url(id, url);
-  }
-
-  late final _wire__crate__api__webview_api__webview_get_cookies_for_urlPtr =
-      _lookup<
-        ffi.NativeFunction<
-          WireSyncRust2DartDco Function(
-            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-            ffi.Pointer<wire_cst_list_prim_u_8_strict>,
-          )
-        >
-      >(
-        'frbgen_starcitizen_doctor_wire__crate__api__webview_api__webview_get_cookies_for_url',
-      );
-  late final _wire__crate__api__webview_api__webview_get_cookies_for_url =
-      _wire__crate__api__webview_api__webview_get_cookies_for_urlPtr
           .asFunction<
             WireSyncRust2DartDco Function(
               ffi.Pointer<wire_cst_list_prim_u_8_strict>,
@@ -7238,16 +6618,6 @@ final class wire_cst_list_web_view_event extends ffi.Struct {
 
   @ffi.Int32()
   external int len;
-}
-
-final class wire_cst_applinks_registration_result extends ffi.Struct {
-  @ffi.Bool()
-  external bool success;
-
-  external ffi.Pointer<wire_cst_list_prim_u_8_strict> message;
-
-  @ffi.Bool()
-  external bool was_modified;
 }
 
 final class wire_cst_audio_playback_state extends ffi.Struct {

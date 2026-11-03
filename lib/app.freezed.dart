@@ -27,14 +27,14 @@ $AppGlobalStateCopyWith<AppGlobalState> get copyWith => _$AppGlobalStateCopyWith
 @override
 bool operator ==(Object other) {
   final _this = this as AppGlobalState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppGlobalState&&(identical(other.deviceUUID, _this.deviceUUID) || other.deviceUUID == _this.deviceUUID)&&(identical(other.applicationSupportDir, _this.applicationSupportDir) || other.applicationSupportDir == _this.applicationSupportDir)&&(identical(other.applicationBinaryModuleDir, _this.applicationBinaryModuleDir) || other.applicationBinaryModuleDir == _this.applicationBinaryModuleDir)&&(identical(other.networkVersionData, _this.networkVersionData) || other.networkVersionData == _this.networkVersionData)&&(identical(other.themeConf, _this.themeConf) || other.themeConf == _this.themeConf)&&(identical(other.appLocale, _this.appLocale) || other.appLocale == _this.appLocale)&&(identical(other.appConfBox, _this.appConfBox) || other.appConfBox == _this.appConfBox)&&const DeepCollectionEquality().equals(other.windowsVersion, _this.windowsVersion));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppGlobalState&&(identical(other.deviceUUID, _this.deviceUUID) || other.deviceUUID == _this.deviceUUID)&&(identical(other.applicationSupportDir, _this.applicationSupportDir) || other.applicationSupportDir == _this.applicationSupportDir)&&(identical(other.applicationBinaryModuleDir, _this.applicationBinaryModuleDir) || other.applicationBinaryModuleDir == _this.applicationBinaryModuleDir)&&(identical(other.networkVersionData, _this.networkVersionData) || other.networkVersionData == _this.networkVersionData)&&(identical(other.themeConf, _this.themeConf) || other.themeConf == _this.themeConf)&&const DeepCollectionEquality().equals(other.appLocale, _this.appLocale)&&(identical(other.appConfBox, _this.appConfBox) || other.appConfBox == _this.appConfBox)&&const DeepCollectionEquality().equals(other.windowsVersion, _this.windowsVersion));
 }
 
 
 @override
 int get hashCode {
   final _this = this as AppGlobalState;
-  return Object.hash(runtimeType,_this.deviceUUID,_this.applicationSupportDir,_this.applicationBinaryModuleDir,_this.networkVersionData,_this.themeConf,_this.appLocale,_this.appConfBox,const DeepCollectionEquality().hash(_this.windowsVersion));
+  return Object.hash(runtimeType,_this.deviceUUID,_this.applicationSupportDir,_this.applicationBinaryModuleDir,_this.networkVersionData,_this.themeConf,const DeepCollectionEquality().hash(_this.appLocale),_this.appConfBox,const DeepCollectionEquality().hash(_this.windowsVersion));
 }
 
 @override
@@ -250,13 +250,13 @@ _$AppGlobalStateCopyWith<_AppGlobalState> get copyWith => __$AppGlobalStateCopyW
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppGlobalState&&(identical(other.deviceUUID, deviceUUID) || other.deviceUUID == deviceUUID)&&(identical(other.applicationSupportDir, applicationSupportDir) || other.applicationSupportDir == applicationSupportDir)&&(identical(other.applicationBinaryModuleDir, applicationBinaryModuleDir) || other.applicationBinaryModuleDir == applicationBinaryModuleDir)&&(identical(other.networkVersionData, networkVersionData) || other.networkVersionData == networkVersionData)&&(identical(other.themeConf, themeConf) || other.themeConf == themeConf)&&(identical(other.appLocale, appLocale) || other.appLocale == appLocale)&&(identical(other.appConfBox, appConfBox) || other.appConfBox == appConfBox)&&const DeepCollectionEquality().equals(other.windowsVersion, windowsVersion));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppGlobalState&&(identical(other.deviceUUID, deviceUUID) || other.deviceUUID == deviceUUID)&&(identical(other.applicationSupportDir, applicationSupportDir) || other.applicationSupportDir == applicationSupportDir)&&(identical(other.applicationBinaryModuleDir, applicationBinaryModuleDir) || other.applicationBinaryModuleDir == applicationBinaryModuleDir)&&(identical(other.networkVersionData, networkVersionData) || other.networkVersionData == networkVersionData)&&(identical(other.themeConf, themeConf) || other.themeConf == themeConf)&&const DeepCollectionEquality().equals(other.appLocale, appLocale)&&(identical(other.appConfBox, appConfBox) || other.appConfBox == appConfBox)&&const DeepCollectionEquality().equals(other.windowsVersion, windowsVersion));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,deviceUUID,applicationSupportDir,applicationBinaryModuleDir,networkVersionData,themeConf,appLocale,appConfBox,const DeepCollectionEquality().hash(windowsVersion));
+    return Object.hash(runtimeType,deviceUUID,applicationSupportDir,applicationBinaryModuleDir,networkVersionData,themeConf,const DeepCollectionEquality().hash(appLocale),appConfBox,const DeepCollectionEquality().hash(windowsVersion));
 }
 
 @override
@@ -330,14 +330,14 @@ $ThemeConfCopyWith<ThemeConf> get copyWith => _$ThemeConfCopyWithImpl<ThemeConf>
 @override
 bool operator ==(Object other) {
   final _this = this as ThemeConf;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ThemeConf&&(identical(other.backgroundColor, _this.backgroundColor) || other.backgroundColor == _this.backgroundColor)&&(identical(other.menuColor, _this.menuColor) || other.menuColor == _this.menuColor)&&(identical(other.micaColor, _this.micaColor) || other.micaColor == _this.micaColor));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ThemeConf&&const DeepCollectionEquality().equals(other.backgroundColor, _this.backgroundColor)&&const DeepCollectionEquality().equals(other.menuColor, _this.menuColor)&&const DeepCollectionEquality().equals(other.micaColor, _this.micaColor));
 }
 
 
 @override
 int get hashCode {
   final _this = this as ThemeConf;
-  return Object.hash(runtimeType,_this.backgroundColor,_this.menuColor,_this.micaColor);
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.backgroundColor),const DeepCollectionEquality().hash(_this.menuColor),const DeepCollectionEquality().hash(_this.micaColor));
 }
 
 @override
@@ -371,11 +371,11 @@ class _$ThemeConfCopyWithImpl<$Res>
 
 /// Create a copy of ThemeConf
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? backgroundColor = null,Object? menuColor = null,Object? micaColor = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? backgroundColor = freezed,Object? menuColor = freezed,Object? micaColor = freezed,}) {
   return _then(ThemeConf(
-backgroundColor: null == backgroundColor ? _self.backgroundColor : backgroundColor // ignore: cast_nullable_to_non_nullable
-as Color,menuColor: null == menuColor ? _self.menuColor : menuColor // ignore: cast_nullable_to_non_nullable
-as Color,micaColor: null == micaColor ? _self.micaColor : micaColor // ignore: cast_nullable_to_non_nullable
+backgroundColor: freezed == backgroundColor ? _self.backgroundColor : backgroundColor // ignore: cast_nullable_to_non_nullable
+as Color,menuColor: freezed == menuColor ? _self.menuColor : menuColor // ignore: cast_nullable_to_non_nullable
+as Color,micaColor: freezed == micaColor ? _self.micaColor : micaColor // ignore: cast_nullable_to_non_nullable
 as Color,
   ));
 }
@@ -534,13 +534,13 @@ _$ThemeConfCopyWith<_ThemeConf> get copyWith => __$ThemeConfCopyWithImpl<_ThemeC
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ThemeConf&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor)&&(identical(other.menuColor, menuColor) || other.menuColor == menuColor)&&(identical(other.micaColor, micaColor) || other.micaColor == micaColor));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ThemeConf&&const DeepCollectionEquality().equals(other.backgroundColor, backgroundColor)&&const DeepCollectionEquality().equals(other.menuColor, menuColor)&&const DeepCollectionEquality().equals(other.micaColor, micaColor));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,backgroundColor,menuColor,micaColor);
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(backgroundColor),const DeepCollectionEquality().hash(menuColor),const DeepCollectionEquality().hash(micaColor));
 }
 
 @override
@@ -573,11 +573,11 @@ class __$ThemeConfCopyWithImpl<$Res>
 
 /// Create a copy of ThemeConf
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? backgroundColor = null,Object? menuColor = null,Object? micaColor = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? backgroundColor = freezed,Object? menuColor = freezed,Object? micaColor = freezed,}) {
   return _then(_ThemeConf(
-backgroundColor: null == backgroundColor ? _self.backgroundColor : backgroundColor // ignore: cast_nullable_to_non_nullable
-as Color,menuColor: null == menuColor ? _self.menuColor : menuColor // ignore: cast_nullable_to_non_nullable
-as Color,micaColor: null == micaColor ? _self.micaColor : micaColor // ignore: cast_nullable_to_non_nullable
+backgroundColor: freezed == backgroundColor ? _self.backgroundColor : backgroundColor // ignore: cast_nullable_to_non_nullable
+as Color,menuColor: freezed == menuColor ? _self.menuColor : menuColor // ignore: cast_nullable_to_non_nullable
+as Color,micaColor: freezed == micaColor ? _self.micaColor : micaColor // ignore: cast_nullable_to_non_nullable
 as Color,
   ));
 }

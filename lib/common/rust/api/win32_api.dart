@@ -6,8 +6,7 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These functions are ignored because they are not marked as `pub`: `close_process_window`, `get_process_path`, `process_name_matches`, `quote_windows_argument`, `request_process_close`
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `CloseWindowContext`
+// These functions are ignored because they are not marked as `pub`: `process_name_matches`, `quote_windows_argument`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `fmt`, `fmt`
 
 Future<void> sendNotify({
@@ -22,27 +21,21 @@ Future<void> sendNotify({
   appId: appId,
 );
 
-/// Get system memory size in GB
 Future<BigInt> getSystemMemorySizeGb() =>
     RustLib.instance.api.crateApiWin32ApiGetSystemMemorySizeGb();
 
-/// Get number of logical processors
 Future<int> getNumberOfLogicalProcessors() =>
     RustLib.instance.api.crateApiWin32ApiGetNumberOfLogicalProcessors();
 
-/// Get all system information at once
 Future<SystemInfo> getSystemInfo() =>
     RustLib.instance.api.crateApiWin32ApiGetSystemInfo();
 
-/// Get GPU info from registry (more accurate VRAM)
 Future<String> getGpuInfoFromRegistry() =>
     RustLib.instance.api.crateApiWin32ApiGetGpuInfoFromRegistry();
 
-/// Resolve shortcut (.lnk) file to get target path
 Future<String> resolveShortcut({required String lnkPath}) =>
     RustLib.instance.api.crateApiWin32ApiResolveShortcut(lnkPath: lnkPath);
 
-/// Open file explorer and select file/folder
 Future<void> openDirWithExplorer({
   required String path,
   required bool isFile,
@@ -66,20 +59,16 @@ Future<List<ProcessInfo>> getProcessListByName({required String processName}) =>
       processName: processName,
     );
 
-/// Ask matching GUI processes to exit normally, then force-terminate only
-/// processes that do not exit before the grace period expires.
 Future<int> killProcessByName({required String processName}) => RustLib
     .instance
     .api
     .crateApiWin32ApiKillProcessByName(processName: processName);
 
-/// Get disk physical sector size for performance
 Future<int> getDiskPhysicalSectorSize({required String driveLetter}) => RustLib
     .instance
     .api
     .crateApiWin32ApiGetDiskPhysicalSectorSize(driveLetter: driveLetter);
 
-/// Create a desktop shortcut
 Future<void> createDesktopShortcut({
   required String targetPath,
   required String shortcutName,
@@ -88,14 +77,12 @@ Future<void> createDesktopShortcut({
   shortcutName: shortcutName,
 );
 
-/// Run a program with admin privileges (UAC)
 Future<void> runAsAdmin({required String program, required String args}) =>
     RustLib.instance.api.crateApiWin32ApiRunAsAdmin(
       program: program,
       args: args,
     );
 
-/// Run a program with admin privileges, wait for it to exit, and return its exit code.
 Future<int> runAsAdminAndWait({
   required String program,
   required List<String> args,
@@ -106,7 +93,6 @@ Future<int> runAsAdminAndWait({
   timeoutMs: timeoutMs,
 );
 
-/// Write a DWORD value below HKEY_CURRENT_USER, creating the key if necessary.
 Future<void> setCurrentUserRegistryDword({
   required String keyPath,
   required String valueName,
@@ -117,7 +103,6 @@ Future<void> setCurrentUserRegistryDword({
   value: value,
 );
 
-/// Start a program (without waiting)
 Future<void> startProcess({
   required String program,
   required List<String> args,
@@ -126,15 +111,12 @@ Future<void> startProcess({
   args: args,
 );
 
-/// Check if NVME patch is applied
 Future<bool> checkNvmePatchStatus() =>
     RustLib.instance.api.crateApiWin32ApiCheckNvmePatchStatus();
 
-/// Add NVME patch to registry
 Future<void> addNvmePatch() =>
     RustLib.instance.api.crateApiWin32ApiAddNvmePatch();
 
-/// Remove NVME patch from registry
 Future<void> removeNvmePatch() =>
     RustLib.instance.api.crateApiWin32ApiRemoveNvmePatch();
 

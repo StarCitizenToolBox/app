@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HomeUIModelState {
 
- AppPlacardData? get appPlacardData; bool get isFixing; String get isFixingString; String? get scInstalledPath; List<String> get scInstallPaths; AppWebLocalizationVersionsData? get webLocalizationVersionsData; String get lastScreenInfo; CitizenNewsData? get citizenNewsData; MapEntry<String, bool>? get localizationUpdateInfo; List<dynamic>? get scServerStatus; List<CountdownFestivalItemData>? get countdownFestivalListData; Map<String, bool> get isGameRunning;
+ AppPlacardData? get appPlacardData; bool get isFixing; String get isFixingString; String? get scInstalledPath; List<String> get scInstallPaths; AppWebLocalizationVersionsData? get webLocalizationVersionsData; String get lastScreenInfo; CitizenNewsData? get citizenNewsData; MapEntry<String, bool>? get localizationUpdateInfo; List<dynamic>? get scServerStatus; List<CountdownFestivalItemData>? get countdownFestivalListData;
 /// Create a copy of HomeUIModelState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $HomeUIModelStateCopyWith<HomeUIModelState> get copyWith => _$HomeUIModelStateCo
 @override
 bool operator ==(Object other) {
   final _this = this as HomeUIModelState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeUIModelState&&(identical(other.appPlacardData, _this.appPlacardData) || other.appPlacardData == _this.appPlacardData)&&(identical(other.isFixing, _this.isFixing) || other.isFixing == _this.isFixing)&&(identical(other.isFixingString, _this.isFixingString) || other.isFixingString == _this.isFixingString)&&(identical(other.scInstalledPath, _this.scInstalledPath) || other.scInstalledPath == _this.scInstalledPath)&&const DeepCollectionEquality().equals(other.scInstallPaths, _this.scInstallPaths)&&(identical(other.webLocalizationVersionsData, _this.webLocalizationVersionsData) || other.webLocalizationVersionsData == _this.webLocalizationVersionsData)&&(identical(other.lastScreenInfo, _this.lastScreenInfo) || other.lastScreenInfo == _this.lastScreenInfo)&&(identical(other.citizenNewsData, _this.citizenNewsData) || other.citizenNewsData == _this.citizenNewsData)&&(identical(other.localizationUpdateInfo, _this.localizationUpdateInfo) || other.localizationUpdateInfo == _this.localizationUpdateInfo)&&const DeepCollectionEquality().equals(other.scServerStatus, _this.scServerStatus)&&const DeepCollectionEquality().equals(other.countdownFestivalListData, _this.countdownFestivalListData)&&const DeepCollectionEquality().equals(other.isGameRunning, _this.isGameRunning));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeUIModelState&&(identical(other.appPlacardData, _this.appPlacardData) || other.appPlacardData == _this.appPlacardData)&&(identical(other.isFixing, _this.isFixing) || other.isFixing == _this.isFixing)&&(identical(other.isFixingString, _this.isFixingString) || other.isFixingString == _this.isFixingString)&&(identical(other.scInstalledPath, _this.scInstalledPath) || other.scInstalledPath == _this.scInstalledPath)&&const DeepCollectionEquality().equals(other.scInstallPaths, _this.scInstallPaths)&&(identical(other.webLocalizationVersionsData, _this.webLocalizationVersionsData) || other.webLocalizationVersionsData == _this.webLocalizationVersionsData)&&(identical(other.lastScreenInfo, _this.lastScreenInfo) || other.lastScreenInfo == _this.lastScreenInfo)&&(identical(other.citizenNewsData, _this.citizenNewsData) || other.citizenNewsData == _this.citizenNewsData)&&(identical(other.localizationUpdateInfo, _this.localizationUpdateInfo) || other.localizationUpdateInfo == _this.localizationUpdateInfo)&&const DeepCollectionEquality().equals(other.scServerStatus, _this.scServerStatus)&&const DeepCollectionEquality().equals(other.countdownFestivalListData, _this.countdownFestivalListData));
 }
 
 
 @override
 int get hashCode {
   final _this = this as HomeUIModelState;
-  return Object.hash(runtimeType,_this.appPlacardData,_this.isFixing,_this.isFixingString,_this.scInstalledPath,const DeepCollectionEquality().hash(_this.scInstallPaths),_this.webLocalizationVersionsData,_this.lastScreenInfo,_this.citizenNewsData,_this.localizationUpdateInfo,const DeepCollectionEquality().hash(_this.scServerStatus),const DeepCollectionEquality().hash(_this.countdownFestivalListData),const DeepCollectionEquality().hash(_this.isGameRunning));
+  return Object.hash(runtimeType,_this.appPlacardData,_this.isFixing,_this.isFixingString,_this.scInstalledPath,const DeepCollectionEquality().hash(_this.scInstallPaths),_this.webLocalizationVersionsData,_this.lastScreenInfo,_this.citizenNewsData,_this.localizationUpdateInfo,const DeepCollectionEquality().hash(_this.scServerStatus),const DeepCollectionEquality().hash(_this.countdownFestivalListData));
 }
 
 @override
 String toString() {
   final _this = this as HomeUIModelState;
-  return 'HomeUIModelState(appPlacardData: ${_this.appPlacardData}, isFixing: ${_this.isFixing}, isFixingString: ${_this.isFixingString}, scInstalledPath: ${_this.scInstalledPath}, scInstallPaths: ${_this.scInstallPaths}, webLocalizationVersionsData: ${_this.webLocalizationVersionsData}, lastScreenInfo: ${_this.lastScreenInfo}, citizenNewsData: ${_this.citizenNewsData}, localizationUpdateInfo: ${_this.localizationUpdateInfo}, scServerStatus: ${_this.scServerStatus}, countdownFestivalListData: ${_this.countdownFestivalListData}, isGameRunning: ${_this.isGameRunning})';
+  return 'HomeUIModelState(appPlacardData: ${_this.appPlacardData}, isFixing: ${_this.isFixing}, isFixingString: ${_this.isFixingString}, scInstalledPath: ${_this.scInstalledPath}, scInstallPaths: ${_this.scInstallPaths}, webLocalizationVersionsData: ${_this.webLocalizationVersionsData}, lastScreenInfo: ${_this.lastScreenInfo}, citizenNewsData: ${_this.citizenNewsData}, localizationUpdateInfo: ${_this.localizationUpdateInfo}, scServerStatus: ${_this.scServerStatus}, countdownFestivalListData: ${_this.countdownFestivalListData})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $HomeUIModelStateCopyWith<$Res>  {
   factory $HomeUIModelStateCopyWith(HomeUIModelState value, $Res Function(HomeUIModelState) _then) = _$HomeUIModelStateCopyWithImpl;
 @useResult
 $Res call({
- AppPlacardData? appPlacardData, bool isFixing, String isFixingString, String? scInstalledPath, List<String> scInstallPaths, AppWebLocalizationVersionsData? webLocalizationVersionsData, String lastScreenInfo, CitizenNewsData? citizenNewsData, MapEntry<String, bool>? localizationUpdateInfo, List<dynamic>? scServerStatus, List<CountdownFestivalItemData>? countdownFestivalListData, Map<String, bool> isGameRunning
+ AppPlacardData? appPlacardData, bool isFixing, String isFixingString, String? scInstalledPath, List<String> scInstallPaths, AppWebLocalizationVersionsData? webLocalizationVersionsData, String lastScreenInfo, CitizenNewsData? citizenNewsData, MapEntry<String, bool>? localizationUpdateInfo, List<dynamic>? scServerStatus, List<CountdownFestivalItemData>? countdownFestivalListData
 });
 
 
@@ -68,7 +68,7 @@ class _$HomeUIModelStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeUIModelState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? appPlacardData = freezed,Object? isFixing = null,Object? isFixingString = null,Object? scInstalledPath = freezed,Object? scInstallPaths = null,Object? webLocalizationVersionsData = freezed,Object? lastScreenInfo = null,Object? citizenNewsData = freezed,Object? localizationUpdateInfo = freezed,Object? scServerStatus = freezed,Object? countdownFestivalListData = freezed,Object? isGameRunning = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? appPlacardData = freezed,Object? isFixing = null,Object? isFixingString = null,Object? scInstalledPath = freezed,Object? scInstallPaths = null,Object? webLocalizationVersionsData = freezed,Object? lastScreenInfo = null,Object? citizenNewsData = freezed,Object? localizationUpdateInfo = freezed,Object? scServerStatus = freezed,Object? countdownFestivalListData = freezed,}) {
   return _then(HomeUIModelState(
 appPlacardData: freezed == appPlacardData ? _self.appPlacardData : appPlacardData // ignore: cast_nullable_to_non_nullable
 as AppPlacardData?,isFixing: null == isFixing ? _self.isFixing : isFixing // ignore: cast_nullable_to_non_nullable
@@ -81,8 +81,7 @@ as String,citizenNewsData: freezed == citizenNewsData ? _self.citizenNewsData : 
 as CitizenNewsData?,localizationUpdateInfo: freezed == localizationUpdateInfo ? _self.localizationUpdateInfo : localizationUpdateInfo // ignore: cast_nullable_to_non_nullable
 as MapEntry<String, bool>?,scServerStatus: freezed == scServerStatus ? _self.scServerStatus : scServerStatus // ignore: cast_nullable_to_non_nullable
 as List<dynamic>?,countdownFestivalListData: freezed == countdownFestivalListData ? _self.countdownFestivalListData : countdownFestivalListData // ignore: cast_nullable_to_non_nullable
-as List<CountdownFestivalItemData>?,isGameRunning: null == isGameRunning ? _self.isGameRunning : isGameRunning // ignore: cast_nullable_to_non_nullable
-as Map<String, bool>,
+as List<CountdownFestivalItemData>?,
   ));
 }
 /// Create a copy of HomeUIModelState
@@ -179,10 +178,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AppPlacardData? appPlacardData,  bool isFixing,  String isFixingString,  String? scInstalledPath,  List<String> scInstallPaths,  AppWebLocalizationVersionsData? webLocalizationVersionsData,  String lastScreenInfo,  CitizenNewsData? citizenNewsData,  MapEntry<String, bool>? localizationUpdateInfo,  List<dynamic>? scServerStatus,  List<CountdownFestivalItemData>? countdownFestivalListData,  Map<String, bool> isGameRunning)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AppPlacardData? appPlacardData,  bool isFixing,  String isFixingString,  String? scInstalledPath,  List<String> scInstallPaths,  AppWebLocalizationVersionsData? webLocalizationVersionsData,  String lastScreenInfo,  CitizenNewsData? citizenNewsData,  MapEntry<String, bool>? localizationUpdateInfo,  List<dynamic>? scServerStatus,  List<CountdownFestivalItemData>? countdownFestivalListData)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeUIModelState() when $default != null:
-return $default(_that.appPlacardData,_that.isFixing,_that.isFixingString,_that.scInstalledPath,_that.scInstallPaths,_that.webLocalizationVersionsData,_that.lastScreenInfo,_that.citizenNewsData,_that.localizationUpdateInfo,_that.scServerStatus,_that.countdownFestivalListData,_that.isGameRunning);case _:
+return $default(_that.appPlacardData,_that.isFixing,_that.isFixingString,_that.scInstalledPath,_that.scInstallPaths,_that.webLocalizationVersionsData,_that.lastScreenInfo,_that.citizenNewsData,_that.localizationUpdateInfo,_that.scServerStatus,_that.countdownFestivalListData);case _:
   return orElse();
 
 }
@@ -200,10 +199,10 @@ return $default(_that.appPlacardData,_that.isFixing,_that.isFixingString,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AppPlacardData? appPlacardData,  bool isFixing,  String isFixingString,  String? scInstalledPath,  List<String> scInstallPaths,  AppWebLocalizationVersionsData? webLocalizationVersionsData,  String lastScreenInfo,  CitizenNewsData? citizenNewsData,  MapEntry<String, bool>? localizationUpdateInfo,  List<dynamic>? scServerStatus,  List<CountdownFestivalItemData>? countdownFestivalListData,  Map<String, bool> isGameRunning)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AppPlacardData? appPlacardData,  bool isFixing,  String isFixingString,  String? scInstalledPath,  List<String> scInstallPaths,  AppWebLocalizationVersionsData? webLocalizationVersionsData,  String lastScreenInfo,  CitizenNewsData? citizenNewsData,  MapEntry<String, bool>? localizationUpdateInfo,  List<dynamic>? scServerStatus,  List<CountdownFestivalItemData>? countdownFestivalListData)  $default,) {final _that = this;
 switch (_that) {
 case _HomeUIModelState():
-return $default(_that.appPlacardData,_that.isFixing,_that.isFixingString,_that.scInstalledPath,_that.scInstallPaths,_that.webLocalizationVersionsData,_that.lastScreenInfo,_that.citizenNewsData,_that.localizationUpdateInfo,_that.scServerStatus,_that.countdownFestivalListData,_that.isGameRunning);case _:
+return $default(_that.appPlacardData,_that.isFixing,_that.isFixingString,_that.scInstalledPath,_that.scInstallPaths,_that.webLocalizationVersionsData,_that.lastScreenInfo,_that.citizenNewsData,_that.localizationUpdateInfo,_that.scServerStatus,_that.countdownFestivalListData);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -220,10 +219,10 @@ return $default(_that.appPlacardData,_that.isFixing,_that.isFixingString,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AppPlacardData? appPlacardData,  bool isFixing,  String isFixingString,  String? scInstalledPath,  List<String> scInstallPaths,  AppWebLocalizationVersionsData? webLocalizationVersionsData,  String lastScreenInfo,  CitizenNewsData? citizenNewsData,  MapEntry<String, bool>? localizationUpdateInfo,  List<dynamic>? scServerStatus,  List<CountdownFestivalItemData>? countdownFestivalListData,  Map<String, bool> isGameRunning)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AppPlacardData? appPlacardData,  bool isFixing,  String isFixingString,  String? scInstalledPath,  List<String> scInstallPaths,  AppWebLocalizationVersionsData? webLocalizationVersionsData,  String lastScreenInfo,  CitizenNewsData? citizenNewsData,  MapEntry<String, bool>? localizationUpdateInfo,  List<dynamic>? scServerStatus,  List<CountdownFestivalItemData>? countdownFestivalListData)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeUIModelState() when $default != null:
-return $default(_that.appPlacardData,_that.isFixing,_that.isFixingString,_that.scInstalledPath,_that.scInstallPaths,_that.webLocalizationVersionsData,_that.lastScreenInfo,_that.citizenNewsData,_that.localizationUpdateInfo,_that.scServerStatus,_that.countdownFestivalListData,_that.isGameRunning);case _:
+return $default(_that.appPlacardData,_that.isFixing,_that.isFixingString,_that.scInstalledPath,_that.scInstallPaths,_that.webLocalizationVersionsData,_that.lastScreenInfo,_that.citizenNewsData,_that.localizationUpdateInfo,_that.scServerStatus,_that.countdownFestivalListData);case _:
   return null;
 
 }
@@ -235,7 +234,7 @@ return $default(_that.appPlacardData,_that.isFixing,_that.isFixingString,_that.s
 
 
 class _HomeUIModelState implements HomeUIModelState {
-   _HomeUIModelState({this.appPlacardData, this.isFixing = false, this.isFixingString = "", this.scInstalledPath,  List<String> scInstallPaths = const [], this.webLocalizationVersionsData, this.lastScreenInfo = "", this.citizenNewsData, this.localizationUpdateInfo,  List<dynamic>? scServerStatus,  List<CountdownFestivalItemData>? countdownFestivalListData,  Map<String, bool> isGameRunning = const {}}): _scInstallPaths = scInstallPaths,_scServerStatus = scServerStatus,_countdownFestivalListData = countdownFestivalListData,_isGameRunning = isGameRunning;
+   _HomeUIModelState({this.appPlacardData, this.isFixing = false, this.isFixingString = "", this.scInstalledPath,  List<String> scInstallPaths = const [], this.webLocalizationVersionsData, this.lastScreenInfo = "", this.citizenNewsData, this.localizationUpdateInfo,  List<dynamic>? scServerStatus,  List<CountdownFestivalItemData>? countdownFestivalListData}): _scInstallPaths = scInstallPaths,_scServerStatus = scServerStatus,_countdownFestivalListData = countdownFestivalListData;
   
 
 @override final  AppPlacardData? appPlacardData;
@@ -271,13 +270,6 @@ class _HomeUIModelState implements HomeUIModelState {
   return EqualUnmodifiableListView(value);
 }
 
- final  Map<String, bool> _isGameRunning;
-@override@JsonKey() Map<String, bool> get isGameRunning {
-  if (_isGameRunning is EqualUnmodifiableMapView) return _isGameRunning;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_isGameRunning);
-}
-
 
 /// Create a copy of HomeUIModelState
 /// with the given fields replaced by the non-null parameter values.
@@ -289,18 +281,18 @@ _$HomeUIModelStateCopyWith<_HomeUIModelState> get copyWith => __$HomeUIModelStat
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeUIModelState&&(identical(other.appPlacardData, appPlacardData) || other.appPlacardData == appPlacardData)&&(identical(other.isFixing, isFixing) || other.isFixing == isFixing)&&(identical(other.isFixingString, isFixingString) || other.isFixingString == isFixingString)&&(identical(other.scInstalledPath, scInstalledPath) || other.scInstalledPath == scInstalledPath)&&const DeepCollectionEquality().equals(other.scInstallPaths, _scInstallPaths)&&(identical(other.webLocalizationVersionsData, webLocalizationVersionsData) || other.webLocalizationVersionsData == webLocalizationVersionsData)&&(identical(other.lastScreenInfo, lastScreenInfo) || other.lastScreenInfo == lastScreenInfo)&&(identical(other.citizenNewsData, citizenNewsData) || other.citizenNewsData == citizenNewsData)&&(identical(other.localizationUpdateInfo, localizationUpdateInfo) || other.localizationUpdateInfo == localizationUpdateInfo)&&const DeepCollectionEquality().equals(other.scServerStatus, _scServerStatus)&&const DeepCollectionEquality().equals(other.countdownFestivalListData, _countdownFestivalListData)&&const DeepCollectionEquality().equals(other.isGameRunning, _isGameRunning));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeUIModelState&&(identical(other.appPlacardData, appPlacardData) || other.appPlacardData == appPlacardData)&&(identical(other.isFixing, isFixing) || other.isFixing == isFixing)&&(identical(other.isFixingString, isFixingString) || other.isFixingString == isFixingString)&&(identical(other.scInstalledPath, scInstalledPath) || other.scInstalledPath == scInstalledPath)&&const DeepCollectionEquality().equals(other.scInstallPaths, _scInstallPaths)&&(identical(other.webLocalizationVersionsData, webLocalizationVersionsData) || other.webLocalizationVersionsData == webLocalizationVersionsData)&&(identical(other.lastScreenInfo, lastScreenInfo) || other.lastScreenInfo == lastScreenInfo)&&(identical(other.citizenNewsData, citizenNewsData) || other.citizenNewsData == citizenNewsData)&&(identical(other.localizationUpdateInfo, localizationUpdateInfo) || other.localizationUpdateInfo == localizationUpdateInfo)&&const DeepCollectionEquality().equals(other.scServerStatus, _scServerStatus)&&const DeepCollectionEquality().equals(other.countdownFestivalListData, _countdownFestivalListData));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,appPlacardData,isFixing,isFixingString,scInstalledPath,const DeepCollectionEquality().hash(_scInstallPaths),webLocalizationVersionsData,lastScreenInfo,citizenNewsData,localizationUpdateInfo,const DeepCollectionEquality().hash(_scServerStatus),const DeepCollectionEquality().hash(_countdownFestivalListData),const DeepCollectionEquality().hash(_isGameRunning));
+    return Object.hash(runtimeType,appPlacardData,isFixing,isFixingString,scInstalledPath,const DeepCollectionEquality().hash(_scInstallPaths),webLocalizationVersionsData,lastScreenInfo,citizenNewsData,localizationUpdateInfo,const DeepCollectionEquality().hash(_scServerStatus),const DeepCollectionEquality().hash(_countdownFestivalListData));
 }
 
 @override
 String toString() {
-    return 'HomeUIModelState(appPlacardData: $appPlacardData, isFixing: $isFixing, isFixingString: $isFixingString, scInstalledPath: $scInstalledPath, scInstallPaths: $scInstallPaths, webLocalizationVersionsData: $webLocalizationVersionsData, lastScreenInfo: $lastScreenInfo, citizenNewsData: $citizenNewsData, localizationUpdateInfo: $localizationUpdateInfo, scServerStatus: $scServerStatus, countdownFestivalListData: $countdownFestivalListData, isGameRunning: $isGameRunning)';
+    return 'HomeUIModelState(appPlacardData: $appPlacardData, isFixing: $isFixing, isFixingString: $isFixingString, scInstalledPath: $scInstalledPath, scInstallPaths: $scInstallPaths, webLocalizationVersionsData: $webLocalizationVersionsData, lastScreenInfo: $lastScreenInfo, citizenNewsData: $citizenNewsData, localizationUpdateInfo: $localizationUpdateInfo, scServerStatus: $scServerStatus, countdownFestivalListData: $countdownFestivalListData)';
 }
 
 
@@ -311,7 +303,7 @@ abstract mixin class _$HomeUIModelStateCopyWith<$Res> implements $HomeUIModelSta
   factory _$HomeUIModelStateCopyWith(_HomeUIModelState value, $Res Function(_HomeUIModelState) _then) = __$HomeUIModelStateCopyWithImpl;
 @override @useResult
 $Res call({
- AppPlacardData? appPlacardData, bool isFixing, String isFixingString, String? scInstalledPath, List<String> scInstallPaths, AppWebLocalizationVersionsData? webLocalizationVersionsData, String lastScreenInfo, CitizenNewsData? citizenNewsData, MapEntry<String, bool>? localizationUpdateInfo, List<dynamic>? scServerStatus, List<CountdownFestivalItemData>? countdownFestivalListData, Map<String, bool> isGameRunning
+ AppPlacardData? appPlacardData, bool isFixing, String isFixingString, String? scInstalledPath, List<String> scInstallPaths, AppWebLocalizationVersionsData? webLocalizationVersionsData, String lastScreenInfo, CitizenNewsData? citizenNewsData, MapEntry<String, bool>? localizationUpdateInfo, List<dynamic>? scServerStatus, List<CountdownFestivalItemData>? countdownFestivalListData
 });
 
 
@@ -328,7 +320,7 @@ class __$HomeUIModelStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeUIModelState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? appPlacardData = freezed,Object? isFixing = null,Object? isFixingString = null,Object? scInstalledPath = freezed,Object? scInstallPaths = null,Object? webLocalizationVersionsData = freezed,Object? lastScreenInfo = null,Object? citizenNewsData = freezed,Object? localizationUpdateInfo = freezed,Object? scServerStatus = freezed,Object? countdownFestivalListData = freezed,Object? isGameRunning = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? appPlacardData = freezed,Object? isFixing = null,Object? isFixingString = null,Object? scInstalledPath = freezed,Object? scInstallPaths = null,Object? webLocalizationVersionsData = freezed,Object? lastScreenInfo = null,Object? citizenNewsData = freezed,Object? localizationUpdateInfo = freezed,Object? scServerStatus = freezed,Object? countdownFestivalListData = freezed,}) {
   return _then(_HomeUIModelState(
 appPlacardData: freezed == appPlacardData ? _self.appPlacardData : appPlacardData // ignore: cast_nullable_to_non_nullable
 as AppPlacardData?,isFixing: null == isFixing ? _self.isFixing : isFixing // ignore: cast_nullable_to_non_nullable
@@ -341,8 +333,7 @@ as String,citizenNewsData: freezed == citizenNewsData ? _self.citizenNewsData : 
 as CitizenNewsData?,localizationUpdateInfo: freezed == localizationUpdateInfo ? _self.localizationUpdateInfo : localizationUpdateInfo // ignore: cast_nullable_to_non_nullable
 as MapEntry<String, bool>?,scServerStatus: freezed == scServerStatus ? _self._scServerStatus : scServerStatus // ignore: cast_nullable_to_non_nullable
 as List<dynamic>?,countdownFestivalListData: freezed == countdownFestivalListData ? _self._countdownFestivalListData : countdownFestivalListData // ignore: cast_nullable_to_non_nullable
-as List<CountdownFestivalItemData>?,isGameRunning: null == isGameRunning ? _self._isGameRunning : isGameRunning // ignore: cast_nullable_to_non_nullable
-as Map<String, bool>,
+as List<CountdownFestivalItemData>?,
   ));
 }
 

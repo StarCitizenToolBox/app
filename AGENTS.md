@@ -98,8 +98,7 @@ Defined in `lib/app.dart`:
 
 - `lib/ui/home/` — Largest module, sub-features: `downloader/`, `game_doctor/`, `localization/`, `performance/`, `input_method/`
 - `lib/ui/tools/` — P4K browser, log analyzer, DCB viewer
-- `lib/ui/party_room/` — Multiplayer session feature
-- `lib/ui/auth/`, `settings/`, `about/`, `guide/`, `webview/`
+- `lib/ui/settings/`, `about/`, `guide/`, `webview/`
 
 ### Rust API Modules
 
@@ -130,7 +129,7 @@ Each `rust/src/api/*.rs` maps to a Dart binding in `lib/common/rust/api/`:
 | Routing | `go_router` |
 | Native | Rust via `flutter_rust_bridge` 2.12.0 |
 | Storage | `hive_ce` |
-| Networking | `dio`, `grpc`, Rust `reqwest` |
+| Networking | `dio`, Rust `reqwest` |
 | Window | `window_manager` (custom fork), `desktop_multi_window` |
 
 ## Lint Configuration

@@ -9,12 +9,6 @@ class URLConf {
   static String newsApiHome = "https://scbox.citizenwiki.cn";
   static const String analyticsApiHome = "https://scbox.org";
 
-  /// PartyRoom Server
-  // static const String partyRoomServerAddress = "localhost";
-  // static const int partyRoomServerPort = 50051;
-  static const String partyRoomServerAddress = "ecdn.partyroom.grpc.scbox.xkeyc.cn";
-  static const int partyRoomServerPort = 443;
-
   static bool isUrlCheckPass = false;
 
   /// URLS

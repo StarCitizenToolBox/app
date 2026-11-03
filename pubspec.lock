@@ -57,38 +57,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.0"
-  app_links:
-    dependency: "direct main"
-    description:
-      name: app_links
-      sha256: "08ba88bf19d9edea33130cb71c8ced2cb982b4e00b82efef4a434d1357bc69c3"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.2.2"
-  app_links_linux:
-    dependency: transitive
-    description:
-      name: app_links_linux
-      sha256: "9ccb5802085a1e57bb07b6256fd1d61a78c7ec104944d4965e62938b4fefd9cb"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
-  app_links_platform_interface:
-    dependency: transitive
-    description:
-      name: app_links_platform_interface
-      sha256: "7546f09a6e93f4a2df2fe2bd40a5c6c64310ac461b036d82b43033be7a59f809"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.4"
-  app_links_web:
-    dependency: transitive
-    description:
-      name: app_links_web
-      sha256: "382d32c6f486f15b1d7f5d6a37a70a481a4fc08382eef419d373169921a3e765"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.5"
   archive:
     dependency: "direct main"
     description:
@@ -450,7 +418,7 @@ packages:
     source: hosted
     version: "1.0.6"
   fixnum:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: fixnum
       sha256: b6dc7065e46c974bc7c5f143080a6764ec7a4be6da1285ececdc37be96de53be
@@ -607,22 +575,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "18.0.2"
-  google_identity_services_web:
-    dependency: transitive
-    description:
-      name: google_identity_services_web
-      sha256: "5d187c46dc59e02646e10fe82665fc3884a9b71bc1c90c2b8b749316d33ee454"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.3+1"
-  googleapis_auth:
-    dependency: transitive
-    description:
-      name: googleapis_auth
-      sha256: b81fe352cc4a330b3710d2b7ad258d9bcef6f909bb759b306bf42973a7d046db
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   graphs:
     dependency: transitive
     description:
@@ -631,14 +583,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
-  grpc:
-    dependency: "direct main"
-    description:
-      name: grpc
-      sha256: "0cde49bc17f6b1e96c374ad1b5d389816cc8ade2015f24294eaa76193de87090"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.2.0"
   hexcolor:
     dependency: "direct main"
     description:
@@ -687,14 +631,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.6.0"
-  http2:
-    dependency: transitive
-    description:
-      name: http2
-      sha256: "382d3aefc5bd6dc68c6b892d7664f29b5beb3251611ae946a98d35158a82bbfa"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.1"
   http_client_helper:
     dependency: transitive
     description:
@@ -791,14 +727,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.14.1"
-  jwt_decode:
-    dependency: "direct main"
-    description:
-      name: jwt_decode
-      sha256: d2e9f68c052b2225130977429d30f187aa1981d789c76ad104a32243cfdebfbb
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.1"
   leak_tracker:
     dependency: transitive
     description:
@@ -1031,14 +959,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
-  pointycastle:
-    dependency: "direct main"
-    description:
-      name: pointycastle
-      sha256: "92aa3841d083cc4b0f4709b5c74fd6409a3e6ba833ffc7dc6a8fee096366acf5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.0"
   pool:
     dependency: transitive
     description:
@@ -1063,14 +983,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.6"
-  protobuf:
-    dependency: "direct main"
-    description:
-      name: protobuf
-      sha256: "13b6717366aa7ec3792dd62c19c7d33a785708224365f2db23c5ca01f1c1a0f2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.1.0"
   pub_semver:
     dependency: transitive
     description:

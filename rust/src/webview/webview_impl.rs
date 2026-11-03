@@ -807,20 +807,6 @@ fn handle_command(command: WebViewCommand, context: CommandContext<'_>) {
         WebViewCommand::SetWindowTitle(title) => {
             context.window.set_title(&title);
         }
-        WebViewCommand::GetCookiesForUrl(url, tx) => {
-            let result = context
-                .webview
-                .cookies_for_url(&url)
-                .map(|cookies| {
-                    cookies
-                        .into_iter()
-                        .map(|cookie| format!("{}={}", cookie.name(), cookie.value()))
-                        .collect::<Vec<_>>()
-                        .join("; ")
-                })
-                .map_err(|e| e.to_string());
-            let _ = tx.send(result);
-        }
     }
 }
 

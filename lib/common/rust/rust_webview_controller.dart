@@ -322,16 +322,6 @@ class RustWebViewController {
     );
   }
 
-  /// 执行 RSI 登录脚本
-  void executeRsiLogin(String channel) {
-    executeScript('getRSILauncherToken("$channel");');
-  }
-
-  /// 从 wry/WebView cookie store 获取指定 URL 的 Cookie，包含 HttpOnly Cookie
-  String getCookiesForUrl(String url) {
-    return rust_webview.webviewGetCookiesForUrl(id: id, url: url);
-  }
-
   /// 释放资源
   void dispose() {
     if (_isDisposed) return;

@@ -170,46 +170,6 @@ class HomeUI extends HookConsumerWidget {
                 onChanged: model.onChangeInstallPath,
               ),
             ),
-            if (S.current.app_language_code == NoL10n.langCodeZhCn) ...[
-              const SizedBox(width: 12),
-              Button(
-                onPressed: homeState.webLocalizationVersionsData == null
-                    ? null
-                    : () => model.openP4kUpdater(context),
-                child: const Padding(
-                  padding: EdgeInsets.all(6),
-                  child: FaIcon(FontAwesomeIcons.download, size: 16),
-                ),
-              ),
-              if (model.isOneClickLaunchSupported(
-                homeState.scInstalledPath,
-              )) ...[
-                const SizedBox(width: 6),
-                Button(
-                  onPressed: homeState.webLocalizationVersionsData == null
-                      ? null
-                      : () => model.launchRSI(context),
-                  style: homeState.isCurGameRunning
-                      ? null
-                      : ButtonStyle(
-                          backgroundColor: WidgetStateProperty.resolveWith(
-                            _getRunButtonColor,
-                          ),
-                        ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: Icon(
-                      homeState.isCurGameRunning
-                          ? FluentIcons.stop_solid
-                          : FluentIcons.play_solid,
-                      color: homeState.isCurGameRunning
-                          ? Colors.red.withValues(alpha: .8)
-                          : const Color(0xff061a2c),
-                    ),
-                  ),
-                ),
-              ],
-            ],
             const SizedBox(width: 12),
             Tooltip(
               message: S.current.input_method_experimental_input_method,
@@ -1016,16 +976,6 @@ class HomeUI extends HookConsumerWidget {
       default:
         context.push("/index/$key");
     }
-  }
-
-  Color? _getRunButtonColor(Set<WidgetState> states) {
-    if (states.isPressed) {
-      return const Color(0xff3f9ce8);
-    }
-    if (states.isHovered) {
-      return const Color(0xff6fbcf9);
-    }
-    return const Color(0xff54adf7);
   }
 
   Future _checkGuide(BuildContext context, HomeUIModel model) async {

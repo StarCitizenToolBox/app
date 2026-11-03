@@ -42,7 +42,6 @@ dependencies:
   file_sizes: ^1.0.6
   flutter_svg: ^2.3.0
   archive: ^4.5.2
-  jwt_decode: ^0.3.1
   uuid: ^4.6.0
   flutter_tilt: ^4.1.0
   card_swiper: ^3.0.1
@@ -51,7 +50,6 @@ dependencies:
   freezed_annotation: ^3.1.0
   hexcolor: ^3.1.3
   html: ^0.15.7
-  fixnum: ^1.1.1
   rust_builder:
     path: rust_builder
   # aria2 has been replaced by rqbit (Rust-based torrent library)
@@ -66,14 +64,9 @@ dependencies:
   watcher: ^1.2.1
   path: ^1.9.1
   crypto: ^3.0.7
-  pointycastle: ^4.0.0
   xml: ^7.0.1
   local_hero: ^0.3.0
 
-  # gRPC and protobuf
-  grpc: ^5.2.0
-  protobuf: ^6.1.0
-  app_links: 7.2.2
 dependency_overrides:
   http: ^1.6.0
   intl: ^0.20.3
@@ -119,6 +112,5 @@ msix_config:
   languages: zh-cn
   windows_build_args: --dart-define="MSE=true"
   store: true
-  protocol_activation: sctoolbox
 flutter_intl:
   enabled: true

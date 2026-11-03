@@ -6,13 +6,11 @@ on:
             - "**.md"
             - "docs/**"
             - "rust/**"
-            - "packages/p4k_upgrader/**"
     pull_request:
         paths-ignore:
             - "**.md"
             - "docs/**"
             - "rust/**"
-            - "packages/p4k_upgrader/**"
     workflow_dispatch:
 
 permissions:

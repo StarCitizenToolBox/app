@@ -4,12 +4,10 @@ on:
         branches: [main]
         paths:
             - "rust/**"
-            - "packages/p4k_upgrader/**"
             - ".github/workflows/rust_test.yml"
     pull_request:
         paths:
             - "rust/**"
-            - "packages/p4k_upgrader/**"
             - ".github/workflows/rust_test.yml"
     workflow_dispatch:
 
@@ -61,9 +59,3 @@ jobs:
             - name: Cargo test
               run: cargo test --locked
               working-directory: rust
-
-            # Separate workspace: cargo test in rust/ does not run tests of path
-            # dependencies. CI has no closed module, so the stub build is tested.
-            - name: Cargo test (p4k_upgrader)
-              run: cargo test --locked
-              working-directory: packages/p4k_upgrader
