@@ -1,6 +1,10 @@
 use anyhow::{anyhow, Context, Result};
 use ndarray::{Array2, ArrayD};
-use ort::{ep::XNNPACK, session::builder::GraphOptimizationLevel, session::Session, value::Value};
+use once_cell::sync::OnceCell;
+use ort::{
+    environment::Environment, ep::XNNPACK, session::builder::GraphOptimizationLevel,
+    session::Session, value::Value,
+};
 use std::path::Path;
 use std::sync::Mutex;
 use tokenizers::Tokenizer;
@@ -35,6 +39,15 @@ impl Default for ModelConfig {
     }
 }
 
+/// ONNX Runtime 每个进程只允许创建一个环境，所有会话共用它
+static ORT_ENVIRONMENT: OnceCell<Environment> = OnceCell::new();
+
+fn ort_environment() -> Result<&'static Environment> {
+    ORT_ENVIRONMENT
+        .get_or_try_init(|| ort::init().build())
+        .map_err(|e| anyhow!("Failed to create ONNX Runtime environment: {}", e))
+}
+
 /// 创建 ONNX 会话的辅助函数
 ///
 /// # Arguments
@@ -42,7 +55,7 @@ impl Default for ModelConfig {
 /// * `model_name` - 模型名称（用于错误消息）
 /// * `use_xnnpack` - 是否使用 XNNPACK 加速
 fn create_session(model_path: &Path, model_name: &str, use_xnnpack: bool) -> Result<Session> {
-    let mut builder = Session::builder()
+    let mut builder = Session::builder(ort_environment()?)
         .map_err(|e| anyhow!("Failed to create {} session builder: {}", model_name, e))?
         .with_optimization_level(GraphOptimizationLevel::Level3)
         .map_err(|e| anyhow!("Failed to set optimization level: {}", e))?
