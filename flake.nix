@@ -40,13 +40,20 @@
             libGL
             libxkbcommon
             wayland
-            xorg.libX11
-            xorg.libXcursor
-            xorg.libXrandr
-            xorg.libXi
-            xorg.libxcb
+            libx11
+            libxcursor
+            libxrandr
+            libxi
+            libxcb
             stdenv.cc.cc.lib
           ];
+
+          # ffigen (run by the codegen) parses C headers with libclang, which
+          # does not know where glibc's headers live on NixOS.
+          frb-codegen = pkgs.writeShellScriptBin "flutter_rust_bridge_codegen" ''
+            export CPATH="${pkgs.glibc.dev}/include''${CPATH:+:$CPATH}"
+            exec ${pkgs.flutter_rust_bridge_codegen}/bin/flutter_rust_bridge_codegen "$@"
+          '';
 
           # Regenerates everything listed under "Code generation" in AGENTS.md.
           sct-codegen = pkgs.writeShellApplication {
@@ -64,6 +71,8 @@
           sct-check = pkgs.writeShellApplication {
             name = "sct-check";
             text = ''
+              # Cargokit's build tool is a nested package; analyze fails without it.
+              (cd rust_builder/cargokit/build_tool && dart pub get)
               flutter analyze
               flutter test
               (cd rust && cargo clippy && cargo test)
@@ -79,10 +88,8 @@
               # Cargokit builds the crate with `rustup run stable cargo build`,
               # so the toolchain comes from rustup, not nixpkgs' rustc.
               rustup
-              flutter_rust_bridge_codegen
+              frb-codegen
               cargo-expand
-              protobuf
-              protoc-gen-dart
 
               cmake
               ninja
@@ -108,6 +115,8 @@
               export XDG_DATA_DIRS="${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}''${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
               # `flutter pub global` executables (intl_utils).
               export PATH="$HOME/.pub-cache/bin:$PATH"
+              # `dart run` / `dart pub` need it to resolve `sdk: flutter` packages.
+              export FLUTTER_ROOT="$(dirname "$(dirname "$(command -v flutter)")")"
 
               # Checkouts on NTFS (core.fileMode=false) lose the exec bit Cargokit's
               # CMake step needs; the file is 100755 in git.

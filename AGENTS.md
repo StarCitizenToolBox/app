@@ -10,7 +10,7 @@ Package name: `starcitizen_doctor` (v3.1.1+81). Published on Microsoft Store via
 
 ## Nix (Linux)
 
-`flake.nix` provides the dev shell: Flutter, rustup (Cargokit needs it), `flutter_rust_bridge_codegen` 2.13.0, cargo-expand, protoc, and the GTK/WebKitGTK/ALSA/Vulkan libraries.
+`flake.nix` provides the dev shell: Flutter, rustup (Cargokit needs it), `flutter_rust_bridge_codegen` 2.13.0, cargo-expand, and the GTK/WebKitGTK/ALSA/Vulkan libraries.
 ```bash
 nix develop           # enter the shell
 sct-codegen           # build_runner + flutter_rust_bridge + intl_utils
