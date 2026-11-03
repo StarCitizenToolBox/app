@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:isolate';
 import 'dart:typed_data';
 
+import 'package:path/path.dart' as p;
 import 'package:xml/xml.dart';
 
 import 'package:starcitizen_doctor/common/rust/api/unp4k_api.dart' as unp4k_api;
@@ -49,20 +50,20 @@ class ScKeybindingRepository {
   final String gamePath;
   final String cacheRoot;
 
-  String get _userDir => '$gamePath\\user\\client\\0';
+  String get _userDir => p.join(gamePath, 'user', 'client', '0');
 
-  File get actionMapsFile => File('$_userDir\\Profiles\\default\\actionmaps.xml');
+  File get actionMapsFile => File(p.join(_userDir, 'Profiles', 'default', 'actionmaps.xml'));
 
-  Directory get mappingsDir => Directory('$_userDir\\Controls\\Mappings');
+  Directory get mappingsDir => Directory(p.join(_userDir, 'Controls', 'Mappings'));
 
-  Directory get backupDir => Directory('$_userDir\\Profiles\\default\\sctoolbox_backup');
+  Directory get backupDir => Directory(p.join(_userDir, 'Profiles', 'default', 'sctoolbox_backup'));
 
   Future<ScKeybindingGameData> loadGameData({void Function(String step)? onStep}) async {
-    final p4k = File('$gamePath\\Data.p4k');
+    final p4k = File(p.join(gamePath, 'Data.p4k'));
     if (!await p4k.exists()) throw FileSystemException('Data.p4k not found', p4k.path);
     final cacheDir = await _cacheDir(p4k);
-    final profileCache = File('${cacheDir.path}\\defaultProfile.xml');
-    final iniCache = File('${cacheDir.path}\\global_english.ini');
+    final profileCache = File(p.join(cacheDir.path, 'defaultProfile.xml'));
+    final iniCache = File(p.join(cacheDir.path, 'global_english.ini'));
 
     if (!await profileCache.exists() || !await iniCache.exists()) {
       onStep?.call('p4k');
@@ -84,7 +85,7 @@ class ScKeybindingRepository {
     final strings = _parseIni(_decode(await iniCache.readAsBytes()));
     final language = await _gameLanguage();
     if (language != 'english') {
-      final localized = File('$gamePath\\data\\Localization\\$language\\global.ini');
+      final localized = File(p.join(gamePath, 'data', 'Localization', language, 'global.ini'));
       if (await localized.exists()) {
         strings.addAll(_parseIni(_decode(await localized.readAsBytes())));
       }
@@ -101,15 +102,17 @@ class ScKeybindingRepository {
   Future<Directory> _cacheDir(File p4k) async {
     final stat = await p4k.stat();
     // Per channel, so pruning one channel's old versions keeps the other channels' caches.
-    return Directory('$cacheRoot\\keybinding_cache\\$channel\\${stat.size}_${stat.modified.millisecondsSinceEpoch}');
+    return Directory(
+      p.join(cacheRoot, 'keybinding_cache', channel, '${stat.size}_${stat.modified.millisecondsSinceEpoch}'),
+    );
   }
 
   /// The game's own layout presets (`Data\Libs\Config\Mappings\layout_*.xml`), extracted once per
   /// game version. [onStep] reports `p4k` when the archive has to be read.
   Future<List<ScPreset>> listPresets({void Function(String step)? onStep}) async {
-    final p4k = File('$gamePath\\Data.p4k');
-    final dir = Directory('${(await _cacheDir(p4k)).path}\\presets');
-    final done = File('${dir.path}\\.done');
+    final p4k = File(p.join(gamePath, 'Data.p4k'));
+    final dir = Directory(p.join((await _cacheDir(p4k)).path, 'presets'));
+    final done = File(p.join(dir.path, '.done'));
     if (!await done.exists()) {
       onStep?.call('p4k');
       await dir.create(recursive: true);
@@ -121,7 +124,7 @@ class ScKeybindingRepository {
         for (final name in names) {
           final path = name.startsWith('\\') ? name.substring(1) : name;
           final bytes = await unp4k_api.p4KExtractToMemory(filePath: path);
-          await File('${dir.path}\\${path.split('\\').last}').writeAsBytes(bytes);
+          await File(p.join(dir.path, path.split('\\').last)).writeAsBytes(bytes);
         }
       } finally {
         await unp4k_api.p4KClose();
@@ -174,7 +177,7 @@ class ScKeybindingRepository {
     if (await f.exists()) {
       await backupDir.create(recursive: true);
       final ts = DateTime.now().toIso8601String().replaceAll(RegExp(r'[:.]'), '-').substring(0, 19);
-      backupPath = '${backupDir.path}\\actionmaps_$ts.xml';
+      backupPath = p.join(backupDir.path, 'actionmaps_$ts.xml');
       await f.copy(backupPath);
     } else {
       await f.parent.create(recursive: true);
@@ -183,7 +186,7 @@ class ScKeybindingRepository {
     return backupPath;
   }
 
-  File layoutFile(String name) => File('${mappingsDir.path}\\$name.xml');
+  File layoutFile(String name) => File(p.join(mappingsDir.path, '$name.xml'));
 
   Future<File> writeLayout(String name, String xml) async {
     await mappingsDir.create(recursive: true);
@@ -204,7 +207,7 @@ class ScKeybindingRepository {
       if (e is! Directory) continue;
       final name = e.path.split(RegExp(r'[\\/]')).last;
       if (name == channel || name.startsWith('.')) continue;
-      if (await File('${e.path}\\Data.p4k').exists() || await Directory('${e.path}\\user').exists()) {
+      if (await File(p.join(e.path, 'Data.p4k')).exists() || await Directory(p.join(e.path, 'user')).exists()) {
         result.add(name);
       }
     }
@@ -214,7 +217,7 @@ class ScKeybindingRepository {
   /// A repository for a sibling channel, sharing this one's cache.
   ScKeybindingRepository sibling(String name) => name == channel
       ? this
-      : ScKeybindingRepository('${Directory(gamePath).parent.path}\\$name', cacheRoot: cacheRoot);
+      : ScKeybindingRepository(p.join(Directory(gamePath).parent.path, name), cacheRoot: cacheRoot);
 
   Future<List<File>> listBackups() async {
     if (!await backupDir.exists()) return [];
@@ -231,8 +234,11 @@ class ScKeybindingRepository {
   }
 
   Future<String> _gameLanguage() async {
-    for (final name in ['user.cfg', 'data\\system.cfg']) {
-      final f = File('$gamePath\\$name');
+    for (final name in [
+      ['user.cfg'],
+      ['data', 'system.cfg'],
+    ]) {
+      final f = File(p.joinAll([gamePath, ...name]));
       if (!await f.exists()) continue;
       for (final line in await f.readAsLines()) {
         final m = RegExp(r'^\s*g_language\s*=\s*(\S+)').firstMatch(line);
@@ -244,7 +250,7 @@ class ScKeybindingRepository {
 
   Future<String> _gameVersion() async {
     try {
-      final f = File('$gamePath\\build_manifest.id');
+      final f = File(p.join(gamePath, 'build_manifest.id'));
       if (!await f.exists()) return '';
       final json = jsonDecode(await f.readAsString()) as Map<String, dynamic>;
       return (json['Data'] as Map<String, dynamic>?)?['Version']?.toString() ?? '';
@@ -327,7 +333,7 @@ class ScPreset {
   final String profileName;
   final ScProfileDocument document;
 
-  String get fileName => file.path.split('\\').last;
+  String get fileName => p.basename(file.path);
 
   /// Joystick instance → product name the preset was made for.
   Map<int, String> get joysticks => {

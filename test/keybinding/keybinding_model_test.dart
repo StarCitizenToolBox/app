@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:path/path.dart' as p;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:starcitizen_doctor/common/keybinding/sc_binding_resolver.dart';
@@ -196,7 +197,7 @@ void main() {
     final lock = state().data!.profile.actionsById['spaceship_targeting/lock1']!;
     model().bind(lock, ScInput.parse('kb1_lalt+f')!);
     final file = (await model().exportLayout('sctoolbox_test')).single;
-    expect(file.path, '${game.mappings.path}\\sctoolbox_test.xml');
+    expect(file.path, p.join(game.mappings.path, 'sctoolbox_test.xml'));
     final layout = ScProfileDocument.parse(await file.readAsString());
     expect(layout.isLayout, isTrue);
     expect(layout.profileName, 'sctoolbox_test');
@@ -207,30 +208,30 @@ void main() {
   });
 
   test('sync install writes the layout and actionmaps.xml into other channels too', () async {
-    final ptu = Directory('${game.root.parent.path}\\PTU');
-    await File('${ptu.path}\\Data.p4k').create(recursive: true);
-    await Directory('${game.root.parent.path}\\.cache').create();
+    final ptu = Directory(p.join(game.root.parent.path, 'PTU'));
+    await File(p.join(ptu.path, 'Data.p4k')).create(recursive: true);
+    await Directory(p.join(game.root.parent.path, '.cache')).create();
     expect(await model().repo.listSiblingChannels(), ['LIVE', 'PTU']);
 
     final jump = state().data!.profile.actionsById['player/jump']!;
     model().bind(jump, ScInput.parse('kb1_lalt+j')!);
     final files = await model().exportLayout('synced', channels: ['LIVE', 'PTU']);
     expect(files.map((f) => f.path), [
-      '${game.mappings.path}\\synced.xml',
-      '${ptu.path}\\user\\client\\0\\Controls\\Mappings\\synced.xml',
+      p.join(game.mappings.path, 'synced.xml'),
+      p.join(ptu.path, 'user', 'client', '0', 'Controls', 'Mappings', 'synced.xml'),
     ]);
 
     final backups = await model().writeActionMaps(channels: ['LIVE', 'PTU']);
     expect(backups['PTU'], isNull, reason: 'PTU had no actionmaps.xml to back up');
     final ptuDoc = ScProfileDocument.parse(
-      await File('${ptu.path}\\user\\client\\0\\Profiles\\default\\actionmaps.xml').readAsString(),
+      await File(p.join(ptu.path, 'user', 'client', '0', 'Profiles', 'default', 'actionmaps.xml')).readAsString(),
     );
     expect(ptuDoc.readRebinds()['player/jump']![ScDeviceType.keyboard]!.input.toXml(), 'kb1_lalt+j');
     expect(model().isDirty, isFalse);
   });
 
   test('import a layout and restore a backup replace the working copy', () async {
-    final layout = File('${game.path}\\import.xml');
+    final layout = File(p.join(game.path, 'import.xml'));
     await layout.writeAsString(
       ScProfileDocument.buildLayout(
         profileName: 'x',
@@ -313,10 +314,10 @@ void main() {
   });
 
   test('a failing sibling channel still leaves this channel saved', () async {
-    final ptu = Directory('${game.root.parent.path}\\PTU');
-    await Directory('${ptu.path}\\user').create(recursive: true);
+    final ptu = Directory(p.join(game.root.parent.path, 'PTU'));
+    await Directory(p.join(ptu.path, 'user')).create(recursive: true);
     // A directory where PTU's actionmaps.xml should go makes that write fail.
-    await Directory('${ptu.path}\\user\\client\\0\\Profiles\\default\\actionmaps.xml').create(recursive: true);
+    await Directory(p.join(ptu.path, 'user', 'client', '0', 'Profiles', 'default', 'actionmaps.xml')).create(recursive: true);
     model().resetAllToDefaults();
     await expectLater(model().writeActionMaps(channels: ['LIVE', 'PTU']), throwsA(anything));
     expect(model().isDirty, isFalse);

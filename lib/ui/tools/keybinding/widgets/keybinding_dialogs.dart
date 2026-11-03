@@ -180,7 +180,7 @@ class _SaveDialogState extends State<_SaveDialog> {
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        '${model.repo.mappingsDir.path}\\$_safeName.xml',
+                        model.repo.layoutFile(_safeName).path,
                         style: muted.copyWith(fontFamily: 'Consolas', fontSize: 11),
                       ),
                       const SizedBox(height: 8),

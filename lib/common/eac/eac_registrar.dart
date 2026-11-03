@@ -10,7 +10,7 @@ const _eacSettingsFileName = 'Settings.json';
 const _eacSetupFileName = 'EasyAntiCheat_EOS_Setup.exe';
 
 String getAntiCheatDirectory(String gameDirectory) =>
-    p.windows.join(gameDirectory, _eacDirectoryName);
+    p.join(gameDirectory, _eacDirectoryName);
 
 enum EacRegistrationOutcome { registered, distributionNotFound }
 
@@ -103,7 +103,7 @@ class EacRegistrar {
     final identity = _gameIdentity(gameDirectory);
     try {
       final productId = await _readProductId(antiCheatDirectory);
-      final setupPath = p.windows.join(antiCheatDirectory, _eacSetupFileName);
+      final setupPath = p.join(antiCheatDirectory, _eacSetupFileName);
       await _installerRunner.install(
         setupPath: setupPath,
         productId: productId,
@@ -220,7 +220,7 @@ class EacDistributionPatchGuard {
 
 Future<String> _readProductId(String antiCheatDirectory) async {
   final settingsFile = File(
-    p.windows.join(antiCheatDirectory, _eacSettingsFileName),
+    p.join(antiCheatDirectory, _eacSettingsFileName),
   );
   final decoded = json.decode(await settingsFile.readAsString());
   if (decoded is! Map || decoded['productid'] is! String) {

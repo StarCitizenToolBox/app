@@ -57,11 +57,11 @@ void main() {
   });
 
   test('reads productid and unconditionally runs the installer', () async {
-    final gameDirectory = p.windows.join(sandbox.path, 'StarCitizen', 'LIVE');
+    final gameDirectory = p.join(sandbox.path, 'StarCitizen', 'LIVE');
     final eacDirectory = Directory(getAntiCheatDirectory(gameDirectory));
     await eacDirectory.create(recursive: true);
     await File(
-      p.windows.join(eacDirectory.path, 'Settings.json'),
+      p.join(eacDirectory.path, 'Settings.json'),
     ).writeAsString('{"productid":"build-product-id"}');
     final runner = _RecordingInstallerRunner();
     final markerWriter = _RecordingMarkerWriter();
@@ -77,7 +77,7 @@ void main() {
     expect(runner.calls.first.productId, 'build-product-id');
     expect(
       runner.calls.first.setupPath,
-      p.windows.join(eacDirectory.path, 'EasyAntiCheat_EOS_Setup.exe'),
+      p.join(eacDirectory.path, 'EasyAntiCheat_EOS_Setup.exe'),
     );
     expect(markerWriter.calls, [
       (gameName: 'StarCitizen', environment: 'LIVE'),
@@ -86,11 +86,11 @@ void main() {
   });
 
   test('reports a named EACError when setup fails', () async {
-    final gameDirectory = p.windows.join(sandbox.path, 'StarCitizen', 'PTU');
+    final gameDirectory = p.join(sandbox.path, 'StarCitizen', 'PTU');
     final eacDirectory = Directory(getAntiCheatDirectory(gameDirectory));
     await eacDirectory.create(recursive: true);
     await File(
-      p.windows.join(eacDirectory.path, 'Settings.json'),
+      p.join(eacDirectory.path, 'Settings.json'),
     ).writeAsString('{"productid":"ptu-product-id"}');
     final registrar = EacRegistrar(
       installerRunner: _RecordingInstallerRunner(error: Exception('failed')),
@@ -112,7 +112,7 @@ void main() {
   });
 
   test('wraps an incomplete EAC distribution in EACError', () async {
-    final gameDirectory = p.windows.join(sandbox.path, 'StarCitizen', 'LIVE');
+    final gameDirectory = p.join(sandbox.path, 'StarCitizen', 'LIVE');
     await Directory(
       getAntiCheatDirectory(gameDirectory),
     ).create(recursive: true);
@@ -133,7 +133,7 @@ void main() {
     final eacDirectory = Directory(getAntiCheatDirectory(sandbox.path));
     await eacDirectory.create(recursive: true);
     await File(
-      p.windows.join(eacDirectory.path, 'old.bin'),
+      p.join(eacDirectory.path, 'old.bin'),
     ).writeAsString('old');
     final logs = <String>[];
 
@@ -144,16 +144,16 @@ void main() {
     expect(await eacDirectory.exists(), isFalse);
     await eacDirectory.create();
     await File(
-      p.windows.join(eacDirectory.path, 'partial.bin'),
+      p.join(eacDirectory.path, 'partial.bin'),
     ).writeAsString('partial');
     await guard.rollback();
 
     expect(
-      await File(p.windows.join(eacDirectory.path, 'old.bin')).exists(),
+      await File(p.join(eacDirectory.path, 'old.bin')).exists(),
       isTrue,
     );
     expect(
-      await File(p.windows.join(eacDirectory.path, 'partial.bin')).exists(),
+      await File(p.join(eacDirectory.path, 'partial.bin')).exists(),
       isFalse,
     );
     expect(logs, contains('EAC DIRECTORY SUCCESSFULLY RESTORED'));
@@ -165,7 +165,7 @@ void main() {
       final eacDirectory = Directory(getAntiCheatDirectory(sandbox.path));
       await eacDirectory.create(recursive: true);
       await File(
-        p.windows.join(eacDirectory.path, 'old.bin'),
+        p.join(eacDirectory.path, 'old.bin'),
       ).writeAsString('old');
       final logs = <String>[];
 
@@ -175,12 +175,12 @@ void main() {
       );
       await eacDirectory.create();
       await File(
-        p.windows.join(eacDirectory.path, 'new.bin'),
+        p.join(eacDirectory.path, 'new.bin'),
       ).writeAsString('new');
       await guard.commit();
 
       expect(
-        await File(p.windows.join(eacDirectory.path, 'new.bin')).exists(),
+        await File(p.join(eacDirectory.path, 'new.bin')).exists(),
         isTrue,
       );
       expect(await guard.backupDirectory?.exists(), isFalse);

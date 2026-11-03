@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:path/path.dart' as p;
 import 'package:starcitizen_doctor/common/keybinding/sc_input_source.dart';
 
 /// A trimmed defaultProfile.xml with the shapes the real one uses.
@@ -148,32 +149,32 @@ class FakeGame {
 
   String get path => root.path;
 
-  File get actionMaps => File('${root.path}\\user\\client\\0\\Profiles\\default\\actionmaps.xml');
+  File get actionMaps => File(p.join(root.path, 'user', 'client', '0', 'Profiles', 'default', 'actionmaps.xml'));
 
-  Directory get mappings => Directory('${root.path}\\user\\client\\0\\Controls\\Mappings');
+  Directory get mappings => Directory(p.join(root.path, 'user', 'client', '0', 'Controls', 'Mappings'));
 
-  Directory get backups => Directory('${root.path}\\user\\client\\0\\Profiles\\default\\sctoolbox_backup');
+  Directory get backups => Directory(p.join(root.path, 'user', 'client', '0', 'Profiles', 'default', 'sctoolbox_backup'));
 
   static Future<FakeGame> create({String actionMaps = kActionMapsXml, String language = 'chinese_(simplified)'}) async {
     final tmp = await Directory.systemTemp.createTemp('sc_keybind_test_');
-    final game = Directory('${tmp.path}\\LIVE');
-    final cacheRoot = '${tmp.path}\\support';
-    final p4k = File('${game.path}\\Data.p4k');
+    final game = Directory(p.join(tmp.path, 'LIVE'));
+    final cacheRoot = p.join(tmp.path, 'support');
+    final p4k = File(p.join(game.path, 'Data.p4k'));
     await p4k.create(recursive: true);
     await p4k.writeAsString('not a real p4k');
     final stat = await p4k.stat();
-    final cache = Directory('$cacheRoot\\keybinding_cache\\LIVE\\${stat.size}_${stat.modified.millisecondsSinceEpoch}');
+    final cache = Directory(p.join(cacheRoot, 'keybinding_cache', 'LIVE', '${stat.size}_${stat.modified.millisecondsSinceEpoch}'));
     await cache.create(recursive: true);
-    await File('${cache.path}\\defaultProfile.xml').writeAsString(kDefaultProfileXml);
+    await File(p.join(cache.path, 'defaultProfile.xml')).writeAsString(kDefaultProfileXml);
     // With a BOM, like the game's own file.
-    await File('${cache.path}\\global_english.ini').writeAsBytes([0xEF, 0xBB, 0xBF, ...kEnglishIni.codeUnits]);
-    await File('${game.path}\\build_manifest.id').writeAsString('{"Data": {"Version": "4.9.186.58667"}}');
-    await File('${game.path}\\data\\system.cfg').create(recursive: true);
-    await File('${game.path}\\data\\system.cfg').writeAsString('sys_spec=4\ng_language=$language\n');
-    final loc = File('${game.path}\\data\\Localization\\$language\\global.ini');
+    await File(p.join(cache.path, 'global_english.ini')).writeAsBytes([0xEF, 0xBB, 0xBF, ...kEnglishIni.codeUnits]);
+    await File(p.join(game.path, 'build_manifest.id')).writeAsString('{"Data": {"Version": "4.9.186.58667"}}');
+    await File(p.join(game.path, 'data', 'system.cfg')).create(recursive: true);
+    await File(p.join(game.path, 'data', 'system.cfg')).writeAsString('sys_spec=4\ng_language=$language\n');
+    final loc = File(p.join(game.path, 'data', 'Localization', language, 'global.ini'));
     await loc.create(recursive: true);
     await loc.writeAsString(kChineseIni);
-    final am = File('${game.path}\\user\\client\\0\\Profiles\\default\\actionmaps.xml');
+    final am = File(p.join(game.path, 'user', 'client', '0', 'Profiles', 'default', 'actionmaps.xml'));
     await am.create(recursive: true);
     await am.writeAsString(actionMaps);
     return FakeGame._(game, cacheRoot);
