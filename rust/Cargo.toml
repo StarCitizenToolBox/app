@@ -78,7 +78,7 @@ starbreaker-3d = { git = "https://github.com/StarCitizenToolBox/StarBreaker.git"
 uuid = { version = "1.23.4", features = ["v4"] }
 lazy_static = "1.5"
 rayon = "1.12"
-parking_lot = "0.12.5"
+parking_lot = "0.13.0"
 crossbeam-channel = "0.5.15"
 librqbit = { git = "https://github.com/StarCitizenToolBox/rqbit", rev = "fcd9fc21896b39008825204762c61e7e956b5ca3", default-features = false, features = ["default-tls", "http-api-client"] }
 # librqbit = { path = "../../rqbit/crates/librqbit" }
